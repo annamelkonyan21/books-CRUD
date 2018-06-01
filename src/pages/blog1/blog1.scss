@@ -1,0 +1,349 @@
+
+page-blog1 {
+
+  .ion-content {
+    background-color: $pages-background-color;
+
+  }
+
+  .fixed-sidebar-left.sidebar--small {
+    width: 70px;
+    transition-delay: .3s;
+    background-color: #ff5e3a;
+    padding: 15px;
+  }
+  .mobile-app-tabs {
+    background-color: #3f4257;
+    border-bottom-color: transparent;
+    //-ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 7px;
+    height: 70px;
+    padding: 0 13px;
+    position: relative;
+    width: 100%;
+  }
+  .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+  }
+  .nav {
+    display: flex;
+    padding-left: 0;
+
+  }
+  .nav, .navbar {
+    flex-wrap: wrap;
+  }
+
+  .nav-tabs .nav-item {
+    position: relative;
+  }
+
+  .mobile-app-tabs .nav-link {
+    height: 100%;
+    border-color: transparent;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 12px;
+    justify-content: center;
+    border-bottom: 3px solid transparent;
+  }
+  mobile-app-tabs .control-icon {
+    position: relative;
+    margin-right: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .control-icon.has-items {
+    fill: #fff;
+  }
+
+  .control-icon {
+    margin-right: 20px;
+  }
+  .control-icon {
+    fill: #9a9fbf;
+    margin-top: 8px;
+  }
+
+  .mobile-app-tabs svg {
+    fill: #9a9fbf;
+    height: 20px;
+    width: 24px;
+  }
+
+  .control-icon .label-avatar {
+    width: 19px;
+    height: 19px;
+    line-height: 19px;
+    top: -12px;
+    right: 20px;
+  }
+
+  .bg-blue {
+    background-color: #38a9ff;
+  }
+
+  .bg-orange {
+    background-color: #ff5e3a;
+  }
+
+  .bg-purple {
+    background-color: #7c5ac2;
+  }
+
+  .label-avatar {
+    position: absolute;
+    top: -1px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 100%;
+    overflow: hidden;
+  }
+  .mobile-app-tabs {
+    background-color: #3f4257;
+    border-bottom-color: transparent;
+
+    justify-content: space-around;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 7px;
+    height: 70px;
+    padding: 0 13px;
+    position: relative;
+    width: 100%;
+  }
+
+  .svg {
+    width: 24px;
+    height: 22px;
+  }
+  .nav {
+    top: -14px;
+    height: 78px;
+    padding-left: 20px;
+    cursor: pointer;
+  }
+  .nav-item {
+    list-style: none;
+  }
+
+  .toolbar-md {
+    padding: 0px !important;
+    min-height: 0px;
+  }
+
+  .toolbar-title-ios {
+    width: 60%;
+    margin-top: 10px;
+    //position: relative;
+    //top: 9px
+  }
+  ion-title {
+    color: white;
+  }
+
+  .platform-false {
+    margin-left: 47%;
+    margin-top: -1px;
+  }
+
+  .platform-true {
+    margin-left: 65%;
+  }
+  .pic-icon {
+    height: 18px;
+    width: 18px;
+  }
+  .views {
+    margin-left: 5px;
+  }
+
+  .bar-button {
+    color: white;
+  }
+
+  .author-date {
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .links-block {
+    padding: 20px 0 0;
+    border-top: 1px solid #e6ecf5;
+  }
+  .search_bar {
+    height: 70px;
+    width: 100%;
+    background-color: #3f4257;
+    line-height: inherit;
+    font-size: .875rem;
+    position: absolute;
+    display: none;
+    color: #707073;;
+  }
+
+  .display-block {
+    display: block !important;
+  }
+
+  .searchbar-ios {
+    border: none;
+    padding: 20px 5px !important;
+    color: #707073;
+  }
+   .request {
+     background: white;
+     width: 100%;
+     display: none;
+     position: absolute;
+
+   }
+
+  .ui-block-title:first-child {
+    border-top: none;
+  }
+
+  .ui-block-title.ui-block-title-small {
+    padding: 10px 25px;
+  }
+  .ui-block-title {
+    padding: 23px 25px 18px;
+    line-height: 1;
+    border-bottom: 1px solid #e6ecf5;
+    border-top: 1px solid #e6ecf5;
+    display: table;
+    width: 100%;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+  }
+  .ui-block-title.ui-block-title-small .title {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #9a9fbf;
+  }
+
+  .ui-block-title>* {
+    margin-bottom: 0;
+    display: table-cell;
+    vertical-align: middle;
+  }
+  responsive .ui-block-title a {
+    color: #515365;
+  }
+   .add-request{
+     display: inline-block;
+     font-weight: 700;
+     line-height: 1;
+     text-align: center;
+     white-space: nowrap;
+     vertical-align: middle;
+     user-select: none;
+     border: 1px solid transparent;
+     padding: .5rem;
+     font-size: .688rem;
+     border-radius: .25rem;
+     transition: all .2s ease-in-out;
+     background-color: #38a9ff;
+     color: #fff;
+     fill: #fff;
+     .add-friend {
+       margin-top: 5px;
+       height: 18px;
+       width: 18px;
+       margin-left: 4px;
+       margin-top: 8px;
+       margin-bottom: 0px;
+
+     }
+
+
+     .plus-icon {
+       position: relative;
+       display: inline-block;
+       left: -1px;
+       font-size: 12px;
+       vertical-align: middle;
+       top: -21px;
+     }
+   }
+  .cancel-request {
+    background-color: #9a9fbf !important;
+  }
+
+  .check {
+    width: 100%;
+    background-color: #38a9ff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    a {
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      margin-left: 30%;
+    }
+  }
+
+  .chat {
+    background: white;
+    width: 100%;
+    display: none;
+    position: absolute;
+  }
+  .check-message {
+    background-color: #7c5ac2 !important;
+  }
+
+  .notification {
+    background: white;
+    width: 100%;
+    display: none;
+    position: absolute;
+  }
+  .check-notification {
+    background-color: #ff5e3a !important;
+  }
+  .notification-status {
+    color: #ff5e3a ;
+    font-size: 13px;
+  }
+
+  .notification-hours {
+    font-size: 13px;
+  }
+
+  .underline-line {
+    width: 100%;
+    height: 5px;
+    background:  #ff5e3a;
+    position: absolute;
+    top: 53px;
+    left: -10px;
+    display: none;
+  }
+
+  .same {
+    color: #515365;
+    text-decoration: none;
+    font-size: 12px;
+  }
+  //
+  //.logo-img path {
+  //  fill: #fff;
+  //}
+}

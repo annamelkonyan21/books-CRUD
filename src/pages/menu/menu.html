@@ -1,0 +1,35 @@
+<ion-menu [content]="mycontent">
+    <ion-header>
+
+        <ion-navbar>
+            <ion-title>
+                LINKER
+            </ion-title>
+        </ion-navbar>
+
+    </ion-header>
+
+
+    <ion-content>
+        <ion-list>
+            <ion-item>
+                <ion-avatar item-start>
+                    <img [src]=user.avatar>
+                </ion-avatar>
+                <h4>{{user.name}} {{user.last_name}}</h4>
+                <p>{{user.username}}</p>
+            </ion-item>
+            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" [color]="isActive(p)">
+                <ion-icon [name]="p.icon"></ion-icon>
+                {{p.title}}
+            </button>
+            <button ion-item (click)="logout()" >
+                <img class="logout" src="assets/svg/logout-icon.svg">
+                Log Out
+            </button>
+        </ion-list>
+    </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" swipeEnabled="true" #mycontent></ion-nav>

@@ -1,6 +1,8 @@
 {
   "name": "linker-ionic",
-  "app_id": "",
+  "app_id": "eb8a04d7",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }

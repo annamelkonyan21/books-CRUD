@@ -1,0 +1,179 @@
+<ion-header>
+    <ion-navbar>
+        <div  float-left class="fixed-sidebar-left sidebar--small" id="sidebar-left-responsive">
+            <a menuToggle href="#" class="logo js-sidebar-open active">
+                <img src="assets/imgs/logo_small.png" alt="Linker">
+            </a>
+        </div>
+        <div float-left class="header-content-wrapper">
+            <ul class="nav nav-tabs mobile-app-tabs" role="tablist">
+                <li class="nav-item" (click)="openFriendRequest()">
+                    <a class="nav-link">
+                        <div class="control-icon has-items" >
+                            <img class="svg" src="assets/svg/happy-face-icon.svg">
+                            <div class="label-avatar bg-blue">6</div>
+                        </div>
+                    </a>
+                    <span [class.display-block]="openFreind === true" class="underline-line"></span>
+                </li>
+                <li class="nav-item" (click)="openChatMessege()">
+                    <a class="nav-link">
+                        <div class="control-icon has-items">
+                            <img class="svg" src="assets/svg/chat---messages-icon.svg">
+                            <div class="label-avatar bg-purple">2</div>
+                        </div>
+                    </a>
+                    <span [class.display-block]="openChat === true" class="underline-line"></span>
+                </li>
+                <li class="nav-item" (click)="openNotification()">
+                    <a class="nav-link">
+                        <div class="control-icon has-items">
+                            <img class="svg" src="assets/svg/thunder-icon.svg">
+                            <div class="label-avatar bg-orange">8</div>
+                        </div>
+                    </a>
+                    <span [class.display-block]="openNotificationBar === true" class="underline-line"></span>
+                </li>
+                <li class="nav-item" (click)="openSearch()">
+                    <a class="nav-link">
+                        <div class="control-icon has-items">
+                            <img class="svg" src="assets/svg/magnifying-glass-icon.svg">
+                        </div>
+                    </a>
+                    <span [class.display-block]="openSearchBar === true" class="underline-line"></span>
+                </li>
+            </ul>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <div class="search_bar" [class.display-block]="openSearchBar === true">
+        <ion-searchbar
+                [(ngModel)]="search"
+                (ionInput)="onInput($event)">
+        </ion-searchbar>
+    </div>
+
+    <div class="request"  [class.display-block]="openFreind === true">
+        <div class="mCustomScrollbar ps ps--theme_default ps--active-y" >
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">FRIEND REQUESTS</h6>
+                <a class="same" href="#">Find Friends</a>
+                <a class="same"  href="#">Settings</a>
+            </div>
+
+            <ion-item-sliding >
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img src="assets/imgs/user.jpg">
+                    </ion-avatar>
+                    <h4><b>Tamara Romanoff</b></h4>
+                    <p>Mutual Friend: Sarah Hetfield</p>
+                </ion-item>
+                <ion-item>
+                    <div class="add-request">
+                        <img class="add-friend" src="assets/svg/happy-face-icon.svg">
+                        <span class="plus-icon">+</span>
+                    </div>
+                    <div class="add-request cancel-request">
+                        <img class="add-friend" src="assets/svg/happy-face-icon.svg">
+                        <span class="plus-icon">-</span>
+                    </div>
+                </ion-item>
+            </ion-item-sliding>
+
+            <div  class="check">
+                <a href="#" padding text-center >Check all your Events</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="chat" [class.display-block]="openChat === true">
+        <div class="mCustomScrollbar ps ps--theme_default ps--active-y" >
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">CHAT / MESSAGES </h6>
+                <a class="same" href="#">Mark all as read</a>
+                <a class="same" href="#">Settings</a>
+            </div>
+
+            <ion-item-sliding >
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img src="assets/imgs/user.jpg">
+                    </ion-avatar>
+                    <h4><b>Diana Jameson</b></h4>
+                    <p>Hi James! It’s Diana, I just wanted to let you know that we have to reschedule...</p>
+                    <span>4 hours</span>
+                </ion-item>
+
+            </ion-item-sliding>
+
+            <div  class="check check-message">
+                <a href="#" padding text-center >View All Messages</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="notification" [class.display-block]="openNotificationBar === true">
+        <div class="mCustomScrollbar ps ps--theme_default ps--active-y" >
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">NOTIFICATIONS  </h6>
+                <a class="same" href="#">Mark all as read</a>
+                <a class="same" href="#">Settings</a>
+            </div>
+
+            <ion-item-sliding >
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img src="assets/imgs/user.jpg">
+                    </ion-avatar>
+                    <h4><b>Mathilda Brinker</b></h4>
+                    <p>commented on your new </p>
+                    <span class="notification-status">profile status</span>
+                    <br>
+                    <span class="notification-hours">4 hours</span>
+                </ion-item>
+
+            </ion-item-sliding>
+
+            <div  class="check check-notification">
+                <a href="#" padding text-center >View All Notifications</a>
+            </div>
+
+        </div>
+    </div>
+
+    <ion-card padding>
+        <ion-card-content *ngFor="let link of links">
+            <a href={{link.url}} target="_blank">
+                <img src={{link.image}}>
+            </a>
+            <div margin-vertical>
+                <div class="pic-icon" float-left margin-right>
+                    <img src={{link.icon}}>
+                </div>
+                <a>{{link.host}}</a>
+            </div>
+
+            <ion-card-title>
+                {{link.title}}
+            </ion-card-title>
+            <p>
+                {{link.tags}}
+            </p>
+            <div class="author-date">
+                <p>BY <b>Some One</b> - {{link.create_date}}</p>
+            </div>
+
+            <div class="links-block">
+                <img class="pic-icon"  float-left src="assets/icon/like-icon.png"><span class="views"> {{link.views}}</span>
+
+            </div>
+        </ion-card-content>
+
+    </ion-card>
+</ion-content>
