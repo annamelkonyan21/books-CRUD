@@ -4,30 +4,30 @@ page-home {
   .back-button.show-back-button {
     display: none;
   }
-  //
-  //ion-title {
-  //  background-color: $background;
-  //  .logo {
-  //    position: relative;
-  //    left: -10%;
-  //  }
-  //  .title{
-  //    position: absolute;
-  //    top: 10px;
-  //    left: 50%;
-  //    color: #fff !important;
-  //    .header{
-  //      text-transform: uppercase;
-  //      margin: 0;
-  //      color: inherit;
-  //      transition: all .3s ease;
-  //    }
-  //    .subHeader {
-  //      font-size: 7px;
-  //      text-transform: uppercase;
-  //    }
-  //  }
-  //}
+
+  ion-title {
+    background-color: $background;
+    .logo {
+      position: relative;
+      left: -10%;
+    }
+    .title{
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      color: #fff !important;
+      .header{
+        text-transform: uppercase;
+        margin: 0;
+        color: inherit;
+        transition: all .3s ease;
+      }
+      .subHeader {
+        font-size: 7px;
+        text-transform: uppercase;
+      }
+    }
+  }
 
   ion-content {
     .place {

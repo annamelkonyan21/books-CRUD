@@ -163,27 +163,17 @@
         </div>
     </div>
 
-    <ion-card margin padding>
+    <ion-card margin padding class="all">
         <ion-item>
-
-
             <ion-label>All Categories</ion-label>
-
-                <!--<ion-label>Gender</ion-label>-->
-                <!--<ion-select formControlName="gender">-->
-                    <!--<ion-option value="female">Female</ion-option>-->
-                    <!--<ion-option value="male">Male</ion-option>-->
-                <!--</ion-select>-->
-
-            <ion-select >
+            <ion-select>
                 <ion-option *ngFor ="let category of categories" >{{category.name}}</ion-option>
             </ion-select>
         </ion-item>
-<!-- -->
     </ion-card>
 
-    <ion-card>
-        <ion-card-content *ngFor="let link of links">
+    <ion-card  *ngFor="let link of links">
+        <ion-card-content>
             <a href={{link.url}} target="_blank">
                 <img src={{link.image}}>
             </a>

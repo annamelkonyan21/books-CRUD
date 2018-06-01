@@ -194,6 +194,7 @@ page-blog1 {
     position: absolute;
     display: none;
     color: #707073;;
+    z-index: 5;
   }
 
   .display-block {
@@ -304,6 +305,7 @@ page-blog1 {
     width: 100%;
     display: none;
     position: absolute;
+    z-index: 5;
   }
   .check-message {
     background-color: #7c5ac2 !important;
@@ -314,6 +316,7 @@ page-blog1 {
     width: 100%;
     display: none;
     position: absolute;
+    z-index: 5;
   }
   .check-notification {
     background-color: #ff5e3a !important;
@@ -345,4 +348,8 @@ page-blog1 {
   .card-content {
     padding: 0px !important;
   }
+  //
+  //.all{
+  //  position: relative;
+  //}
 }
