@@ -51,6 +51,7 @@ export class Blog1Page {
     openSearchBar: boolean = false;
     openChat: boolean = false;
     openNotificationBar: boolean = false;
+    categories = [];
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -71,6 +72,7 @@ export class Blog1Page {
         this.my_date['year'] = this.Dat.getFullYear();
         this.my_date['minute'] = this.Dat.getMinutes();
         this.my_date['hours'] = this.Dat.getHours();
+        this.getCategories();
     }
 
     Links() {
@@ -155,5 +157,10 @@ export class Blog1Page {
         this.openSearchBar = false;
         this.openFreind = false;
         this.openChat = false;
+    }
+
+    getCategories() {
+        this._link.getUserCategories()
+            .subscribe(res => {this.categories = res['data'].categories;})
     }
 }

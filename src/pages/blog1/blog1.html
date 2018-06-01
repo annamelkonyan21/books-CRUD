@@ -1,4 +1,19 @@
 <ion-header>
+  <!--<ion-navbar>-->
+      <!--<button ion-button icon-only menuToggle>-->
+          <!--<ion-icon name="menu"></ion-icon>-->
+      <!--</button>-->
+
+      <!--<ion-title>-->
+          <!--Page Title-->
+      <!--</ion-title>-->
+
+      <!--<ion-buttons end>-->
+          <!--<button ion-button icon-only (click)="openModal()">-->
+              <!--<ion-icon name="options"></ion-icon>-->
+          <!--</button>-->
+      <!--</ion-buttons>-->
+  <!--</ion-navbar>-->
     <ion-navbar>
         <div  float-left class="fixed-sidebar-left sidebar--small" id="sidebar-left-responsive">
             <a menuToggle href="#" class="logo js-sidebar-open active">
@@ -49,6 +64,7 @@
 
 
 <ion-content>
+
     <div class="search_bar" [class.display-block]="openSearchBar === true">
         <ion-searchbar
                 [(ngModel)]="search"
@@ -147,32 +163,53 @@
         </div>
     </div>
 
-    <ion-card padding>
+    <ion-card margin padding>
+        <ion-item>
+
+
+            <ion-label>All Categories</ion-label>
+
+                <!--<ion-label>Gender</ion-label>-->
+                <!--<ion-select formControlName="gender">-->
+                    <!--<ion-option value="female">Female</ion-option>-->
+                    <!--<ion-option value="male">Male</ion-option>-->
+                <!--</ion-select>-->
+
+            <ion-select >
+                <ion-option *ngFor ="let category of categories" >{{category.name}}</ion-option>
+            </ion-select>
+        </ion-item>
+<!-- -->
+    </ion-card>
+
+    <ion-card>
         <ion-card-content *ngFor="let link of links">
             <a href={{link.url}} target="_blank">
                 <img src={{link.image}}>
             </a>
-            <div margin-vertical>
+            <div margin>
                 <div class="pic-icon" float-left margin-right>
                     <img src={{link.icon}}>
                 </div>
                 <a>{{link.host}}</a>
             </div>
 
-            <ion-card-title>
+            <ion-card-title margin>
                 {{link.title}}
             </ion-card-title>
-            <p>
+            <p margin>
                 {{link.tags}}
             </p>
-            <div class="author-date">
+            <div class="author-date" margin>
                 <p>BY <b>Some One</b> - {{link.create_date}}</p>
             </div>
 
-            <div class="links-block">
-                <img class="pic-icon"  float-left src="assets/icon/like-icon.png"><span class="views"> {{link.views}}</span>
-
+            <div class="links-block"  margin>
+                <img class="pic-icon" margin-bottom  float-left src="assets/icon/like-icon.png"><span class="views" float-left margin-right> {{link.views}}</span>
+                <img class="pic-icon" margin-bottom  float-left src="assets/icon/icon-chat1.png"><span class="views" float-left margin-right> 0</span>
+                <img class="pic-icon" margin-bottom  float-left src="assets/svg/speech-balloon-icon.svg"><span class="views" float-left margin-right> 0</span>
             </div>
+
         </ion-card-content>
 
     </ion-card>

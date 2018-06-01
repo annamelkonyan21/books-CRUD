@@ -17,4 +17,8 @@ export class LinkProvider {
   public getUser() {
       return this.http.get(this._api.apiUrl+`user`)
   }
+
+  public getUserCategories() {
+      return this.http.get(this._api.apiUrl+`categories`)
+  }
 }

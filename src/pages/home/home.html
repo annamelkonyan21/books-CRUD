@@ -1,14 +1,15 @@
 <ion-header>
     <ion-navbar>
-        <ion-title text-center>
-            <div class="logo" >
-                <img src="assets/imgs/logo_small.png">
-            </div>
-            <div class="title">
-                <h6 class="header">Linker</h6>
-                <div class="subHeader"> LINK IN ME</div>
-            </div>
-        </ion-title>
+        <ion-title></ion-title>
+        <!--<ion-title text-center>-->
+            <!--<div class="logo" >-->
+                <!--<img src="assets/imgs/logo_small.png">-->
+            <!--</div>-->
+            <!--<div class="title">-->
+                <!--<h6 class="header">Linker</h6>-->
+                <!--<div class="subHeader"> LINK IN ME</div>-->
+            <!--</div>-->
+        <!--</ion-title>-->
     </ion-navbar>
 </ion-header>
 
@@ -16,14 +17,16 @@
     <div class="content-bg-wrap">
         <div class="content-bg bg-landing"></div>
     </div>
-    <h1 ion-text color="light" class="place">Your Best Place to Save Anything You Like</h1>
-    <p ion-text color="light">Save your bookmarks, posts, videos in one place</p>
+    <h1 ion-text color="light" class="place" text-center >Your Best Place to Save Anything You Like</h1>
+    <p ion-text color="light" text-center>Save your bookmarks, posts, videos in one place</p>
     <div class="nav">
         <button class="nav-item" ion-button color="light" (click)="setValue('login')">
-            <ion-icon name="power"></ion-icon>
+            <img *ngIf="nav === 'login'" class="content-icon" src="assets/svg/login-icon-active.svg">
+            <img *ngIf="nav !== 'login'" class="content-icon" src="assets/svg/login-icon.svg">
         </button>
         <button class="nav-item" ion-button color="light" (click)="setValue('registration')">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <img *ngIf="nav === 'registration'" class="content-icon" src="assets/svg/register-icon-active.svg">
+            <img *ngIf="nav !== 'registration'" class="content-icon" src="assets/svg/register-icon.svg">
         </button>
     </div>
 
@@ -31,7 +34,7 @@
 
         <div *ngSwitchCase="'login'">
             <div class="registration-login-form">
-                <h6 class="title">Login In Your Account</h6>
+                <h6 class="title">Login to Your Account</h6>
                 <form [formGroup]="loginForm" novalidate>
                     <ion-list>
                         <ion-item>
@@ -41,10 +44,6 @@
                         <ion-item>
                             <ion-label floating>Password</ion-label>
                             <ion-input type="password" formControlName="password"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Remember me?</ion-label>
-                            <ion-checkbox color="background"></ion-checkbox>
                         </ion-item>
                         <ion-item>
                             <ion-label><a href="#"> Forgot my Password</a></ion-label>
@@ -165,7 +164,7 @@
                             </ion-select>
                         </ion-item>
                         <ion-item>
-                            <ion-label>I accept the {{acceptUsername}}</ion-label>
+                            <ion-label> I accept the <a href="#">Terms and Conditions</a> of the website</ion-label>
                             <ion-checkbox color="background" [checked]="acceptUsername"
                                           (click)="acceptUsername = !acceptUsername"></ion-checkbox>
                         </ion-item>
