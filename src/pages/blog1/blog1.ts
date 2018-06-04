@@ -19,7 +19,6 @@ export interface myDate  {
 })
 
 export class Blog1Page {
-
     public links: any;
     public users: any;
     isAndroid: boolean;
@@ -27,14 +26,14 @@ export class Blog1Page {
     @ViewChild('search') search;
     create_date = [];
     create = [];
-    Dat:  Date = new Date();
+    Dat:Date = new Date();
     my_date: myDate =  {
         day: null,
         month: null,
         year: null,
         minute: null,
         hours: null
-    }
+    };
 
     create_day:myDate = {
         day: null,
@@ -43,7 +42,8 @@ export class Blog1Page {
         minute: null,
         hours: null
     }
-    d :any;
+
+    d:any;
     ago = [];
     urles = [];
     chats = [];
@@ -61,7 +61,17 @@ export class Blog1Page {
         this.isAndroid = platform.is('android');
     }
 
+    doRefresh(refresher) {
+      //  console.log('Begin async operation', refresher);
+        setTimeout(() => {
+            //console.log('Async operation has ended');
+            refresher.complete();
+        }, 2000);
+    }
+
+
     ionViewDidLoad() {
+        console.log('blog 1 page');
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
         }
@@ -78,6 +88,8 @@ export class Blog1Page {
     Links() {
         this._link.getLink()
             .subscribe(res => {
+                console.log("links");
+                console.log(res);
                 this.links = res['data'].links;
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
@@ -163,4 +175,5 @@ export class Blog1Page {
         this._link.getUserCategories()
             .subscribe(res => {this.categories = res['data'].categories;})
     }
+
 }

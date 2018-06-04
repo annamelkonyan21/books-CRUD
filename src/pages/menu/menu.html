@@ -1,14 +1,10 @@
 <ion-menu [content]="mycontent">
     <ion-header>
-
         <ion-navbar>
             <ion-title>
-
             </ion-title>
         </ion-navbar>
-
     </ion-header>
-
 
     <ion-content>
         <ion-list>
@@ -23,7 +19,7 @@
                 <ion-icon [name]="p.icon"></ion-icon>
                 {{p.title}}
             </button>
-            <button ion-item (click)="logout()" >
+            <button ion-item (click)="logout()">
                 <img class="logout" src="assets/svg/logout-icon.svg">
                 Log Out
             </button>

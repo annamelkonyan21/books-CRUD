@@ -46,9 +46,20 @@ export class HomePage {
         this.createRegistrationForm();
     }
 
+    ionViewDidLoad() {
+        console.log('home page');
+    }
+    doRefresh(refresher) {
+//        console.log('Begin async operation', refresher);
+
+        setTimeout(() => {
+//            console.log('Async operation has ended');
+            refresher.complete();
+        }, 2000);
+    }
+
     setValue(nav) {
         this.nav = nav;
-
     }
 
     // Login
@@ -58,6 +69,7 @@ export class HomePage {
             password: this.password
         });
     }
+
     createLoginFormControl() {
         this.email = new FormControl('',[
             Validators.required,
@@ -75,21 +87,15 @@ export class HomePage {
                     this.navCtrl.setRoot('MenuPage')
                 }
             })
-
     }
 
     loginFacebook() {
-
         this.facebook.login(['email', 'public_profile'])
             .then((response: FacebookLoginResponse) => {
                 this.facebook.api('me?fields=id,last_name,email,first_name,birthday,gender',[])
                     .then((profile)=> {console.log(profile);this.userData = {email: profile['email'], first_name: profile['first_name']}; console.log(this.userData)})
-
             } )
     }
-
-
-
 
     // Registration
 
@@ -129,7 +135,6 @@ export class HomePage {
         this.birthday = new FormControl('');
     }
 
-
     createRegistrationForm() {
         this.registrationForm = new FormGroup({
             birthday: this.birthday,
@@ -146,17 +151,14 @@ export class HomePage {
         });
     }
 
-
     signup() {
         this.day = this.registrationForm.value['birthday'];
         this.day = this.day[8]+this.day[9]+'/'+this.day[5]+this.day[6]+'/'+this.day[0]+this.day[1]+this.day[2]+this.day[3];
-
         if (this.registrationForm.value['rpassword'] !== this.registrationForm.value['password_confirmation'] || (this.registrationForm.value['rpassword'] === 0 && this.registrationForm.value['password_confirmation']) === 0) {
             this.errorMessages = true;
             this.passwordError = true;
             return;
         }
-
         const controls = this.registrationForm.controls;
         if (this.registrationForm.invalid) {
             this.errorMessages = true;
@@ -166,10 +168,7 @@ export class HomePage {
         }
         this.home.signup(this.registrationForm.value['name'], this.registrationForm.value['last_name'], this.registrationForm.value['username'],  this.registrationForm.value['remail'], this.registrationForm.value['rpassword'], this.registrationForm.value['password_confirmation'], this.day, this.registrationForm.value['gender'])
             .subscribe(res => this.navCtrl.setRoot('MenuPage'))
-
     }
-
-
 
     onBlur() {
         this.errorMessages = true;
@@ -178,10 +177,9 @@ export class HomePage {
     onKeyDown() {
         this.errorMessages = false;
     }
+
     onChange(e){
         console.log(e);
     }
-
-
 
 }

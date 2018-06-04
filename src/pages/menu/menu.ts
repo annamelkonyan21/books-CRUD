@@ -59,6 +59,7 @@ export class MenuPage {
   }
 
   ionViewDidLoad() {
+      console.log('menu page');
       this.getUser();
   }
 

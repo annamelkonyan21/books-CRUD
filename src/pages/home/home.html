@@ -1,19 +1,26 @@
 <ion-header>
     <ion-navbar>
-        <ion-title></ion-title>
-        <!--<ion-title text-center>-->
-            <!--<div class="logo" >-->
-                <!--<img src="assets/imgs/logo_small.png">-->
-            <!--</div>-->
-            <!--<div class="title">-->
-                <!--<h6 class="header">Linker</h6>-->
-                <!--<div class="subHeader"> LINK IN ME</div>-->
-            <!--</div>-->
-        <!--</ion-title>-->
+        <ion-title>
+            <ion-grid>
+                <ion-row>
+                    <ion-col class="logo-headear" offset-4>
+                        <img src="assets/imgs/logo_small.png" float-left>
+                        <h6 class="header">Linker</h6>
+                        <div class="subHeader"> LINK IN ME</div>
+                    </ion-col>
+
+                </ion-row>
+            </ion-grid>
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+                refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
     <div class="content-bg-wrap">
         <div class="content-bg bg-landing"></div>
     </div>
