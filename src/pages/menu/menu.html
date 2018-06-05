@@ -1,4 +1,5 @@
-<ion-menu [content]="mycontent">
+<ion-menu [content]="mycontent"
+    (ionOpen)="menuOpened()" (ionClose)="menuClosed()">
     <ion-header>
         <ion-navbar>
             <ion-title>
@@ -28,4 +29,4 @@
 
 </ion-menu>
 
-<ion-nav [root]="rootPage" swipeEnabled="true" #mycontent></ion-nav>
+<ion-nav [root]="rootPage   " swipeEnabled="true" #mycontent></ion-nav>

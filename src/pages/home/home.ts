@@ -49,14 +49,6 @@ export class HomePage {
     ionViewDidLoad() {
         console.log('home page');
     }
-    doRefresh(refresher) {
-//        console.log('Begin async operation', refresher);
-
-        setTimeout(() => {
-//            console.log('Async operation has ended');
-            refresher.complete();
-        }, 2000);
-    }
 
     setValue(nav) {
         this.nav = nav;

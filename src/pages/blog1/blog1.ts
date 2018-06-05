@@ -59,7 +59,8 @@ export class Blog1Page {
                 public menu: MenuController,
                 public platform: Platform) {
         this.isAndroid = platform.is('android');
-
+        console.log('blog 1');
+        console.log(this.navCtrl)
     }
 
 
@@ -74,6 +75,7 @@ export class Blog1Page {
 
 
     ionViewDidLoad() {
+
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
         }
@@ -177,15 +179,18 @@ export class Blog1Page {
     }
 
     allWindowClick(ev) {
-        console.log('parent');
-        console.log(ev);
-        console.log(ev.target.id)
         this.openSearchBar = false;
         this.openFreind = false;
         this.openChat = false;
         this.openNotificationBar = false;
     }
 
+    mmm(event)  {
+        console.log(event);
+    }
 
+    vv(event) {
+       console.log(event);
+    }
 }
 

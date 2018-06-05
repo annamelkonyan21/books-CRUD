@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {LinkProvider} from "../../providers/link/link";
+import { Events } from 'ionic-angular';
 
 export interface PageInterface  {
   title: string,
@@ -29,6 +30,7 @@ export class MenuPage {
       last_name: undefined,
       username: undefined
   };
+
   rootPage= 'Blog1Page';
 
   @ViewChild(Nav) nav: Nav;
@@ -51,15 +53,19 @@ export class MenuPage {
       }
   ];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public link: LinkProvider) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public link: LinkProvider,
+              public events: Events) {
       if (localStorage.getItem('token') === null) {
-          this.navCtrl.push(HomePage);
+          this.navCtrl.setRoot(HomePage);
       }
+      console.log('menu page')
+      console.log(this.navCtrl)
 
   }
 
   ionViewDidLoad() {
-      console.log('menu page');
       this.getUser();
   }
 
@@ -84,6 +90,17 @@ export class MenuPage {
 
   logout(){
     localStorage.removeItem('token');
-    this.navCtrl.push(HomePage)
+    this.navCtrl.setRoot(HomePage)
+  }
+
+  menuOpened() {
+
+      this.events.publish('menu:closed', '');
+      console.log(this.events)
+  }
+
+  menuClosed() {
+      this.events.publish('menu:opened', '');
+      console.log(this.events)
   }
 }
