@@ -149,18 +149,20 @@
         </ion-searchbar>
     </div>
 
-    <div (click)="allWindowClick($event)" id="allWindow">
+    <div (click)="allWindowClick()" id="allWindow">
 
-        <ion-card margin-top padding class="all">
-            <ion-item>
-                <ion-label>All Categories</ion-label>
-                <ion-select>
-                    <ion-option *ngFor="let category of categories">{{category.name}}</ion-option>
+        <ion-card margin-top padding class="all" >
+            <ion-item >
+                <ion-label >Categories</ion-label>
+
+                <ion-select (click)="getCategories()" [(ngModel)]="categoryValue"  (ionChange)="linkCategory()"  interface="action-sheet">
+                    <ion-option>All Categories</ion-option>
+                    <ion-option *ngFor="let category of categories; let i = index"   [value]="category.id" >{{category.name}}</ion-option>
                 </ion-select>
             </ion-item>
         </ion-card>
 
-        <ion-card *ngFor="let link of links">
+        <ion-card *ngFor="let link of links, let i = index"  (click)="presentActionSheet(i)" >
             <ion-card-content>
                 <a href={{link.url}} target="_blank">
                     <img src={{link.image}}>
@@ -183,12 +185,10 @@
                 </div>
 
                 <div class="links-block" margin>
-                    <img class="pic-icon" margin-bottom float-left src="assets/icon/like-icon.png"><span class="views"
-                                                                                                         float-left
-                                                                                                         margin-right> {{link.views}}</span>
-                    <img class="pic-icon" margin-bottom float-left src="assets/icon/icon-chat1.png"><span class="views"
-                                                                                                          float-left
-                                                                                                          margin-right> 0</span>
+                    <img class="pic-icon" margin-bottom float-left src="assets/icon/like-icon.png">
+                    <span class="views" float-left  margin-right> {{link.views}}</span>
+                    <img class="pic-icon" margin-bottom float-left src="assets/icon/icon-chat1.png">
+                    <span class="views" float-left margin-right> 0</span>
                     <img class="pic-icon" margin-bottom float-left src="assets/svg/speech-balloon-icon.svg"><span
                         class="views" float-left margin-right> 0</span>
                 </div>

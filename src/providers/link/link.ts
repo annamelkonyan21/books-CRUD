@@ -18,8 +18,16 @@ export class LinkProvider {
       return this.http.get(this._api.apiUrl+`user`)
   }
 
+  public getLinksByCategories(id) {
+        return this.http.get(this._api.apiUrl+`links/+${id}`)
+  }
+
   public getUserCategories() {
       return this.http.get(this._api.apiUrl+`categories`)
+  }
+
+  public deleteLinkFromList(id) {
+      return this.http.delete(this._api.apiUrl+`links/+${id}`)
   }
 
 }

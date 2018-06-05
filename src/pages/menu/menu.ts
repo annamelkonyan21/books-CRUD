@@ -60,9 +60,6 @@ export class MenuPage {
       if (localStorage.getItem('token') === null) {
           this.navCtrl.setRoot(HomePage);
       }
-      console.log('menu page')
-      console.log(this.navCtrl)
-
   }
 
   ionViewDidLoad() {
@@ -93,14 +90,4 @@ export class MenuPage {
     this.navCtrl.setRoot(HomePage)
   }
 
-  menuOpened() {
-
-      this.events.publish('menu:closed', '');
-      console.log(this.events)
-  }
-
-  menuClosed() {
-      this.events.publish('menu:opened', '');
-      console.log(this.events)
-  }
 }
