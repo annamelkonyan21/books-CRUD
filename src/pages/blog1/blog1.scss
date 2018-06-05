@@ -1,9 +1,7 @@
-
 page-blog1 {
-
+//page-blog1 .ui-block-title.ui-block-title-small
   .ion-content {
     background-color: $pages-background-color;
-
   }
 
   .grid {
@@ -136,9 +134,7 @@ page-blog1 {
     border-top: none;
   }
 
-  .ui-block-title.ui-block-title-small {
-    padding: 10px 25px;
-  }
+
   .ui-block-title {
     padding: 23px 25px 18px;
     line-height: 1;
@@ -188,8 +184,6 @@ page-blog1 {
        margin-bottom: 0px;
 
      }
-
-
      .plus-icon {
        position: relative;
        display: inline-block;

@@ -50,15 +50,7 @@
         </ion-refresher-content>
     </ion-refresher>
 
-
-    <div class="search_bar" [class.display-block]="openSearchBar === true">
-        <ion-searchbar
-                [(ngModel)]="search"
-                (ionInput)="onInput($event)">
-        </ion-searchbar>
-    </div>
-
-    <div class="request" [class.display-block]="openFreind === true">
+    <div class="request" ion-fixed [class.display-block]="openFreind === true">
         <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
             <div class="ui-block-title ui-block-title-small">
                 <h6 class="title">FRIEND REQUESTS</h6>
@@ -93,7 +85,7 @@
         </div>
     </div>
 
-    <div class="chat" [class.display-block]="openChat === true">
+    <div class="chat" ion-fixed [class.display-block]="openChat === true">
         <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
             <div class="ui-block-title ui-block-title-small">
                 <h6 class="title">CHAT / MESSAGES </h6>
@@ -120,7 +112,7 @@
         </div>
     </div>
 
-    <div class="notification" [class.display-block]="openNotificationBar === true">
+    <div class="notification" ion-fixed [class.display-block]="openNotificationBar === true">
         <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
             <div class="ui-block-title ui-block-title-small">
                 <h6 class="title">NOTIFICATIONS </h6>
@@ -149,49 +141,60 @@
         </div>
     </div>
 
-    <ion-card  padding class="all">
-        <ion-item>
-            <ion-label>All Categories</ion-label>
-            <ion-select>
-                <ion-option *ngFor="let category of categories">{{category.name}}</ion-option>
-            </ion-select>
-        </ion-item>
-    </ion-card>
+    <div class="search_bar" ion-fixed [class.display-block]="openSearchBar === true">
+        <ion-searchbar
+                [(ngModel)]="search"
+                (ionInput)="onInput($event)">
+        </ion-searchbar>
+    </div>
 
-    <ion-card *ngFor="let link of links">
-        <ion-card-content>
-            <a href={{link.url}} target="_blank">
-                <img src={{link.image}}>
-            </a>
-            <div margin>
-                <div class="pic-icon" float-left margin-right>
-                    <img src={{link.icon}}>
+    <div (click)="allWindowClick($event)" id="allWindow">
+
+        <ion-card margin-top padding class="all">
+            <ion-item>
+                <ion-label>All Categories</ion-label>
+                <ion-select>
+                    <ion-option *ngFor="let category of categories">{{category.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-card>
+
+        <ion-card *ngFor="let link of links">
+            <ion-card-content>
+                <a href={{link.url}} target="_blank">
+                    <img src={{link.image}}>
+                </a>
+                <div margin>
+                    <div class="pic-icon" float-left margin-right>
+                        <img src={{link.icon}}>
+                    </div>
+                    <a>{{link.host}}</a>
                 </div>
-                <a>{{link.host}}</a>
-            </div>
 
-            <ion-card-title margin>
-                {{link.title}}
-            </ion-card-title>
-            <p margin>
-                {{link.tags}}
-            </p>
-            <div class="author-date" margin>
-                <p>BY <b>Some One</b> - {{link.create_date}}</p>
-            </div>
+                <ion-card-title margin>
+                    {{link.title}}
+                </ion-card-title>
+                <p margin>
+                    {{link.tags}}
+                </p>
+                <div class="author-date" margin>
+                    <p>BY <b>Some One</b> - {{link.create_date}}</p>
+                </div>
 
-            <div class="links-block" margin>
-                <img class="pic-icon" margin-bottom float-left src="assets/icon/like-icon.png"><span class="views"
-                                                                                                     float-left
-                                                                                                     margin-right> {{link.views}}</span>
-                <img class="pic-icon" margin-bottom float-left src="assets/icon/icon-chat1.png"><span class="views"
-                                                                                                      float-left
-                                                                                                      margin-right> 0</span>
-                <img class="pic-icon" margin-bottom float-left src="assets/svg/speech-balloon-icon.svg"><span
-                    class="views" float-left margin-right> 0</span>
-            </div>
+                <div class="links-block" margin>
+                    <img class="pic-icon" margin-bottom float-left src="assets/icon/like-icon.png"><span class="views"
+                                                                                                         float-left
+                                                                                                         margin-right> {{link.views}}</span>
+                    <img class="pic-icon" margin-bottom float-left src="assets/icon/icon-chat1.png"><span class="views"
+                                                                                                          float-left
+                                                                                                          margin-right> 0</span>
+                    <img class="pic-icon" margin-bottom float-left src="assets/svg/speech-balloon-icon.svg"><span
+                        class="views" float-left margin-right> 0</span>
+                </div>
 
-        </ion-card-content>
+            </ion-card-content>
 
-    </ion-card>
+        </ion-card>
+    </div>
+
 </ion-content>

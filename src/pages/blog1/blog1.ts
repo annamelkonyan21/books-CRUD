@@ -59,19 +59,21 @@ export class Blog1Page {
                 public menu: MenuController,
                 public platform: Platform) {
         this.isAndroid = platform.is('android');
+
     }
 
+
+
     doRefresh(refresher) {
-      //  console.log('Begin async operation', refresher);
+        this.Links();
         setTimeout(() => {
-            //console.log('Async operation has ended');
+            console.log('Async operation has ended');
             refresher.complete();
         }, 2000);
     }
 
 
     ionViewDidLoad() {
-        console.log('blog 1 page');
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
         }
@@ -88,8 +90,6 @@ export class Blog1Page {
     Links() {
         this._link.getLink()
             .subscribe(res => {
-                console.log("links");
-                console.log(res);
                 this.links = res['data'].links;
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
@@ -176,4 +176,16 @@ export class Blog1Page {
             .subscribe(res => {this.categories = res['data'].categories;})
     }
 
+    allWindowClick(ev) {
+        console.log('parent');
+        console.log(ev);
+        console.log(ev.target.id)
+        this.openSearchBar = false;
+        this.openFreind = false;
+        this.openChat = false;
+        this.openNotificationBar = false;
+    }
+
+
 }
+

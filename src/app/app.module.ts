@@ -8,7 +8,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
 import {MyApp} from './app.component';
 
-
 //--------- modules ------------
 
 import {HomeModule} from "../pages/home/home.module";
@@ -28,6 +27,7 @@ import {LinkProvider} from '../providers/link/link';
 //--------- plugin --------------
 import { Facebook } from "@ionic-native/facebook";
 
+
 @NgModule({
     declarations: [
         MyApp
@@ -42,7 +42,7 @@ import { Facebook } from "@ionic-native/facebook";
         Page1PageModule,
         Tab1PageModule,
         Tab2PageModule,
-        MenuPageModule
+        MenuPageModule,
     ],
     bootstrap: [IonicApp],
     entryComponents: [
