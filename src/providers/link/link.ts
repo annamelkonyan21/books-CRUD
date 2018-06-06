@@ -30,4 +30,8 @@ export class LinkProvider {
       return this.http.delete(this._api.apiUrl+`links/+${id}`)
   }
 
+  public createCategory(category) {
+      return this.http.post(this._api.apiUrl+`categories`, {category: category})
+
+  }
 }

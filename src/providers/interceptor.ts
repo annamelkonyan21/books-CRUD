@@ -1,12 +1,10 @@
-import {HttpClient,  HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 @Injectable()
 export class InterceptorProvider implements HttpInterceptor {
 
-    constructor(public http: HttpClient) {
-
-    }
+    constructor(public http: HttpClient) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         if (localStorage.getItem('token') !== null) {
@@ -17,15 +15,14 @@ export class InterceptorProvider implements HttpInterceptor {
             });
         }
         return next.handle(req)
-        /*    .catch(err => {
+           .catch(err => {
                 if (err instanceof  HttpErrorResponse) {
                     if (err.status === 401) {
                         localStorage.removeItem('token');
-                        this._router.navigateByUrl('/');
                     }
                 }
                 return  next.handle(req);
-            });*/
+            });
 
     }
 }

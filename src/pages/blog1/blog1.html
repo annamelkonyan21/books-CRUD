@@ -149,53 +149,68 @@
         </ion-searchbar>
     </div>
 
-    <div (click)="allWindowClick()" id="allWindow">
 
-        <ion-card margin-top padding class="all" >
-            <ion-item >
-                <ion-label >Categories</ion-label>
 
-                <ion-select (click)="getCategories()" [(ngModel)]="categoryValue"  (ionChange)="linkCategory()"  interface="action-sheet">
-                    <ion-option>All Categories</ion-option>
-                    <ion-option *ngFor="let category of categories; let i = index"   [value]="category.id" >{{category.name}}</ion-option>
-                </ion-select>
-            </ion-item>
+        <ion-card  padding class="all" >
+            <ion-grid>
+                <ion-row (click)="openCategories()">
+                    <ion-col>
+                        Categories
+                    </ion-col>
+                    <ion-col col-auto>
+                            {{categoryName}}
+                    </ion-col>
+                    <ion-col>
+                        <ion-icon *ngIf="!openCategory" float-right name="arrow-down"></ion-icon>
+                        <ion-icon *ngIf="openCategory" float-right name="arrow-up"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
         </ion-card>
 
-        <ion-card *ngFor="let link of links, let i = index"  (click)="presentActionSheet(i)" >
+        <ion-card class="caregories" [class.display-block]="openCategory === true">
+            <ion-item class="allCategories " (click)="allCategory()">All  Categories</ion-item>
+            <div class="add-scroll">
+                <ion-item  *ngFor="let category of data.categories; let i = index" (click)="someCategory(i)" class="category-item" >
+                    {{category.name}}
+                </ion-item>
+            </div>
+            <ion-item class="createCategories" text-center  (click)="createCategory()"> Create Category</ion-item>
+            <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
+        </ion-card>
+
+
+    <div (click)="allWindowClick()" id="allWindow" padding-top>
+
+        <ion-card *ngFor="let link of links, let i = index"  (press)="presentActionSheet($event,i)" >
             <ion-card-content>
-                <a href={{link.url}} target="_blank">
+                <a href={{link.url}} target="_blank" class="card-link">
                     <img src={{link.image}}>
-                </a>
-                <div margin>
-                    <div class="pic-icon" float-left margin-right>
-                        <img src={{link.icon}}>
+                    <div margin>
+                        <div class="pic-icon" float-left margin-right>
+                            <img src={{link.icon}}>
+                        </div>
+                        <a>{{link.host}}</a>
                     </div>
-                    <a>{{link.host}}</a>
-                </div>
-
-                <ion-card-title margin>
-                    {{link.title}}
-                </ion-card-title>
-                <p margin>
-                    {{link.tags}}
-                </p>
-                <div class="author-date" margin>
-                    <p>BY <b>Some One</b> - {{link.create_date}}</p>
-                </div>
-
+                    <ion-card-title margin>
+                        {{link.title}}
+                    </ion-card-title>
+                    <p margin>
+                        {{link.tags}}
+                    </p>
+                    <div class="author-date" margin>
+                        <p>BY <b>Some One</b> - {{link.create_date}}</p>
+                    </div>
+                </a>
                 <div class="links-block" margin>
                     <img class="pic-icon" margin-bottom float-left src="assets/icon/like-icon.png">
                     <span class="views" float-left  margin-right> {{link.views}}</span>
                     <img class="pic-icon" margin-bottom float-left src="assets/icon/icon-chat1.png">
                     <span class="views" float-left margin-right> 0</span>
-                    <img class="pic-icon" margin-bottom float-left src="assets/svg/speech-balloon-icon.svg"><span
-                        class="views" float-left margin-right> 0</span>
+                    <img class="pic-icon" margin-bottom float-left src="assets/svg/speech-balloon-icon.svg">
+                    <span class="views" float-left margin-right> 0</span>
                 </div>
-
             </ion-card-content>
-
         </ion-card>
     </div>
-
 </ion-content>

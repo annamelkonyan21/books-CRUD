@@ -1,8 +1,12 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams, Platform} from 'ionic-angular';
+import {
+    AlertController, IonicPage, LoadingController, MenuController, NavController, NavParams,
+    Platform
+} from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {LinkProvider} from "../../providers/link/link";
 import {ActionSheetController} from 'ionic-angular';
+
 
 export interface myDate {
     day: number,
@@ -25,6 +29,7 @@ export class Blog1Page {
     isAndroid: boolean;
     searchOpen: boolean = false;
     @ViewChild('search') search;
+    @ViewChild('select') select;
     create_date = [];
     create = [];
     Dat: Date = new Date();
@@ -54,22 +59,28 @@ export class Blog1Page {
     openNotificationBar: boolean = false;
     categories = [];
     categoryValue: any;
+    data = {
+        categories: []
+    };
+    openCategory: boolean = false;
+    categoryName: string = '';
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public _link: LinkProvider,
                 public menu: MenuController,
                 public platform: Platform,
-                public alertCtrl: ActionSheetController) {
+                public actionSheetCtrl: ActionSheetController,
+                public alertCtrl: AlertController,
+                public loadingCtrl: LoadingController) {
         this.isAndroid = platform.is('android');
     }
 
 
     doRefresh(refresher) {
-
-        if(this.categoryValue === undefined || this.categoryValue === 'All Categories') {
+        if (this.categoryValue === undefined || this.categoryValue === 'All Categories') {
             this.Links();
-        } else  {
+        } else {
             this.linkCategory();
         }
         setTimeout(() => {
@@ -80,7 +91,6 @@ export class Blog1Page {
 
 
     ionViewDidLoad() {
-
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
         }
@@ -91,7 +101,7 @@ export class Blog1Page {
         this.my_date['year'] = this.Dat.getFullYear();
         this.my_date['minute'] = this.Dat.getMinutes();
         this.my_date['hours'] = this.Dat.getHours();
-        this.getCategories();
+        //this.getCategories();
     }
 
     Links() {
@@ -151,12 +161,24 @@ export class Blog1Page {
     }
 
     getCategories() {
+        if(this.openCategory) {
+            let loading = this.loadingCtrl.create({
+                content: 'Please wait...'
+            });
 
-        this._link.getUserCategories()
-            .subscribe(res => {
-                this.categories = res['data'].categories;
-                console.log(this.categories);
-            })
+            loading.present();
+            this._link.getUserCategories()
+                .subscribe(res => {
+                    if(res) {
+                        loading.dismiss();
+                    }
+                    console.log(this.data.categories);
+                    this.data.categories = res['data'].categories;
+
+                })
+
+        }
+
 
     }
 
@@ -165,6 +187,7 @@ export class Blog1Page {
         this.openChat = false;
         this.openSearchBar = false;
         this.openNotificationBar = false;
+        this.openCategory = false;
     }
 
     openSearch() {
@@ -172,6 +195,7 @@ export class Blog1Page {
         this.openChat = false;
         this.openFreind = false;
         this.openNotificationBar = false;
+        this.openCategory = false;
     }
 
     openChatMessege() {
@@ -179,6 +203,7 @@ export class Blog1Page {
         this.openSearchBar = false;
         this.openFreind = false;
         this.openNotificationBar = false;
+        this.openCategory = false;
     }
 
     openNotification() {
@@ -186,23 +211,25 @@ export class Blog1Page {
         this.openSearchBar = false;
         this.openFreind = false;
         this.openChat = false;
+        this.openCategory = false;
     }
-
 
     allWindowClick() {
         this.openSearchBar = false;
         this.openFreind = false;
         this.openChat = false;
         this.openNotificationBar = false;
+        this.openCategory = false;
     }
 
-    presentActionSheet(i) {
-        let actionSheet = this.alertCtrl.create({
+    presentActionSheet(ev, i) {
+        console.log(ev)
+        let actionSheet = this.actionSheetCtrl.create({
             buttons: [
                 {
                     text: 'Delete',
                     role: 'destructive',
-                    icon: !this.platform.is('ios') ? 'trash' : null,
+                   icon: !this.platform.is('ios') ? 'trash' : null,
                     handler: () => {
                         this._link.deleteLinkFromList(this.links[i].id)
                             .subscribe(res => {
@@ -226,53 +253,178 @@ export class Blog1Page {
 
     }
 
-
-
-
     linkCategory() {
         if (this.categoryValue === 'All Categories') {
-                this.Links();
-        } else {
-            this._link.getLinksByCategories(this.categoryValue)
-                .subscribe(res => {
-                    this.links = res['data'].links;
-                    this.links.forEach((value) => {
-                        this.create_date.push(value['created_at'])
-                    })
-                    this.create_date.forEach((value) => {
-                        this.d = new Date(value);
-                        this.create_day['day'] = this.d.getDate();
-                        this.create_day['month'] = this.d.getMonth();
-                        this.create_day['year'] = this.d.getFullYear();
-                        this.create_day['minute'] = this.d.getMinutes();
-                        this.create_day['hours'] = this.d.getHours();
-                        this.create.push(this.create_day);
-
-                    })
-                    this.create.forEach((value) => {
-                        if (value['year'] < this.my_date['year']) {
-                            this.ago.push(this.my_date['year'] - value['year'] + ' YEARS AGO');
-                        } else if (value['month'] < this.my_date['month']) {
-                            this.ago.push(this.my_date['month'] - value['month'] + ' MONTHS AGO');
-                        } else if (value['day'] < this.my_date['day']) {
-                            this.ago.push(this.my_date['day'] - value['day'] + ' DAYS AGO');
-                        } else if (value['hours'] < this.my_date['hours']) {
-                            this.ago.push(this.my_date['hours'] - value['hours'] + ' HOURS AGO');
-                        } else if (value['minute'] < this.my_date['minute']) {
-                            this.ago.push(this.my_date['minute'] - value['minute'] + ' MINUTES AGO');
+            this.Links();
+        } else
+            if(this.categoryValue  === 'Create category') {
+                const prompt = this.alertCtrl.create({
+                    title: 'Add New Category',
+                    inputs: [
+                        {
+                            name: 'Category name',
+                            placeholder: 'Category name'
+                        },
+                    ],
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            handler: data => {
+                                this.categoryValue = 'All Categories';
+                            }
+                        },
+                        {
+                            text: 'Save',
+                            handler: data => {
+                                this._link.createCategory(data['Category name'])
+                                    .subscribe(res => {
+                                        this.categoryValue = 'All Categories';
+                                        this.getCategories();
+                                    })
+                                this.categoryValue = 'All Categories';
+                            }
                         }
+                    ]
+                });
+                prompt.present();
+                this.categoryValue = 'All Categories';
+            }
+            else {
+                this._link.getLinksByCategories(this.categoryValue)
+                    .subscribe(res => {
+                        this.links = res['data'].links;
+                        this.links.forEach((value) => {
+                            this.create_date.push(value['created_at'])
+                        })
+                        this.create_date.forEach((value) => {
+                            this.d = new Date(value);
+                            this.create_day['day'] = this.d.getDate();
+                            this.create_day['month'] = this.d.getMonth();
+                            this.create_day['year'] = this.d.getFullYear();
+                            this.create_day['minute'] = this.d.getMinutes();
+                            this.create_day['hours'] = this.d.getHours();
+                            this.create.push(this.create_day);
+
+                        })
+                        this.create.forEach((value) => {
+                            if (value['year'] < this.my_date['year']) {
+                                this.ago.push(this.my_date['year'] - value['year'] + ' YEARS AGO');
+                            } else if (value['month'] < this.my_date['month']) {
+                                this.ago.push(this.my_date['month'] - value['month'] + ' MONTHS AGO');
+                            } else if (value['day'] < this.my_date['day']) {
+                                this.ago.push(this.my_date['day'] - value['day'] + ' DAYS AGO');
+                            } else if (value['hours'] < this.my_date['hours']) {
+                                this.ago.push(this.my_date['hours'] - value['hours'] + ' HOURS AGO');
+                            } else if (value['minute'] < this.my_date['minute']) {
+                                this.ago.push(this.my_date['minute'] - value['minute'] + ' MINUTES AGO');
+                            }
+                        })
+                        for (let i = 0; i < this.links.length; i++) {
+                            this.links[i]['create_date'] = this.ago[i];
+                        }
+                        this.links.forEach((value) => {
+                            value.host = value.url;
+                            value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
+                            value.host = value.host.slice(0, value.host.search('/'))
+                        })
                     })
-                    for (let i = 0; i < this.links.length; i++) {
-                        this.links[i]['create_date'] = this.ago[i];
-                    }
-                    this.links.forEach((value) => {
-                        value.host = value.url;
-                        value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
-                        value.host = value.host.slice(0, value.host.search('/'))
-                    })
-                })
         }
     }
 
+    openCategories() {
+        this.openCategory = !this.openCategory;
+        this.getCategories();
+
+    }
+
+    allCategory() {
+        setTimeout(()=> {
+            this.Links();
+            this.openCategory = false;
+            }, 500
+        )
+    }
+
+    someCategory(i) {
+        this.categoryName = this.data.categories[i].name;
+        this._link.getLinksByCategories(this.data.categories[i].name)
+            .subscribe(res => {
+                this.links = res['data'].links;
+                this.links.forEach((value) => {
+                    this.create_date.push(value['created_at'])
+                })
+                this.create_date.forEach((value) => {
+                    this.d = new Date(value);
+                    this.create_day['day'] = this.d.getDate();
+                    this.create_day['month'] = this.d.getMonth();
+                    this.create_day['year'] = this.d.getFullYear();
+                    this.create_day['minute'] = this.d.getMinutes();
+                    this.create_day['hours'] = this.d.getHours();
+                    this.create.push(this.create_day);
+
+                })
+                this.create.forEach((value) => {
+                    if (value['year'] < this.my_date['year']) {
+                        this.ago.push(this.my_date['year'] - value['year'] + ' YEARS AGO');
+                    } else if (value['month'] < this.my_date['month']) {
+                        this.ago.push(this.my_date['month'] - value['month'] + ' MONTHS AGO');
+                    } else if (value['day'] < this.my_date['day']) {
+                        this.ago.push(this.my_date['day'] - value['day'] + ' DAYS AGO');
+                    } else if (value['hours'] < this.my_date['hours']) {
+                        this.ago.push(this.my_date['hours'] - value['hours'] + ' HOURS AGO');
+                    } else if (value['minute'] < this.my_date['minute']) {
+                        this.ago.push(this.my_date['minute'] - value['minute'] + ' MINUTES AGO');
+                    }
+                })
+                for (let i = 0; i < this.links.length; i++) {
+                    this.links[i]['create_date'] = this.ago[i];
+                }
+                this.links.forEach((value) => {
+                    value.host = value.url;
+                    value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
+                    value.host = value.host.slice(0, value.host.search('/'))
+                })
+                setTimeout(()=>{
+                    this.openCategory = false;
+                }, 500)
+
+            })
+    }
+
+    createCategory() {
+        const prompt = this.alertCtrl.create({
+            title: 'Add New Category',
+            inputs: [
+                {
+                    name: 'Category name',
+                    placeholder: 'Category name'
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: data => {
+                        this.categoryValue = 'All Categories';
+                    }
+                },
+                {
+                    text: 'Save',
+                    handler: data => {
+                        this._link.createCategory(data['Category name'])
+                            .subscribe(res => {
+                                this.categoryValue = 'All Categories';
+                                this.getCategories();
+                            })
+                        this.categoryValue = 'All Categories';
+                    }
+                }
+            ]
+        });
+        prompt.present();
+    }
+
+    cancelCategory() {
+        this.openCategory = false;
+    }
 }
 
