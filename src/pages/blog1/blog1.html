@@ -4,7 +4,7 @@
             <ion-row>
                 <ion-col class="menu-nav-icon">
 
-                    <a menuToggle >
+                    <a menuToggle>
                         <img src="assets/imgs/logo_small.png" alt="Linker" class="menu-icon">
                     </a>
                 </ion-col>
@@ -150,39 +150,39 @@
     </div>
 
 
+    <ion-card margin-top padding class="all">
+        <ion-grid>
+            <ion-row (click)="openCategories()">
+                <ion-col>
+                    Categories
+                </ion-col>
+                <ion-col col-auto>
+                    {{categoryName}}
+                </ion-col>
+                <ion-col>
+                    <ion-icon *ngIf="!openCategory" float-right name="arrow-down"></ion-icon>
+                    <ion-icon *ngIf="openCategory" float-right name="arrow-up"></ion-icon>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
 
-        <ion-card  padding class="all" >
-            <ion-grid>
-                <ion-row (click)="openCategories()">
-                    <ion-col>
-                        Categories
-                    </ion-col>
-                    <ion-col col-auto>
-                            {{categoryName}}
-                    </ion-col>
-                    <ion-col>
-                        <ion-icon *ngIf="!openCategory" float-right name="arrow-down"></ion-icon>
-                        <ion-icon *ngIf="openCategory" float-right name="arrow-up"></ion-icon>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-card>
-
-        <ion-card class="caregories" [class.display-block]="openCategory === true">
-            <ion-item class="allCategories " (click)="allCategory()">All  Categories</ion-item>
-            <div class="add-scroll">
-                <ion-item  *ngFor="let category of data.categories; let i = index" (click)="someCategory(i)" class="category-item" >
-                    {{category.name}}
-                </ion-item>
-            </div>
-            <ion-item class="createCategories" text-center  (click)="createCategory()"> Create Category</ion-item>
-            <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
-        </ion-card>
+    <ion-card class="caregories" [class.display-block]="openCategory === true">
+        <ion-item class="allCategories " (click)="allCategory()">All Categories</ion-item>
+        <div class="add-scroll">
+            <ion-item *ngFor="let category of data.categories; let i = index" (click)="someCategory(i)"
+                      class="category-item">
+                {{category.name}}
+            </ion-item>
+        </div>
+        <ion-item class="createCategories" text-center (click)="createCategory()"> Create Category</ion-item>
+        <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
+    </ion-card>
 
 
-    <div (click)="allWindowClick()" id="allWindow" padding-top>
+    <div (click)="allWindowClick()" id="allWindow" >
 
-        <ion-card *ngFor="let link of links, let i = index"  (press)="presentActionSheet($event,i)" >
+        <ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet($event,i)">
             <ion-card-content>
                 <a href={{link.url}} target="_blank" class="card-link">
                     <img src={{link.image}}>
@@ -203,14 +203,18 @@
                     </div>
                 </a>
                 <div class="links-block" margin>
-                    <img class="pic-icon" margin-bottom float-left src="assets/icon/like-icon.png">
-                    <span class="views" float-left  margin-right> {{link.views}}</span>
-                    <img class="pic-icon" margin-bottom float-left src="assets/icon/icon-chat1.png">
+                    <img class="pic-icon" margin-bottom float-left [src]=likeImg>
+                    <span class="views" float-left margin-right> {{link.views}}</span>
+                    <img class="pic-icon" margin-bottom float-left [src]=commentImg>
                     <span class="views" float-left margin-right> 0</span>
-                    <img class="pic-icon" margin-bottom float-left src="assets/svg/speech-balloon-icon.svg">
+                    <img class="pic-icon" margin-bottom float-left [src]=viewImg>
                     <span class="views" float-left margin-right> 0</span>
                 </div>
             </ion-card-content>
         </ion-card>
     </div>
+
+    <img class="pic-icon" margin-bottom float-left src="assets/icon/like-icon.png">
+    <img class="pic-icon" margin-bottom float-left src="assets/icon/icon-chat1.png">
+    <img class="pic-icon" margin-bottom float-left src="assets/svg/speech-balloon-icon.svg">
 </ion-content>

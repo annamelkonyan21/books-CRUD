@@ -65,6 +65,10 @@ export class Blog1Page {
     openCategory: boolean = false;
     categoryName: string = '';
 
+    likeImg:string = 'assets/icon/like-icon.png'
+    commentImg:string = 'assets/icon/icon-chat1.png'
+    viewImg:string = 'assets/svg/speech-balloon-icon.svg'
+
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public _link: LinkProvider,
@@ -172,9 +176,9 @@ export class Blog1Page {
                     if(res) {
                         loading.dismiss();
                     }
-                    console.log(this.data.categories);
-                    this.data.categories = res['data'].categories;
 
+                    this.data.categories = res['data'].categories;
+                    console.log(this.data.categories);
                 })
 
         }
