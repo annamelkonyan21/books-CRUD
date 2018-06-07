@@ -466,6 +466,7 @@ export class Blog1Page {
         presentationstyle : 'pagesheet',//iOS only
         fullscreen : 'yes',//Windows only
     };
+
     public openWithCordovaBrowser(url : string){
         let target = "_self";
         this.iab.create(url,target,this.options);
