@@ -212,7 +212,17 @@
                 </div>
             </ion-card-content>
         </ion-card>
-    </div>
 
+
+    </div>
+    <ion-fab right bottom margin >
+        <button ion-fab color="secondry" (click)="openLink()"><ion-icon name="add"></ion-icon></button>
+
+        <ion-fab-list side="left">
+            <div *ngIf="openLinks">
+
+            </div>
+        </ion-fab-list>
+    </ion-fab>
 
 </ion-content>

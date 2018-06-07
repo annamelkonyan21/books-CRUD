@@ -65,10 +65,12 @@ export class Blog1Page {
     };
     openCategory: boolean = false;
     categoryName: string = '';
-
-    likeImg:string = 'assets/icon/like-icon.png'
-    commentImg:string = 'assets/icon/icon-chat1.png'
-    viewImg:string = 'assets/svg/speech-balloon-icon.svg'
+    categoryId: number;
+    categoryI: number;
+    openLinks:boolean = false;
+    likeImg:string = 'assets/icon/like-icon.png';
+    commentImg:string = 'assets/icon/icon-chat1.png';
+    viewImg:string = 'assets/svg/speech-balloon-icon.svg';
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -84,17 +86,17 @@ export class Blog1Page {
 
 
     doRefresh(refresher) {
+        console.log(this.categoryValue )
         if (this.categoryValue === undefined || this.categoryValue === 'All Categories') {
             this.Links();
         } else {
-            this.linkCategory();
+
         }
         setTimeout(() => {
             console.log('Async operation has ended');
             refresher.complete();
         }, 2000);
     }
-
 
     ionViewDidLoad() {
         if (localStorage.getItem('token') === null) {
@@ -112,6 +114,7 @@ export class Blog1Page {
     Links() {
         this._link.getLink()
             .subscribe(res => {
+                console.log(res)
                 this.links = res['data'].links;
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
@@ -150,6 +153,7 @@ export class Blog1Page {
                     value.commentImg = this.commentImg;
                     value.viewImg = this.viewImg;
                 })
+
             })
     }
 
@@ -184,10 +188,7 @@ export class Blog1Page {
                     this.data.categories = res['data'].categories;
                     console.log(this.data.categories);
                 })
-
         }
-
-
     }
 
     openFriendRequest() {
@@ -357,6 +358,8 @@ export class Blog1Page {
 
     someCategory(i) {
         this.categoryName = this.data.categories[i].name;
+        this.categoryId = this.data.categories[i].id;
+        this.categoryI = i;
         this._link.getLinksByCategories(this.data.categories[i].name)
             .subscribe(res => {
                 this.links = res['data'].links;
@@ -441,10 +444,53 @@ export class Blog1Page {
     }
 
     openWithBrowser(i) {
-        let browser = this.iab.create(this.links[i].url, '_system', );
-        browser.show();
+
+
     }
 
+    openLink() {
+        this.openLinks = true;
+        const prompt = this.alertCtrl.create({
+            title: 'Add New Link',
+            inputs: [
+                {
+                    name: 'Link url',
+                    placeholder: 'Link Url'
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: data => {
+                        this.categoryValue = 'All Categories';
+                    }
+                },
+                {
+                    text: 'Save',
+                    handler: data => {
+                        console.log(this.categoryName);
+                        if( this.categoryName=== '') {
+                            this._link.createLinks(data['Link url'])
+                                .subscribe(res => {
+                                    console.log(res);
+                                    this.Links();
+                                })
+                        } else {
+                            this._link.createLinksWithCategory(this.categoryId,data['Link url'])
+                                .subscribe(res => {
+                                    console.log(res);
+                                    this.someCategory(this.categoryI);
+
+                                })
+                        }
+
+
+                    }
+                }
+            ]
+        });
+        prompt.present();
+    }
 
 
 
