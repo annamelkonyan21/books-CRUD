@@ -6,6 +6,7 @@ import {
 import {HomePage} from "../home/home";
 import {LinkProvider} from "../../providers/link/link";
 import {ActionSheetController} from 'ionic-angular';
+import {InAppBrowser} from '@ionic-native/in-app-browser';
 
 
 export interface myDate {
@@ -76,7 +77,8 @@ export class Blog1Page {
                 public platform: Platform,
                 public actionSheetCtrl: ActionSheetController,
                 public alertCtrl: AlertController,
-                public loadingCtrl: LoadingController) {
+                public loadingCtrl: LoadingController,
+                public iab: InAppBrowser) {
         this.isAndroid = platform.is('android');
     }
 
@@ -105,7 +107,6 @@ export class Blog1Page {
         this.my_date['year'] = this.Dat.getFullYear();
         this.my_date['minute'] = this.Dat.getMinutes();
         this.my_date['hours'] = this.Dat.getHours();
-        //this.getCategories();
     }
 
     Links() {
@@ -332,7 +333,10 @@ export class Blog1Page {
                         this.links.forEach((value) => {
                             value.host = value.url;
                             value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
-                            value.host = value.host.slice(0, value.host.search('/'))
+                            value.host = value.host.slice(0, value.host.search('/'));
+                            value.likeImg = this.likeImg;
+                            value.commentImg = this.commentImg;
+                            value.viewImg = this.viewImg;
                         })
                     })
         }
@@ -341,7 +345,6 @@ export class Blog1Page {
     openCategories() {
         this.openCategory = !this.openCategory;
         this.getCategories();
-
     }
 
     allCategory() {
@@ -389,7 +392,10 @@ export class Blog1Page {
                 this.links.forEach((value) => {
                     value.host = value.url;
                     value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
-                    value.host = value.host.slice(0, value.host.search('/'))
+                    value.host = value.host.slice(0, value.host.search('/'));
+                    value.likeImg = this.likeImg;
+                    value.commentImg = this.commentImg;
+                    value.viewImg = this.viewImg;
                 })
                 setTimeout(()=>{
                     this.openCategory = false;
@@ -432,6 +438,13 @@ export class Blog1Page {
 
     cancelCategory() {
         this.openCategory = false;
+    }
+
+    openWithBrowser(i) {
+        console.log(this.links[i].url)
+        const browser = this.iab.create(this.links[i].url, '_self');
+        browser.show();
+       // browser.on('').subscribe(event=> {console.log(event)})
     }
 }
 
