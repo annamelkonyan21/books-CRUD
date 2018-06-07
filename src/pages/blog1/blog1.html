@@ -44,7 +44,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content margin-top>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
                 refreshingText="Refreshing...">
@@ -213,5 +213,7 @@
             </ion-card-content>
         </ion-card>
     </div>
+
+    <button ion-button (click)="openWithCordovaBrowser('https://www.techiediaries.com')">Open with Cordova browser</button>
 
 </ion-content>

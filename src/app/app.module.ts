@@ -52,6 +52,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
     providers: [
         StatusBar,
         SplashScreen,
+        InAppBrowser,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         {provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true},
         ApiProvider,
@@ -59,7 +60,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
         LinkProvider,
         //------ plugin --------
         Facebook,
-        InAppBrowser
     ]
 })
 export class AppModule {

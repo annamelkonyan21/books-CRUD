@@ -6,7 +6,7 @@ import {
 import {HomePage} from "../home/home";
 import {LinkProvider} from "../../providers/link/link";
 import {ActionSheetController} from 'ionic-angular';
-import {InAppBrowser} from '@ionic-native/in-app-browser';
+import {InAppBrowser, InAppBrowserOptions} from '@ionic-native/in-app-browser';
 
 
 export interface myDate {
@@ -442,9 +442,35 @@ export class Blog1Page {
 
     openWithBrowser(i) {
         console.log(this.links[i].url)
-        const browser = this.iab.create(this.links[i].url, '_self');
+        const browser = this.iab.create(this.links[i].url, '_target');
+
         browser.show();
-       // browser.on('').subscribe(event=> {console.log(event)})
+        console.log(browser)
+   //     browser.on('').subscribe(event=> {console.log(event)})
     }
+
+    options : InAppBrowserOptions = {
+        location : 'yes',//Or 'no'
+        hidden : 'no', //Or  'yes'
+        clearcache : 'yes',
+        clearsessioncache : 'yes',
+        zoom : 'yes',//Android only ,shows browser zoom controls
+        hardwareback : 'yes',
+        mediaPlaybackRequiresUserAction : 'no',
+        shouldPauseOnSuspend : 'no', //Android only
+        closebuttoncaption : 'Close', //iOS only
+        disallowoverscroll : 'no', //iOS only
+        toolbar : 'yes', //iOS only
+        enableViewportScale : 'no', //iOS only
+        allowInlineMediaPlayback : 'no',//iOS only
+        presentationstyle : 'pagesheet',//iOS only
+        fullscreen : 'yes',//Windows only
+    };
+    public openWithCordovaBrowser(url : string){
+        let target = "_self";
+        this.iab.create(url,target,this.options);
+    }
+
+
 }
 
