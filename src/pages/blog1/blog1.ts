@@ -145,6 +145,9 @@ export class Blog1Page {
                     value.host = value.url;
                     value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
                     value.host = value.host.slice(0, value.host.search('/'))
+                    value.likeImg = this.likeImg;
+                    value.commentImg = this.commentImg;
+                    value.viewImg = this.viewImg;
                 })
             })
     }
