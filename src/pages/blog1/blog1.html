@@ -205,10 +205,7 @@
         </ion-item>
         <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
     </ion-card>
-
-
     <div (click)="allWindowClick()" id="allWindow">
-
         <ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet($event,i)">
             <ion-card-content>
                 <a class="card-link" (click)="openWithBrowser(i)">
