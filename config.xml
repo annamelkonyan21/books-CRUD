@@ -87,5 +87,5 @@
         <variable name="ANDROID_SDK_VERSION" value="4.+" />
     </plugin>
     <engine name="android" spec="7.0.0" />
-    <engine name="browser" spec="5.0.3" />
+    <engine name="browser" spec="latest" />
 </widget>

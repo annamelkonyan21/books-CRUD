@@ -6,7 +6,7 @@ import {
 import {HomePage} from "../home/home";
 import {LinkProvider} from "../../providers/link/link";
 import {ActionSheetController} from 'ionic-angular';
-import {InAppBrowser } from '@ionic-native/in-app-browser';
+import {InAppBrowser} from '@ionic-native/in-app-browser';
 
 
 export interface myDate {
@@ -21,7 +21,7 @@ export interface myDate {
 @Component({
     selector: 'page-blog1',
     templateUrl: 'blog1.html',
-    providers: [LinkProvider]
+    providers: [LinkProvider, InAppBrowser]
 })
 
 export class Blog1Page {
@@ -67,10 +67,10 @@ export class Blog1Page {
     categoryName: string = '';
     categoryId: number;
     categoryI: number;
-    openLinks:boolean = false;
-    likeImg:string = 'assets/icon/like-icon.png';
-    commentImg:string = 'assets/icon/icon-chat1.png';
-    viewImg:string = 'assets/svg/speech-balloon-icon.svg';
+    openLinks: boolean = false;
+    likeImg: string = 'assets/svg/like-post-icon.svg';
+    commentImg: string = 'assets/icon/icon-chat1.png';
+    viewImg: string = 'assets/svg/speech-balloon-icon.svg';
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -86,14 +86,12 @@ export class Blog1Page {
 
 
     doRefresh(refresher) {
-        console.log(this.categoryValue )
-        if (this.categoryValue === undefined || this.categoryValue === 'All Categories') {
+        if (this.categoryName === undefined || this.categoryName === 'All Categories') {
             this.Links();
         } else {
-
+            this.getLinkByCategoryName(this.categoryId);
         }
         setTimeout(() => {
-            console.log('Async operation has ended');
             refresher.complete();
         }, 2000);
     }
@@ -114,7 +112,6 @@ export class Blog1Page {
     Links() {
         this._link.getLink()
             .subscribe(res => {
-                console.log(res)
                 this.links = res['data'].links;
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
@@ -173,7 +170,7 @@ export class Blog1Page {
     }
 
     getCategories() {
-        if(this.openCategory) {
+        if (this.openCategory) {
             let loading = this.loadingCtrl.create({
                 content: 'Please wait...'
             });
@@ -181,12 +178,12 @@ export class Blog1Page {
             loading.present();
             this._link.getUserCategories()
                 .subscribe(res => {
-                    if(res) {
+                    // console.log(res)
+                    if (res) {
                         loading.dismiss();
                     }
 
                     this.data.categories = res['data'].categories;
-                    console.log(this.data.categories);
                 })
         }
     }
@@ -229,6 +226,7 @@ export class Blog1Page {
         this.openChat = false;
         this.openNotificationBar = false;
         this.openCategory = false;
+        this.openLinks = false;
     }
 
     presentActionSheet(ev, i) {
@@ -238,7 +236,7 @@ export class Blog1Page {
                 {
                     text: 'Delete',
                     role: 'destructive',
-                   icon: !this.platform.is('ios') ? 'trash' : null,
+                    icon: !this.platform.is('ios') ? 'trash' : null,
                     handler: () => {
                         this._link.deleteLinkFromList(this.links[i].id)
                             .subscribe(res => {
@@ -265,103 +263,48 @@ export class Blog1Page {
     linkCategory() {
         if (this.categoryValue === 'All Categories') {
             this.Links();
-        } else
-            if(this.categoryValue  === 'Create category') {
-                const prompt = this.alertCtrl.create({
-                    title: 'Add New Category',
-                    inputs: [
-                        {
-                            name: 'Category name',
-                            placeholder: 'Category name'
-                        },
-                    ],
-                    buttons: [
-                        {
-                            text: 'Cancel',
-                            handler: data => {
-                                this.categoryValue = 'All Categories';
-                            }
-                        },
-                        {
-                            text: 'Save',
-                            handler: data => {
-                                this._link.createCategory(data['Category name'])
-                                    .subscribe(res => {
-                                        this.categoryValue = 'All Categories';
-                                        this.getCategories();
-                                    })
-                                this.categoryValue = 'All Categories';
-                            }
+        } else if (this.categoryValue === 'Create category') {
+            const prompt = this.alertCtrl.create({
+                title: 'Add New Category',
+                inputs: [
+                    {
+                        name: 'Category name',
+                        placeholder: 'Category name'
+                    },
+                ],
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        handler: data => {
+                            this.categoryValue = 'All Categories';
                         }
-                    ]
-                });
-                prompt.present();
-                this.categoryValue = 'All Categories';
-            }
-            else {
-                this._link.getLinksByCategories(this.categoryValue)
-                    .subscribe(res => {
-                        this.links = res['data'].links;
-                        this.links.forEach((value) => {
-                            this.create_date.push(value['created_at'])
-                        })
-                        this.create_date.forEach((value) => {
-                            this.d = new Date(value);
-                            this.create_day['day'] = this.d.getDate();
-                            this.create_day['month'] = this.d.getMonth();
-                            this.create_day['year'] = this.d.getFullYear();
-                            this.create_day['minute'] = this.d.getMinutes();
-                            this.create_day['hours'] = this.d.getHours();
-                            this.create.push(this.create_day);
-
-                        })
-                        this.create.forEach((value) => {
-                            if (value['year'] < this.my_date['year']) {
-                                this.ago.push(this.my_date['year'] - value['year'] + ' YEARS AGO');
-                            } else if (value['month'] < this.my_date['month']) {
-                                this.ago.push(this.my_date['month'] - value['month'] + ' MONTHS AGO');
-                            } else if (value['day'] < this.my_date['day']) {
-                                this.ago.push(this.my_date['day'] - value['day'] + ' DAYS AGO');
-                            } else if (value['hours'] < this.my_date['hours']) {
-                                this.ago.push(this.my_date['hours'] - value['hours'] + ' HOURS AGO');
-                            } else if (value['minute'] < this.my_date['minute']) {
-                                this.ago.push(this.my_date['minute'] - value['minute'] + ' MINUTES AGO');
-                            }
-                        })
-                        for (let i = 0; i < this.links.length; i++) {
-                            this.links[i]['create_date'] = this.ago[i];
+                    },
+                    {
+                        text: 'Save',
+                        handler: data => {
+                            this._link.createCategory(data['Category name'])
+                                .subscribe(res => {
+                                    this.categoryValue = 'All Categories';
+                                    this.getCategories();
+                                })
+                            this.categoryValue = 'All Categories';
                         }
-                        this.links.forEach((value) => {
-                            value.host = value.url;
-                            value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
-                            value.host = value.host.slice(0, value.host.search('/'));
-                            value.likeImg = this.likeImg;
-                            value.commentImg = this.commentImg;
-                            value.viewImg = this.viewImg;
-                        })
-                    })
+                    }
+                ]
+            });
+            prompt.present();
+            this.categoryValue = 'All Categories';
+        }
+        else {
+            this.getLinkByCategoryName(this.categoryValue);
         }
     }
 
-    openCategories() {
-        this.openCategory = !this.openCategory;
-        this.getCategories();
-    }
-
-    allCategory() {
-        setTimeout(()=> {
-            this.Links();
-            this.openCategory = false;
-            }, 500
-        )
-    }
-
-    someCategory(i) {
-        this.categoryName = this.data.categories[i].name;
-        this.categoryId = this.data.categories[i].id;
-        this.categoryI = i;
-        this._link.getLinksByCategories(this.data.categories[i].name)
+    getLinkByCategoryName(value) {
+        console.log(value)
+        this._link.getLinksByCategories(value)
             .subscribe(res => {
+                console.log(res)
                 this.links = res['data'].links;
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
@@ -400,11 +343,32 @@ export class Blog1Page {
                     value.commentImg = this.commentImg;
                     value.viewImg = this.viewImg;
                 })
-                setTimeout(()=>{
-                    this.openCategory = false;
-                }, 500)
-
             })
+    }
+
+    openCategories() {
+        this.openCategory = !this.openCategory;
+        this.getCategories();
+    }
+
+    allCategory() {
+        this.categoryName = "All Categories";
+        setTimeout(() => {
+                this.Links();
+                this.openCategory = false;
+            }, 500
+        )
+    }
+
+    someCategory(i) {
+        this.categoryName = this.data.categories[i].name;
+        this.categoryId = this.data.categories[i].id;
+        this.categoryI = i;
+        console.log(this.categoryName);
+        this.getLinkByCategoryName(this.categoryId);
+        setTimeout(() => {
+            this.openCategory = false;
+        }, 500);
     }
 
     createCategory() {
@@ -444,11 +408,12 @@ export class Blog1Page {
     }
 
     openWithBrowser(i) {
+        let browser = this.iab.create(this.links[i].url);
 
-
+        browser.show()
     }
 
-    openLink() {
+    createLink() {
         this.openLinks = true;
         const prompt = this.alertCtrl.create({
             title: 'Add New Link',
@@ -462,25 +427,29 @@ export class Blog1Page {
                 {
                     text: 'Cancel',
                     handler: data => {
-                        this.categoryValue = 'All Categories';
+                        this.openLinks = false;
+                        //    this.categoryValue = 'All Categories';
                     }
                 },
                 {
                     text: 'Save',
                     handler: data => {
                         console.log(this.categoryName);
-                        if( this.categoryName=== '') {
+                        if (this.categoryName === '' || this.categoryName === 'All Categories') {
                             this._link.createLinks(data['Link url'])
                                 .subscribe(res => {
                                     console.log(res);
-                                    this.Links();
+                                    this.openLinks = false;
+                                    //  this.Links();
                                 })
+                            this.openLinks = false;
                         } else {
-                            this._link.createLinksWithCategory(this.categoryId,data['Link url'])
+                            this._link.createLinksWithCategory(this.categoryId, data['Link url'])
                                 .subscribe(res => {
                                     console.log(res);
-                                    this.someCategory(this.categoryI);
-
+                                    this.getLinkByCategoryName(this.categoryId);
+                                    //   this.someCategory(this.categoryI);
+                                    this.openLinks = false;
                                 })
                         }
 
@@ -491,8 +460,6 @@ export class Blog1Page {
         });
         prompt.present();
     }
-
-
 
 }
 

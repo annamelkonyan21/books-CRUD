@@ -149,23 +149,48 @@
         </ion-searchbar>
     </div>
 
+    <ion-grid margin-top>
+        <ion-row margin-left>
 
-    <ion-card margin-top padding class="all">
-        <ion-grid>
-            <ion-row (click)="openCategories()">
-                <ion-col>
-                    Categories
-                </ion-col>
-                <ion-col col-auto>
-                    {{categoryName}}
-                </ion-col>
-                <ion-col>
-                    <ion-icon *ngIf="!openCategory" float-right name="arrow-down"></ion-icon>
-                    <ion-icon *ngIf="openCategory" float-right name="arrow-up"></ion-icon>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </ion-card>
+            <ion-col (click)="openCategories()">
+                <div class="buttons-div">
+                    <button class="fab fab-md categories">
+                             <span class="button-inner">
+                                 <img class="nav-link-icon" src="assets/svg/calendar-icon.svg">
+                            </span>
+                    </button>
+                </div>
+            </ion-col>
+            <ion-col>
+                <div class="buttons-div">
+                    <button class="fab fab-md discussions">
+                             <span class="button-inner">
+                                 <img class="nav-link-icon" src="assets/svg/chat---messages-icon.svg">
+                            </span>
+                    </button>
+                </div>
+            </ion-col>
+            <ion-col>
+                <div class="buttons-div">
+                    <button class="fab fab-md users">
+                             <span class="button-inner">
+                                <img class="nav-link-icon" src="assets/svg/happy-face-icon.svg">
+                                <span class="nav-link-icon-plus">+</span>
+                            </span>
+                    </button>
+                </div>
+            </ion-col>
+            <ion-col>
+                <div class="buttons-div">
+                    <button class="fab fab-md friends">
+                             <span class="button-inner">
+                                 <img class="nav-link-icon" src="assets/svg/happy-faces-icon.svg">
+                            </span>
+                    </button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
     <ion-card class="caregories" [class.display-block]="openCategory === true">
         <ion-item class="allCategories " (click)="allCategory()">All Categories</ion-item>
@@ -175,12 +200,14 @@
                 {{category.name}}
             </ion-item>
         </div>
-        <ion-item class="createCategories" text-center (click)="createCategory()"> Create Category</ion-item>
+        <ion-item class="createCategories" text-center (click)="createCategory()">
+            Create Category
+        </ion-item>
         <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
     </ion-card>
 
 
-    <div (click)="allWindowClick()" id="allWindow" >
+    <div (click)="allWindowClick()" id="allWindow">
 
         <ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet($event,i)">
             <ion-card-content>
@@ -212,17 +239,11 @@
                 </div>
             </ion-card-content>
         </ion-card>
-
-
     </div>
-    <ion-fab right bottom margin >
-        <button ion-fab color="secondry" (click)="openLink()"><ion-icon name="add"></ion-icon></button>
+    <div class="addLink" (click)="createLink()">
+        <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link">
+    </div>
+    <div *ngIf="openLinks"></div>
 
-        <ion-fab-list side="left">
-            <div *ngIf="openLinks">
-
-            </div>
-        </ion-fab-list>
-    </ion-fab>
 
 </ion-content>

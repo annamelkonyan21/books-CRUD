@@ -1,5 +1,10 @@
 page-blog1 {
 
+  $discussions: #ffdb13;
+  $users: #ef473a;
+  $friends: #387ef5;
+  $categories: #33cd5f;
+
   .ion-content {
     background-color: $pages-background-color;
   }
@@ -47,7 +52,6 @@ page-blog1 {
 
   }
 
-
   .bg-blue {
     background-color: #38a9ff;
   }
@@ -64,7 +68,6 @@ page-blog1 {
     width: 24px;
     height: 22px;
   }
-
 
   ion-title {
     color: white;
@@ -122,18 +125,17 @@ page-blog1 {
     padding: 20px 5px !important;
     color: #707073;
   }
-   .request {
-     background: white;
-     width: 100%;
-     display: none;
-     position: absolute;
-     z-index: 5;
-   }
+  .request {
+    background: white;
+    width: 100%;
+    display: none;
+    position: absolute;
+    z-index: 5;
+  }
 
   .ui-block-title:first-child {
     border-top: none;
   }
-
 
   .ui-block-title {
     padding: 23px 25px 18px;
@@ -151,7 +153,7 @@ page-blog1 {
     color: #9a9fbf;
   }
 
-  .ui-block-title>* {
+  .ui-block-title > * {
     margin-bottom: 0;
     display: table-cell;
     vertical-align: middle;
@@ -159,40 +161,40 @@ page-blog1 {
   responsive .ui-block-title a {
     color: #515365;
   }
-   .add-request{
-     display: inline-block;
-     font-weight: 700;
-     line-height: 1;
-     text-align: center;
-     white-space: nowrap;
-     vertical-align: middle;
-     user-select: none;
-     border: 1px solid transparent;
-     padding: .5rem;
-     font-size: .688rem;
-     border-radius: .25rem;
-     transition: all .2s ease-in-out;
-     background-color: #38a9ff;
-     color: #fff;
-     fill: #fff;
-     .add-friend {
-       margin-top: 5px;
-       height: 18px;
-       width: 18px;
-       margin-left: 4px;
-       margin-top: 8px;
-       margin-bottom: 0px;
+  .add-request {
+    display: inline-block;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .5rem;
+    font-size: .688rem;
+    border-radius: .25rem;
+    transition: all .2s ease-in-out;
+    background-color: #38a9ff;
+    color: #fff;
+    fill: #fff;
+    .add-friend {
+      margin-top: 5px;
+      height: 18px;
+      width: 18px;
+      margin-left: 4px;
+      margin-top: 8px;
+      margin-bottom: 0px;
 
-     }
-     .plus-icon {
-       position: relative;
-       display: inline-block;
-       left: -1px;
-       font-size: 12px;
-       vertical-align: middle;
-       top: -21px;
-     }
-   }
+    }
+    .plus-icon {
+      position: relative;
+      display: inline-block;
+      left: -1px;
+      font-size: 12px;
+      vertical-align: middle;
+      top: -21px;
+    }
+  }
   .cancel-request {
     background-color: #9a9fbf !important;
   }
@@ -234,7 +236,7 @@ page-blog1 {
     background-color: #ff5e3a !important;
   }
   .notification-status {
-    color: #ff5e3a ;
+    color: #ff5e3a;
     font-size: 13px;
   }
 
@@ -274,9 +276,10 @@ page-blog1 {
   }
 
   .cancel {
-    background: #f53d3d;
+    background: #9a9fbf;
     color: #fff;
   }
+
   .allCategories {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     &:hover {
@@ -299,5 +302,79 @@ page-blog1 {
     margin: 0 auto;
     width: 90%;
     height: 200px;
+  }
+
+  p {
+    margin-top: 6px;
+  }
+
+  .categories {
+    background: #38a9ff !important;
+  }
+
+  .users {
+    background: #ff5e3a !important;
+  }
+
+  .discussions {
+    background: #7c5ac2 !important;
+  }
+
+  .friends {
+    background: #888da8 !important;
+  }
+
+  .us {
+    margin-left: 8px;
+  }
+
+  .buttons-div {
+    width: 78% !important;
+  }
+
+  .des {
+    margin-top: 3px !important;
+  }
+
+  //-------------------------------------
+
+  .add-link {
+    position: fixed;
+  }
+
+  .addLink {
+    position: fixed;
+    z-index: 19;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    display: block;
+    fill: #fff;
+    stroke: inherit;
+    transition: all .3s ease;
+    bottom: 10px;
+    right: 15px;
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(63, 66, 87, .4);
+    border-radius: 100%;
+    background-color: #ff5e3a;
+    text-align: center;
+    .add-link {
+      height: 20px;
+      width: 20px;
+      margin-top: 15px;
+      margin-left: -8px;
+    }
+  }
+
+  .nav-link-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-link-icon-plus {
+    position: absolute;
+    top: -13px;
+    right: 13px;
   }
 }
