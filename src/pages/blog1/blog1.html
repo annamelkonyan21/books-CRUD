@@ -44,7 +44,7 @@
 </ion-header>
 
 
-<ion-content margin-horizontal>
+<ion-content margin-vertical>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
                 refreshingText="Refreshing...">
@@ -236,11 +236,12 @@
                 </div>
             </ion-card-content>
         </ion-card>
+        <div class="addLink" (click)="createLink()" ion-fixed>
+            <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
+        </div>
+        <div *ngIf="openLinks"></div>
     </div>
-    <div class="addLink" (click)="createLink()" scroll="true">
-        <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link">
-    </div>
-    <div *ngIf="openLinks"></div>
+
 
 
 </ion-content>

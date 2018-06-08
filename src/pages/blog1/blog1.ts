@@ -71,6 +71,7 @@ export class Blog1Page {
     likeImg: string = 'assets/svg/like-post-icon.svg';
     commentImg: string = 'assets/icon/icon-chat1.png';
     viewImg: string = 'assets/svg/speech-balloon-icon.svg';
+    pos:boolean = true;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -86,10 +87,13 @@ export class Blog1Page {
 
 
     doRefresh(refresher) {
+        this.pos = true;
         console.log(this.categoryName)
         if (this.categoryName === '' || this.categoryName === 'All Categories') {
+            this.pos = true;
             this.Links();
         } else {
+            this.pos = true;
             this.getLinkByCategoryName(this.categoryId);
         }
         setTimeout(() => {
