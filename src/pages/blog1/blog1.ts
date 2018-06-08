@@ -86,7 +86,8 @@ export class Blog1Page {
 
 
     doRefresh(refresher) {
-        if (this.categoryName === undefined || this.categoryName === 'All Categories') {
+        console.log(this.categoryName)
+        if (this.categoryName === '' || this.categoryName === 'All Categories') {
             this.Links();
         } else {
             this.getLinkByCategoryName(this.categoryId);
@@ -408,9 +409,20 @@ export class Blog1Page {
     }
 
     openWithBrowser(i) {
-        let browser = this.iab.create(this.links[i].url);
+        let browser = this.iab.create(this.links[i].url,'_blank');
 
-        browser.show()
+
+        console.log(browser);
+
+
+        console.log(browser.on('loadstart'))
+        browser.on('loadstart').subscribe(event => {
+            console.log("loadstart -->",event);
+        }, err => {
+            console.log("InAppBrowser loadstart Event Error: " + err);
+        })
+
+        ;
     }
 
     createLink() {
@@ -440,7 +452,7 @@ export class Blog1Page {
                                 .subscribe(res => {
                                     console.log(res);
                                     this.openLinks = false;
-                                    //  this.Links();
+                                      this.Links();
                                 })
                             this.openLinks = false;
                         } else {
