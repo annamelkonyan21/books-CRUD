@@ -26,8 +26,8 @@ export class LinkProvider {
       return this.http.get(this._api.apiUrl+`categories`)
   }
 
-  public deleteLinkFromList(id) {
-      return this.http.delete(this._api.apiUrl+`links/+${id}`)
+  public deleteLinkFromList(id, category_id) {
+      return this.http.delete(this._api.apiUrl+`links/+${id}+'/'+${category_id}` , )
   }
 
   public createCategory(category) {

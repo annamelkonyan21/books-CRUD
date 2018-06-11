@@ -8,6 +8,7 @@ import {LinkProvider} from "../../providers/link/link";
 import {ActionSheetController} from 'ionic-angular';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import { DiscussionProvider } from "../../providers/discussion/discussion";
+import { FriendsProvider } from "../../providers/friends/friends";
 
 export interface myDate {
     day: number,
@@ -21,7 +22,7 @@ export interface myDate {
 @Component({
     selector: 'page-blog1',
     templateUrl: 'blog1.html',
-    providers: [LinkProvider, InAppBrowser],
+    providers: [LinkProvider, InAppBrowser, FriendsProvider, DiscussionProvider],
 
 })
 
@@ -69,9 +70,11 @@ export class Blog1Page {
     public likeImg: string = '';
     public commentImg: string = '';
     public viewImg: string = '';
-    public pos:boolean = true;
-    public nav:string = 'links'
+    public pos: boolean = true;
+    public nav: string = 'links'
     public discussions = [];
+    public friendsRequest = [];
+
 
     @ViewChild('search') search;
     @ViewChild('select') select;
@@ -85,7 +88,8 @@ export class Blog1Page {
                 public actionSheetCtrl: ActionSheetController,
                 public alertCtrl: AlertController,
                 public loadingCtrl: LoadingController,
-                public iab: InAppBrowser) {
+                public iab: InAppBrowser,
+                public _friend: FriendsProvider) {
         this.isAndroid = platform.is('android');
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
@@ -97,16 +101,17 @@ export class Blog1Page {
         this.commentImg = './assets/icon/icon-chat1.png';
         this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this.pos = true;
+
         if (this.categoryName === '' || this.categoryName === 'All Categories') {
             this.pos = true;
             this.Links();
-            console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
+            console.log(this.likeImg + " 0 " + this.commentImg + ' 0 ' + this.viewImg + ' 0 ');
         } else {
             this.pos = true;
             this.getLinkByCategoryName(this.categoryId);
-            console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
+            console.log(this.likeImg + " 0 " + this.commentImg + ' 0 ' + this.viewImg + ' 0 ');
         }
-        if(this.nav === 'discussions') {
+        if (this.nav === 'discussions') {
             this.getDiscussionWithoutLoading();
         }
         setTimeout(() => {
@@ -128,15 +133,18 @@ export class Blog1Page {
         this.my_date['year'] = this.Dat.getFullYear();
         this.my_date['minute'] = this.Dat.getMinutes();
         this.my_date['hours'] = this.Dat.getHours();
+
     }
 
     setNav(nav) {
         this.nav = nav;
-        if(this.nav === 'discussions') {
+        if (this.nav === 'discussions') {
             this.getDiscussion();
         }
-        if(this.nav === 'links') {
-            this.discussions.forEach((element) => {element.openmore = false; } )
+        if (this.nav === 'links') {
+            this.discussions.forEach((element) => {
+                element.openmore = false;
+            })
             console.log(this.discussions);
         }
     }
@@ -147,6 +155,7 @@ export class Blog1Page {
         this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this._link.getLink()
             .subscribe(res => {
+                console.log(res)
                 this.links = res['data'].links;
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
@@ -193,6 +202,11 @@ export class Blog1Page {
         this._link.getUser()
             .subscribe(res => {
                 this.users = res['data'].user;
+             /*   this._friend.getFriendsRequests(res['data'].user['id'])
+                    .subscribe(res => {
+                        console.log(res);
+                        this.friendsRequest = res['users'];
+                    })*/
             })
     }
 
@@ -272,7 +286,8 @@ export class Blog1Page {
                     role: 'destructive',
                     icon: !this.platform.is('ios') ? 'trash' : null,
                     handler: () => {
-                        this._link.deleteLinkFromList(this.links[i].id)
+                        console.log(this.links)
+                        this._link.deleteLinkFromList(this.links[i].id, this.links[i].pivot['category_id'])
                             .subscribe(res => {
                                 if (res['status'] === 'successMessage') {
                                     this.Links();
@@ -407,7 +422,7 @@ export class Blog1Page {
         this.likeImg = './assets/svg/like-post-icon.svg';
         this.commentImg = './assets/icon/icon-chat1.png';
         this.viewImg = './assets/svg/speech-balloon-icon.svg';
-        console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
+        console.log(this.likeImg + " 0 " + this.commentImg + ' 0 ' + this.viewImg + ' 0 ');
         this.getLinkByCategoryName(this.categoryId);
         setTimeout(() => {
             this.openCategory = false;
@@ -451,9 +466,9 @@ export class Blog1Page {
     }
 
     openWithBrowser(i) {
-        let browser = this.iab.create(this.links[i].url,'_blank');
+        let browser = this.iab.create(this.links[i].url, '_blank');
         browser.on('loadstart').subscribe(event => {
-            console.log("loadstart -->",event);
+            console.log("loadstart -->", event);
         }, err => {
             console.log("InAppBrowser loadstart Event Error: " + err);
         });
@@ -488,7 +503,7 @@ export class Blog1Page {
                                 .subscribe(res => {
                                     console.log(res);
                                     this.openLinks = false;
-                                      this.Links();
+                                    this.Links();
                                 })
                             this.openLinks = false;
                         } else {
@@ -513,10 +528,10 @@ export class Blog1Page {
         let loading = this.loadingCtrl.create({
             content: 'Please wait...'
         });
-       loading.present();
+        loading.present();
         this._discussion.getUserDiscussion()
             .subscribe(res => {
-                if(res['status'] === 'success') {
+                if (res['status'] === 'success') {
                     loading.dismiss();
                     console.log(res)
                     this.discussions = res['data']['discussions'];
@@ -542,7 +557,7 @@ export class Blog1Page {
     getDiscussionWithoutLoading() {
         this._discussion.getUserDiscussion()
             .subscribe(res => {
-                if(res['status'] === 'success') {
+                if (res['status'] === 'success') {
                     this.discussions = res['data']['discussions'];
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
@@ -564,7 +579,10 @@ export class Blog1Page {
     }
 
     someDiscussions(i) {
-        this.discussions.forEach((element) => {element.openmore = false; console.log(element.openmore) } )
+        this.discussions.forEach((element) => {
+            element.openmore = false;
+            console.log(element.openmore)
+        })
         this.openSearchBar = false;
         this.openFreind = false;
         this.openChat = false;
@@ -572,9 +590,9 @@ export class Blog1Page {
     }
 
     createDiscussions() {
-
-        this.discussions.forEach((element) => {element.openmore = false; } )
-
+        this.discussions.forEach((element) => {
+            element.openmore = false;
+        })
         const prompt = this.alertCtrl.create({
             title: 'Add New Discussions',
             inputs: [
@@ -609,11 +627,6 @@ export class Blog1Page {
         this.discussions[i].openmore = true;
     }
 
-    allDiscussionsWindowClick() {
-        /*this.discussions.forEach((element) => {element.openmore = false; console.log(element.openmore) } )
-        console.log(this.discussions);*/
-    }
-
     deleteDiscussions(i) {
         console.log(this.discussions[i].id)
         let actionSheet = this.actionSheetCtrl.create({
@@ -627,23 +640,25 @@ export class Blog1Page {
                         this._discussion.deleteDiscussion(this.discussions[i].id)
                             .subscribe(res => {
                                 console.log(res);
-                                if(res['status'] === 'successMessage') {
-                                   this.getDiscussion();
+                                if (res['status'] === 'successMessage') {
+                                    this.getDiscussion();
                                 }
                             })
-                        }
-                    },
-                    {
-                        text: 'Cancel',
-                        role: 'cancel', // will always sort to be on the bottom
-                        icon: !this.platform.is('ios') ? 'close' : null,
-                        handler: () => {
-                            console.log('Cancel clicked');
-                        }
                     }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel', // will always sort to be on the bottom
+                    icon: !this.platform.is('ios') ? 'close' : null,
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
             ]
         });
         actionSheet.present();
     }
+
 }
+
 
