@@ -72,8 +72,6 @@ export class Blog1Page {
     public pos:boolean = true;
     public nav:string = 'links'
     public discussions = [];
-    //public openmore = []
-    //public openmore:boolean = false;
 
     @ViewChild('search') search;
     @ViewChild('select') select;
@@ -95,9 +93,9 @@ export class Blog1Page {
     }
 
     doRefresh(refresher) {
-        this.likeImg = 'assets/svg/like-post-icon.svg';
-        this.commentImg = 'assets/icon/icon-chat1.png';
-        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.likeImg = './assets/svg/like-post-icon.svg';
+        this.commentImg = './assets/icon/icon-chat1.png';
+        this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this.pos = true;
         if (this.categoryName === '' || this.categoryName === 'All Categories') {
             this.pos = true;
@@ -120,9 +118,9 @@ export class Blog1Page {
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
         }
-        this.likeImg = 'assets/svg/like-post-icon.svg';
-        this.commentImg = 'assets/icon/icon-chat1.png';
-        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.likeImg = './assets/svg/like-post-icon.svg';
+        this.commentImg = './assets/icon/icon-chat1.png';
+        this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this.Links();
         this.Users();
         this.my_date['day'] = this.Dat.getDate();
@@ -144,9 +142,9 @@ export class Blog1Page {
     }
 
     Links() {
-        this.likeImg = 'assets/svg/like-post-icon.svg';
-        this.commentImg = 'assets/icon/icon-chat1.png';
-        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.likeImg = './assets/svg/like-post-icon.svg';
+        this.commentImg = './assets/icon/icon-chat1.png';
+        this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this._link.getLink()
             .subscribe(res => {
                 this.links = res['data'].links;
@@ -337,9 +335,9 @@ export class Blog1Page {
     }
 
     getLinkByCategoryName(value) {
-        this.likeImg = 'assets/svg/like-post-icon.svg';
-        this.commentImg = 'assets/icon/icon-chat1.png';
-        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.likeImg = './assets/svg/like-post-icon.svg';
+        this.commentImg = './assets/icon/icon-chat1.png';
+        this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this._link.getLinksByCategories(value)
             .subscribe(res => {
                 console.log(res)
@@ -390,9 +388,9 @@ export class Blog1Page {
     }
 
     allCategory() {
-        this.likeImg = 'assets/svg/like-post-icon.svg';
-        this.commentImg = 'assets/icon/icon-chat1.png';
-        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.likeImg = './assets/svg/like-post-icon.svg';
+        this.commentImg = './assets/icon/icon-chat1.png';
+        this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this.categoryName = "All Categories";
         setTimeout(() => {
                 this.Links();
@@ -406,9 +404,9 @@ export class Blog1Page {
         this.categoryName = this.data.categories[i].name;
         this.categoryId = this.data.categories[i].id;
         this.categoryI = i;
-        this.likeImg = 'assets/svg/like-post-icon.svg';
-        this.commentImg = 'assets/icon/icon-chat1.png';
-        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.likeImg = './assets/svg/like-post-icon.svg';
+        this.commentImg = './assets/icon/icon-chat1.png';
+        this.viewImg = './assets/svg/speech-balloon-icon.svg';
         console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
         this.getLinkByCategoryName(this.categoryId);
         setTimeout(() => {
@@ -525,16 +523,16 @@ export class Blog1Page {
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
                         el['friends'] = [
-                            'assets/imgs/friend-harmonic10.jpg',
-                            'assets/imgs/friend-harmonic7.jpg',
-                            'assets/imgs/friend-harmonic8.jpg',
-                            'assets/imgs/friend-harmonic2.jpg',
-                            'assets/imgs/avatar30-sm.jpg',
-                            'assets/imgs/avatar30-sm.jpg'
+                            './assets/imgs/friend-harmonic10.jpg',
+                            './assets/imgs/friend-harmonic7.jpg',
+                            './assets/imgs/friend-harmonic8.jpg',
+                            './assets/imgs/friend-harmonic2.jpg',
+                            './assets/imgs/avatar30-sm.jpg',
+                            './assets/imgs/avatar30-sm.jpg'
                         ];
-                        el.addFriends = 'assets/svg//happy-faces-icon.svg';
-                        el.settings = 'assets/svg/settings-icon.svg';
-                        el.more = 'assets/svg/three-dots-icon.svg';
+                        el.addFriends = './assets/svg//happy-faces-icon.svg';
+                        el.settings = './assets/svg/settings-icon.svg';
+                        el.more = './assets/svg/three-dots-icon.svg';
                         el.openmore = false;
                     })
                 }
@@ -549,16 +547,16 @@ export class Blog1Page {
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
                         el['friends'] = [
-                            'assets/imgs/friend-harmonic10.jpg',
-                            'assets/imgs/friend-harmonic7.jpg',
-                            'assets/imgs/friend-harmonic8.jpg',
-                            'assets/imgs/friend-harmonic2.jpg',
-                            'assets/imgs/avatar30-sm.jpg',
-                            'assets/imgs/avatar30-sm.jpg'
+                            './assets/imgs/friend-harmonic10.jpg',
+                            './assets/imgs/friend-harmonic7.jpg',
+                            './assets/imgs/friend-harmonic8.jpg',
+                            './assets/imgs/friend-harmonic2.jpg',
+                            './assets/imgs/avatar30-sm.jpg',
+                            './assets/imgs/avatar30-sm.jpg'
                         ];
-                        el.addFriends = 'assets/svg//happy-faces-icon.svg';
-                        el.settings = 'assets/svg/settings-icon.svg';
-                        el.more = 'assets/svg/three-dots-icon.svg';
+                        el.addFriends = './assets/svg//happy-faces-icon.svg';
+                        el.settings = './assets/svg/settings-icon.svg';
+                        el.more = './assets/svg/three-dots-icon.svg';
                         el.openmore = false;
                     })
                 }
@@ -576,7 +574,6 @@ export class Blog1Page {
     createDiscussions() {
 
         this.discussions.forEach((element) => {element.openmore = false; } )
-        console.log(this.discussions);
 
         const prompt = this.alertCtrl.create({
             title: 'Add New Discussions',
@@ -591,7 +588,6 @@ export class Blog1Page {
                     text: 'Cancel',
                     handler: data => {
 
-                     //   this.categoryValue = 'All Categories';
                     }
                 },
                 {
@@ -599,11 +595,8 @@ export class Blog1Page {
                     handler: data => {
                         this._discussion.createDiscussion(data['Discussions'])
                             .subscribe(res => {
-                                //this.categoryValue = 'All Categories';
                                 this.getDiscussion();
-                                console.log(res)
                             })
-                   //     this.categoryValue = 'All Categories';
                     }
                 }
             ]

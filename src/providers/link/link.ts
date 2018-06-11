@@ -39,8 +39,8 @@ export class LinkProvider {
       return this.http.post(this._api.apiUrl+`links`, {url: url, category_id:category_id})
   }
 
-    public createLinks(url) {
+  public createLinks(url) {
         return this.http.post(this._api.apiUrl+`links`, {url: url})
-    }
+  }
 
 }
