@@ -68,9 +68,9 @@ export class Blog1Page {
     categoryId: number;
     categoryI: number;
     openLinks: boolean = false;
-    likeImg: string = 'assets/svg/like-post-icon.svg';
-    commentImg: string = 'assets/icon/icon-chat1.png';
-    viewImg: string = 'assets/svg/speech-balloon-icon.svg';
+    likeImg: string = '';
+    commentImg: string = '';
+    viewImg: string = '';
     pos:boolean = true;
 
     constructor(public navCtrl: NavController,
@@ -83,10 +83,16 @@ export class Blog1Page {
                 public loadingCtrl: LoadingController,
                 public iab: InAppBrowser) {
         this.isAndroid = platform.is('android');
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
     }
 
 
     doRefresh(refresher) {
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.pos = true;
         console.log(this.categoryName)
         if (this.categoryName === '' || this.categoryName === 'All Categories') {
@@ -105,6 +111,9 @@ export class Blog1Page {
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
         }
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.Links();
         this.Users();
         this.my_date['day'] = this.Dat.getDate();
