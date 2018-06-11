@@ -1,31 +1,7 @@
-// Ionic Variables and Theming. For more info, please see:
-// http://ionicframework.com/docs/theming/
-
-// Font path is used to include ionicons,
-// roboto, and noto sans fonts
 $font-path: "../assets/fonts";
-
-// The app direction is used to include
-// rtl styles in your app. For more info, please see:
-// http://ionicframework.com/docs/theming/rtl-support/
 $app-direction: ltr;
 
 @import "ionic.globals";
-
-// Shared Variables
-// --------------------------------------------------
-// To customize the look and feel of this app, you can override
-// the Sass variables found in Ionic's source scss files.
-// To view all the possible Ionic variables, see:
-// http://ionicframework.com/docs/theming/overriding-ionic-variables/
-
-// Named Color Variables
-// --------------------------------------------------
-// Named colors makes it easy to reuse colors on various components.
-// It's highly recommended to change the default colors
-// to match your app's branding. Ionic uses a Sass map of
-// colors so you can add, rename and remove colors as needed.
-// The "primary" color is the only required color in the map.
 
 $colors: (
         primary: #488aff,
@@ -48,16 +24,11 @@ $border-focus-color: #ffc6ba;
 $btn-color: #007bff;
 $btn-facebook: #2f5b9d;
 $pages-background-color: #edf2f6;
-;
 $border-search-bar: #3f4257;
 $search-bar-text: #707073;
 
 $text-input-highlight-color-valid: $border-focus-color;
 
-.scroll-content {
-  overflow-x: hidden !important;
-  //overflow-y: hidden !important;
-}
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
@@ -74,6 +45,8 @@ $searchbar-ios-input-placeholder-color: $search-bar-text;
 $searchbar-ios-input-placeholder-color: $search-bar-text;
 $searchbar-ios-input-search-icon-color: $border-search-bar;
 $searchbar-wp-border-color: $border-search-bar;
+// fabs
+$fab-ios-background-color: #ff5e3a;
 
 ion-content {
   background-color: $pages-background-color !important;
@@ -100,13 +73,7 @@ $searchbar-md-background-color: $border-search-bar;
 $searchbar-md-input-background-color: $border-search-bar;
 $searchbar-md-input-border-radius: $border-search-bar;
 $searchbar-md-input-placeholder-color: $search-bar-text;
-
-/*.toolbar-title-md {
-  color: white !important;
-  position: relative !important;
-  top: 32px !important;
-
-}*/
+$fab-md-background-color:  #ff5e3a;
 
 .searchbar-md {
   border: none;
@@ -130,7 +97,6 @@ $searchbar-md-input-placeholder-color: $search-bar-text;
 .bar-button-md {
   margin-right: 8px;
   margin-left: 10px;
-
 }
 
 .header-content-wrapper {
@@ -140,7 +106,7 @@ $searchbar-md-input-placeholder-color: $search-bar-text;
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
+$fab-wp-background-color:  #ff5e3a;
 .toolbar-title-wp {
   color: white !important;
 }

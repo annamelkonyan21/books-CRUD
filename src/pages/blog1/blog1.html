@@ -3,7 +3,6 @@
         <ion-grid>
             <ion-row>
                 <ion-col class="menu-nav-icon">
-
                     <a menuToggle>
                         <img src="assets/imgs/logo_small.png" alt="Linker" class="menu-icon">
                     </a>
@@ -44,12 +43,20 @@
 </ion-header>
 
 
-<ion-content margin-vertical>
+<ion-content>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
                 refreshingText="Refreshing...">
         </ion-refresher-content>
     </ion-refresher>
+
+    <ion-fab right bottom>
+        <button ion-fab  (click)="createLink()">
+            <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
+        </button>
+    </ion-fab>
+    <div *ngIf="openLinks"></div>
+
 
     <div class="request" ion-fixed [class.display-block]="openFreind === true">
         <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
@@ -205,7 +212,7 @@
         </ion-item>
         <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
     </ion-card>
-    <div (click)="allWindowClick()" id="allWindow">
+    <div (click)="allWindowClick()" id="allWindow" margin-bottom>
         <ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet($event,i)">
             <ion-card-content>
                 <a class="card-link" (click)="openWithBrowser(i)">
@@ -236,12 +243,15 @@
                 </div>
             </ion-card-content>
         </ion-card>
-        <div class="addLink" (click)="createLink()" ion-fixed>
-            <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
-        </div>
-        <div *ngIf="openLinks"></div>
+
+
+
+        <!--<div class="addLink" (click)="createLink()" ion-fixed>-->
+            <!--<img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >-->
+        <!--</div>-->
+        <!--<div *ngIf="openLinks"></div>-->
     </div>
 
-
+    <!--</div>-->
 
 </ion-content>

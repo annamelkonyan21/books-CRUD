@@ -414,12 +414,6 @@ export class Blog1Page {
 
     openWithBrowser(i) {
         let browser = this.iab.create(this.links[i].url,'_blank');
-
-
-        console.log(browser);
-
-
-        console.log(browser.on('loadstart'))
         browser.on('loadstart').subscribe(event => {
             console.log("loadstart -->",event);
         }, err => {
@@ -477,5 +471,8 @@ export class Blog1Page {
         prompt.present();
     }
 
+    add() {
+
+    }
 }
 
