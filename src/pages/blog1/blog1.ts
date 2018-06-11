@@ -7,7 +7,7 @@ import {HomePage} from "../home/home";
 import {LinkProvider} from "../../providers/link/link";
 import {ActionSheetController} from 'ionic-angular';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
-
+import { DiscussionProvider } from "../../providers/discussion/discussion";
 
 export interface myDate {
     day: number,
@@ -21,59 +21,67 @@ export interface myDate {
 @Component({
     selector: 'page-blog1',
     templateUrl: 'blog1.html',
-    providers: [LinkProvider, InAppBrowser]
+    providers: [LinkProvider, InAppBrowser],
+
 })
 
 export class Blog1Page {
+
     public links: any;
     public users: any;
-    isAndroid: boolean;
-    searchOpen: boolean = false;
-    @ViewChild('search') search;
-    @ViewChild('select') select;
-    create_date = [];
-    create = [];
-    Dat: Date = new Date();
-    my_date: myDate = {
+    public isAndroid: boolean;
+    public searchOpen: boolean = false;
+    public create_date = [];
+    public create = [];
+    public Dat: Date = new Date();
+    public my_date: myDate = {
         day: null,
         month: null,
         year: null,
         minute: null,
         hours: null
     };
-    create_day: myDate = {
+    public create_day: myDate = {
         day: null,
         month: null,
         year: null,
         minute: null,
         hours: null
     };
-    d: any;
-    ago = [];
-    urles = [];
-    chats = [];
-    openFreind: boolean = false;
-    openSearchBar: boolean = false;
-    openChat: boolean = false;
-    openNotificationBar: boolean = false;
-    categories = [];
-    categoryValue: any;
-    data = {
+    public d: any;
+    public ago = [];
+    public urles = [];
+    public chats = [];
+    public openFreind: boolean = false;
+    public openSearchBar: boolean = false;
+    public openChat: boolean = false;
+    public openNotificationBar: boolean = false;
+    public categories = [];
+    public categoryValue: any;
+    public data = {
         categories: []
     };
-    openCategory: boolean = false;
-    categoryName: string = '';
-    categoryId: number;
-    categoryI: number;
-    openLinks: boolean = false;
-    likeImg: string = '';
-    commentImg: string = '';
-    viewImg: string = '';
-    pos:boolean = true;
+    public openCategory: boolean = false;
+    public categoryName: string = '';
+    public categoryId: number;
+    public categoryI: number;
+    public openLinks: boolean = false;
+    public likeImg: string = '';
+    public commentImg: string = '';
+    public viewImg: string = '';
+    public pos:boolean = true;
+    public nav:string = 'links'
+    public discussions = [];
+    //public openmore = []
+    //public openmore:boolean = false;
+
+    @ViewChild('search') search;
+    @ViewChild('select') select;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public _link: LinkProvider,
+                public _discussion: DiscussionProvider,
                 public menu: MenuController,
                 public platform: Platform,
                 public actionSheetCtrl: ActionSheetController,
@@ -100,6 +108,9 @@ export class Blog1Page {
             this.getLinkByCategoryName(this.categoryId);
             console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
         }
+        if(this.nav === 'discussions') {
+            this.getDiscussion();
+        }
         setTimeout(() => {
             refresher.complete();
         }, 2000);
@@ -119,6 +130,17 @@ export class Blog1Page {
         this.my_date['year'] = this.Dat.getFullYear();
         this.my_date['minute'] = this.Dat.getMinutes();
         this.my_date['hours'] = this.Dat.getHours();
+    }
+
+    setNav(nav) {
+        this.nav = nav;
+        if(this.nav === 'discussions') {
+            this.getDiscussion();
+        }
+        if(this.nav === 'links') {
+            this.discussions.forEach((element) => {element.openmore = false; } )
+            console.log(this.discussions);
+        }
     }
 
     Links() {
@@ -489,5 +511,126 @@ export class Blog1Page {
         prompt.present();
     }
 
+    getDiscussion() {
+        let loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
+       loading.present();
+        this._discussion.getUserDiscussion()
+            .subscribe(res => {
+                if(res['status'] === 'success') {
+                    loading.dismiss();
+                    console.log(res)
+                    this.discussions = res['data']['discussions'];
+                    this.discussions.forEach((el) => {
+                        el['headerImg'] = 'assets/imgs/logo_small.png';
+                        el['friends'] = [
+                            'assets/imgs/friend-harmonic10.jpg',
+                            'assets/imgs/friend-harmonic7.jpg',
+                            'assets/imgs/friend-harmonic8.jpg',
+                            'assets/imgs/friend-harmonic2.jpg',
+                            'assets/imgs/avatar30-sm.jpg',
+                            'assets/imgs/avatar30-sm.jpg'
+                        ];
+                        el.addFriends = 'assets/svg//happy-faces-icon.svg';
+                        el.settings = 'assets/svg/settings-icon.svg';
+                        el.more = 'assets/svg/three-dots-icon.svg';
+                        el.openmore = false;
+
+                    })
+                    console.log(this.discussions)
+                }
+
+
+            })
+    }
+
+    someDiscussions(i) {
+        this.discussions.forEach((element) => {element.openmore = false; console.log(element.openmore) } )
+        this.openSearchBar = false;
+        this.openFreind = false;
+        this.openChat = false;
+        this.openNotificationBar = false;
+    }
+
+    createDiscussions() {
+
+        this.discussions.forEach((element) => {element.openmore = false; } )
+        console.log(this.discussions);
+
+        const prompt = this.alertCtrl.create({
+            title: 'Add New Discussions',
+            inputs: [
+                {
+                    name: 'Discussions',
+                    placeholder: 'Discussions '
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: data => {
+
+                     //   this.categoryValue = 'All Categories';
+                    }
+                },
+                {
+                    text: 'Save',
+                    handler: data => {
+                        this._discussion.createDiscussion(data['Discussions'])
+                            .subscribe(res => {
+                                //this.categoryValue = 'All Categories';
+                                this.getDiscussion();
+                                console.log(res)
+                            })
+                   //     this.categoryValue = 'All Categories';
+                    }
+                }
+            ]
+        });
+        prompt.present();
+
+    }
+
+    openMore(i) {
+        this.discussions[i].openmore = true;
+    }
+
+    allDiscussionsWindowClick() {
+        /*this.discussions.forEach((element) => {element.openmore = false; console.log(element.openmore) } )
+        console.log(this.discussions);*/
+    }
+
+    deleteDiscussions(i) {
+        console.log(this.discussions[i].id)
+        let actionSheet = this.actionSheetCtrl.create({
+            buttons: [
+                {
+                    text: 'Delete',
+                    role: 'destructive',
+                    icon: !this.platform.is('ios') ? 'trash' : null,
+                    handler: () => {
+                        console.log(this.discussions[i].id);
+                        this._discussion.deleteDiscussion(this.discussions[i].id)
+                            .subscribe(res => {
+                                console.log(res);
+                                if(res['status'] === 'successMessage') {
+                                   this.getDiscussion();
+                                }
+                            })
+                        }
+                    },
+                    {
+                        text: 'Cancel',
+                        role: 'cancel', // will always sort to be on the bottom
+                        icon: !this.platform.is('ios') ? 'close' : null,
+                        handler: () => {
+                            console.log('Cancel clicked');
+                        }
+                    }
+            ]
+        });
+        actionSheet.present();
+    }
 }
 

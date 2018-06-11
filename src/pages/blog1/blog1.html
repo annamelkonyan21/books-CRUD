@@ -48,7 +48,7 @@
         </ion-refresher-content>
     </ion-refresher>
 
-    <ion-fab right bottom>
+    <ion-fab right bottom *ngIf="nav === 'links'">
         <button ion-fab  (click)="createLink()">
             <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
         </button>
@@ -167,7 +167,7 @@
                 </div>
             </ion-col>
             <ion-col>
-                <div class="buttons-div">
+                <div class="buttons-div" (click)="setNav('discussions')" >
                     <button class="fab fab-md discussions">
                              <span class="button-inner">
                                  <img class="nav-link-icon" src="assets/svg/chat---messages-icon.svg">
@@ -196,59 +196,111 @@
             </ion-col>
         </ion-row>
     </ion-grid>
-
-    <ion-card class="caregories" [class.display-block]="openCategory === true">
-        <ion-item class="allCategories " (click)="allCategory()">All Categories</ion-item>
-        <div class="add-scroll">
-            <ion-item *ngFor="let category of data.categories; let i = index" (click)="someCategory(i)"
-                      class="category-item">
-                {{category.name}}
-            </ion-item>
-        </div>
-        <ion-item class="createCategories" text-center (click)="createCategory()">
-            Create Category
-        </ion-item>
-        <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
-    </ion-card>
-    <div (click)="allWindowClick()" id="allWindow" margin-bottom>
-        <ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet($event,i)">
-            <ion-card-content>
-                <a class="card-link" (click)="openWithBrowser(i)">
-                    <img src={{link.image}}>
-                    <div margin>
-                        <div class="pic-icon" float-left margin-right>
-                            <img src={{link.icon}}>
-                        </div>
-                        <a>{{link.host}}</a>
-                    </div>
-                    <ion-card-title margin>
-                        {{link.title}}
-                    </ion-card-title>
-                    <p margin>
-                        {{link.tags}}
-                    </p>
-                    <div class="author-date" margin>
-                        <p>BY <b>Some One</b> - {{link.create_date}}</p>
-                    </div>
-                </a>
-                <div class="links-block" margin>
-                    <img class="pic-icon" margin-bottom float-left [src]=link.likeImg>
-                    <span class="views" float-left margin-right> {{link.views}}</span>
-                    <img class="pic-icon" margin-bottom float-left [src]=link.commentImg>
-                    <span class="views" float-left margin-right> 0</span>
-                    <img class="pic-icon" margin-bottom float-left [src]=link.viewImg>
-                    <span class="views" float-left margin-right> 0</span>
+    <div [ngSwitch]="nav">
+        <div *ngSwitchCase="'links'">
+            <ion-card class="caregories" [class.display-block]="openCategory === true" style="margin-top: 0px">
+                <ion-item class="allCategories " (click)="allCategory()">All Categories</ion-item>
+                <div class="add-scroll">
+                    <ion-item *ngFor="let category of data.categories; let i = index" (click)="someCategory(i)"
+                              class="category-item">
+                        {{category.name}}
+                    </ion-item>
                 </div>
-            </ion-card-content>
-        </ion-card>
+                <ion-item class="createCategories" text-center (click)="createCategory()">
+                    Create Category
+                </ion-item>
+                <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
+            </ion-card>
+            <div (click)="allWindowClick()" id="allWindow" margin-bottom>
+                <ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet($event,i)">
+                    <ion-card-content>
+                        <a class="card-link" (click)="openWithBrowser(i)">
+                            <img src={{link.image}}>
+                            <div margin>
+                                <div class="pic-icon" float-left margin-right>
+                                    <img src={{link.icon}}>
+                                </div>
+                                <a>{{link.host}}</a>
+                            </div>
+                            <ion-card-title margin>
+                                {{link.title}}
+                            </ion-card-title>
+                            <p margin>
+                                {{link.tags}}
+                            </p>
+                            <div class="author-date" margin>
+                                <p>BY <b>Some One</b> - {{link.create_date}}</p>
+                            </div>
+                        </a>
+                        <div class="links-block" margin>
+                            <img class="pic-icon" margin-bottom float-left [src]=link.likeImg>
+                            <span class="views" float-left margin-right> {{link.views}}</span>
+                            <img class="pic-icon" margin-bottom float-left [src]=link.commentImg>
+                            <span class="views" float-left margin-right> 0</span>
+                            <img class="pic-icon" margin-bottom float-left [src]=link.viewImg>
+                            <span class="views" float-left margin-right> 0</span>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
 
+            </div>
+        </div>
+        <div *ngSwitchCase="'discussions'" >
+            <button ion-button full (click)="setNav('links')">back</button>
+            <div class="create-discussions" (click)="createDiscussions()" >
+                <div class="discussions-img" >
+                    <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
+                </div>
+                 <h5 class="discussions-text" text-center margin-horizontal>Create New Discussions</h5>
 
+            </div>
+            <ion-card padding *ngFor="let discussion of discussions; let i = index" (press)="deleteDiscussions(i)" >
+                <div class="more" float-right (click)="openMore(i)">
+                    <img src={{discussion.more}} alt="more" class="more">
+                </div>
+                <ion-card *ngIf="discussion.openmore" class="more-block">
+                    <ul>
+                        <li>Report Profile</li>
+                        <li>Block Profile</li>
+                        <li>Turn Off Notifications</li>
+                    </ul>
+                </ion-card>
+                <ion-item (click)="someDiscussions(i)" >
+                    <div class="header-img">
+                        <img src={{discussion.headerImg}} alt="header-img">
+                    </div>
+                    <h6 text-center margin-top>{{discussion.name}}</h6>
+                    <p  text-center>{{discussion.friends.length }} Friends in  the Group</p>
+                    <ul class="friends-harmonic">
+                        <li *ngFor="let friend of discussion.friends">
+                            <a><img src={{friend}} ></a>
+                        </li>
+                    </ul>
+                   <ion-item >
+                       <div float-left class="discussion-settings-btn-1">
+                           <button class="fab fab-md categories discussion-settings">
+                             <span class="button-inner">
+                                 <img class="nav-link-icon " src={{discussion.addFriends}}>
+                            </span>
+                           </button>
+                       </div>
+                       <div  float-right class="discussion-settings-btn-2">
+                           <button class="fab fab-md friends discussion-settings">
+                             <span class="button-inner">
+                                 <img class="nav-link-icon" src={{discussion.settings}}>
+                            </span>
+                           </button>
+                       </div>
 
-        <!--<div class="addLink" (click)="createLink()" ion-fixed>-->
-            <!--<img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >-->
-        <!--</div>-->
-        <!--<div *ngIf="openLinks"></div>-->
+                   </ion-item>
+                    
+                </ion-item>
+            </ion-card>
+
+        </div>
+        <div *ngSwitchDefault></div>
     </div>
+
 
     <!--</div>-->
 

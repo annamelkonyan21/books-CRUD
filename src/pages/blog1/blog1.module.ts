@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { Blog1Page } from './blog1';
 
@@ -9,5 +9,6 @@ import { Blog1Page } from './blog1';
   imports: [
     IonicPageModule.forChild(Blog1Page),
   ],
+
 })
 export class Blog1PageModule {}
