@@ -41,15 +41,13 @@ export class Blog1Page {
         minute: null,
         hours: null
     };
-
     create_day: myDate = {
         day: null,
         month: null,
         year: null,
         minute: null,
         hours: null
-    }
-
+    };
     d: any;
     ago = [];
     urles = [];
@@ -88,19 +86,19 @@ export class Blog1Page {
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
     }
 
-
     doRefresh(refresher) {
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.pos = true;
-        console.log(this.categoryName)
         if (this.categoryName === '' || this.categoryName === 'All Categories') {
             this.pos = true;
             this.Links();
+            console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
         } else {
             this.pos = true;
             this.getLinkByCategoryName(this.categoryId);
+            console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
         }
         setTimeout(() => {
             refresher.complete();
@@ -124,6 +122,9 @@ export class Blog1Page {
     }
 
     Links() {
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this._link.getLink()
             .subscribe(res => {
                 this.links = res['data'].links;
@@ -173,7 +174,6 @@ export class Blog1Page {
             .subscribe(res => {
                 this.users = res['data'].user;
             })
-
     }
 
     goTo() {
@@ -315,7 +315,9 @@ export class Blog1Page {
     }
 
     getLinkByCategoryName(value) {
-        console.log(value)
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this._link.getLinksByCategories(value)
             .subscribe(res => {
                 console.log(res)
@@ -366,10 +368,14 @@ export class Blog1Page {
     }
 
     allCategory() {
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.categoryName = "All Categories";
         setTimeout(() => {
                 this.Links();
                 this.openCategory = false;
+
             }, 500
         )
     }
@@ -378,7 +384,10 @@ export class Blog1Page {
         this.categoryName = this.data.categories[i].name;
         this.categoryId = this.data.categories[i].id;
         this.categoryI = i;
-        console.log(this.categoryName);
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        console.log(this.likeImg+" 0 "+ this.commentImg+' 0 '+this.viewImg+' 0 ');
         this.getLinkByCategoryName(this.categoryId);
         setTimeout(() => {
             this.openCategory = false;
@@ -427,9 +436,7 @@ export class Blog1Page {
             console.log("loadstart -->",event);
         }, err => {
             console.log("InAppBrowser loadstart Event Error: " + err);
-        })
-
-        ;
+        });
     }
 
     createLink() {
@@ -447,7 +454,6 @@ export class Blog1Page {
                     text: 'Cancel',
                     handler: data => {
                         this.openLinks = false;
-                        //    this.categoryValue = 'All Categories';
                     }
                 },
                 {
@@ -455,6 +461,9 @@ export class Blog1Page {
                     handler: data => {
                         console.log(this.categoryName);
                         if (this.categoryName === '' || this.categoryName === 'All Categories') {
+                            this.likeImg = 'assets/svg/like-post-icon.svg';
+                            this.commentImg = 'assets/icon/icon-chat1.png';
+                            this.viewImg = 'assets/svg/speech-balloon-icon.svg';
                             this._link.createLinks(data['Link url'])
                                 .subscribe(res => {
                                     console.log(res);
@@ -463,16 +472,16 @@ export class Blog1Page {
                                 })
                             this.openLinks = false;
                         } else {
+                            this.likeImg = 'assets/svg/like-post-icon.svg';
+                            this.commentImg = 'assets/icon/icon-chat1.png';
+                            this.viewImg = 'assets/svg/speech-balloon-icon.svg';
                             this._link.createLinksWithCategory(this.categoryId, data['Link url'])
                                 .subscribe(res => {
                                     console.log(res);
                                     this.getLinkByCategoryName(this.categoryId);
-                                    //   this.someCategory(this.categoryI);
                                     this.openLinks = false;
                                 })
                         }
-
-
                     }
                 }
             ]
@@ -480,8 +489,5 @@ export class Blog1Page {
         prompt.present();
     }
 
-    add() {
-
-    }
 }
 
