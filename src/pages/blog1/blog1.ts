@@ -79,6 +79,8 @@ export class Blog1Page {
     //public request
     public friends = [];
     public notifications = [];
+    public usersList = [];
+    public sendFriendRequest:boolean = false;
 
     @ViewChild('search') search;
     @ViewChild('select') select;
@@ -119,6 +121,8 @@ export class Blog1Page {
             this.getDiscussionWithoutLoading();
         } else if(this.nav === 'friends') {
             this.Friends();
+        } else if(this.nav === 'users'){
+            this.Users();
         }
 
         setTimeout(() => {
@@ -135,7 +139,7 @@ export class Blog1Page {
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.Links();
         this.User();
-        this.Users();
+        //this.Users();
       //  this.Friends();
         this.SendFrienadRequest();
         this.FriendsRequests();
@@ -434,7 +438,6 @@ export class Blog1Page {
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
-        console.log(this.likeImg + " 0 " + this.commentImg + ' 0 ' + this.viewImg + ' 0 ');
         this.getLinkByCategoryName(this.categoryId);
         setTimeout(() => {
             this.openCategory = false;
@@ -545,7 +548,6 @@ export class Blog1Page {
             .subscribe(res => {
                 if (res['status'] === 'success') {
                     loading.dismiss();
-                    console.log(res)
                     this.discussions = res['data']['discussions'];
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
@@ -669,8 +671,21 @@ export class Blog1Page {
     }
 
     Users() {
+        this.nav = 'users';
+        let loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
+
+        loading.present();
         this._users.getUsers()
             .subscribe(res => {
+
+                this.usersList = res['users'].data;
+                this.usersList.forEach((value) => {
+                    value['sendFriendRequest'] = false;
+                })
+                loading.dismiss();
+                console.log(this.usersList)
                 console.log('users')
                 console.log(res);
             })
@@ -730,6 +745,20 @@ export class Blog1Page {
                 this.notifications = res['notifications']['data'];
                 console.log(this.notifications);
             })
+    }
+
+    sendRequest(i) {
+        this.usersList[i]['sendFriendRequest'] = true;
+        this._friend.sendFriendRequest(this.usersList[i].id)
+            .subscribe(res => {
+                if(res['success']==true) {
+                    this.sendFriendRequest = true;
+                    //this.Users();
+                }
+                console.log(res)
+            })
+        console.log('send request');
+
     }
 }
 

@@ -184,7 +184,7 @@
                 </div>
             </ion-col>
             <ion-col>
-                <div class="buttons-div">
+                <div class="buttons-div" (click)="Users()">
                     <button class="fab fab-md friends">
                         <span class="button-inner">
                             <img class="nav-link-icon" src="assets/svg/happy-faces-icon.svg">
@@ -314,6 +314,45 @@
                             </span>
                             </button>
                         </div>
+                    </ion-item>
+                </ion-item>
+            </ion-card>
+        </div>
+        <div *ngSwitchCase="'users'">
+            <button ion-button full (click)="setNav('links')">back</button>
+            <ion-card class="card-friend" *ngFor="let user of usersList;let i = index" >
+                <ion-item (click)="someDiscussions(i)" >
+                    <div class="header-img-2">
+                        <img src={{user.avatar}} alt="header-img">
+                    </div>
+                    <h6 text-center >{{user.name}} {{user.last_name}}</h6>
+                    <ion-item >
+                        <div  class="discussion-settings-btn-3">
+                            <button class="fab fab-md categories discussion-settings" *ngIf="!user.sendFriendRequest && user.friendship.name !== 'Friends' &&  user.friendship.name !== 'Requested'" (click)="sendRequest(i)">
+                                 <span class="button-inner" >
+                                    <img class="nav-link-icon"  src="assets/svg/happy-face-icon.svg">
+                                    <span class="nav-link-icon-plus">+</span>
+                                </span>
+                            </button>
+                            <button class="fab fab-md is-friend discussion-settings" *ngIf="user.friendship.name == 'Friends'">
+                                 <span class="button-inner">
+                                     <img  *ngIf="user.friendship.name === 'Friends'" class="nav-link-icon is-friend" src="assets/svg/check-icon.svg">
+                                </span>
+                            </button>
+                            <button class="fab fab-md  discussion-settings can-be-friend" *ngIf="user.sendFriendRequest">
+                                 <span class="button-inner">
+                                     <img  class="nav-link-icon " src="assets/svg/check-icon.svg">
+                                </span>
+                            </button>
+                            <button class="fab fab-md  discussion-settings can-be-friend" *ngIf="user.friendship.name == 'Requested'" [disabled]="false">
+                                 <span class="button-inner">
+                                     <img  class="nav-link-icon " src="assets/svg/check-icon.svg">
+                                </span>
+                            </button>
+
+
+                        </div>
+
                     </ion-item>
                 </ion-item>
             </ion-card>
