@@ -334,7 +334,7 @@ page-blog1 {
 
 
   .colorik {
-    color: #38a9ff !important;
+    color: #3f4257 !important;
   }
   .us {
     margin-left: 8px;
@@ -531,6 +531,12 @@ page-blog1 {
       width: 100px;
       margin: 35px auto;
     }
+  }
+
+  .scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 400px;
   }
 
 

@@ -103,19 +103,17 @@ export class Blog1Page {
     }
 
     doRefresh(refresher) {
-        this.likeImg = './assets/svg/like-post-icon.svg';
-        this.commentImg = './assets/icon/icon-chat1.png';
-        this.viewImg = './assets/svg/speech-balloon-icon.svg';
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.pos = true;
 
         if (this.categoryName === '' || this.categoryName === 'All Categories') {
             this.pos = true;
             this.Links();
-            console.log(this.likeImg + " 0 " + this.commentImg + ' 0 ' + this.viewImg + ' 0 ');
         } else {
             this.pos = true;
             this.getLinkByCategoryName(this.categoryId);
-            console.log(this.likeImg + " 0 " + this.commentImg + ' 0 ' + this.viewImg + ' 0 ');
         }
         if (this.nav === 'discussions') {
             this.getDiscussionWithoutLoading();
@@ -129,9 +127,9 @@ export class Blog1Page {
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
         }
-        this.likeImg = './assets/svg/like-post-icon.svg';
-        this.commentImg = './assets/icon/icon-chat1.png';
-        this.viewImg = './assets/svg/speech-balloon-icon.svg';
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.Links();
         this.User();
         this.Users();
@@ -244,7 +242,6 @@ export class Blog1Page {
                     if (res) {
                         loading.dismiss();
                     }
-
                     this.data.categories = res['data'].categories;
                 })
         }
@@ -292,7 +289,6 @@ export class Blog1Page {
     }
 
     presentActionSheet(ev, i) {
-        console.log(ev)
         let actionSheet = this.actionSheetCtrl.create({
             buttons: [
                 {
@@ -320,7 +316,6 @@ export class Blog1Page {
             ]
         });
         actionSheet.present();
-
     }
 
     linkCategory() {
@@ -364,9 +359,9 @@ export class Blog1Page {
     }
 
     getLinkByCategoryName(value) {
-        this.likeImg = './assets/svg/like-post-icon.svg';
-        this.commentImg = './assets/icon/icon-chat1.png';
-        this.viewImg = './assets/svg/speech-balloon-icon.svg';
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this._link.getLinksByCategories(value)
             .subscribe(res => {
                 console.log(res)
@@ -417,9 +412,9 @@ export class Blog1Page {
     }
 
     allCategory() {
-        this.likeImg = './assets/svg/like-post-icon.svg';
-        this.commentImg = './assets/icon/icon-chat1.png';
-        this.viewImg = './assets/svg/speech-balloon-icon.svg';
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.categoryName = "All Categories";
         setTimeout(() => {
                 this.Links();
@@ -433,9 +428,9 @@ export class Blog1Page {
         this.categoryName = this.data.categories[i].name;
         this.categoryId = this.data.categories[i].id;
         this.categoryI = i;
-        this.likeImg = './assets/svg/like-post-icon.svg';
-        this.commentImg = './assets/icon/icon-chat1.png';
-        this.viewImg = './assets/svg/speech-balloon-icon.svg';
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         console.log(this.likeImg + " 0 " + this.commentImg + ' 0 ' + this.viewImg + ' 0 ');
         this.getLinkByCategoryName(this.categoryId);
         setTimeout(() => {
@@ -552,16 +547,16 @@ export class Blog1Page {
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
                         el['friends'] = [
-                            './assets/imgs/friend-harmonic10.jpg',
-                            './assets/imgs/friend-harmonic7.jpg',
-                            './assets/imgs/friend-harmonic8.jpg',
-                            './assets/imgs/friend-harmonic2.jpg',
-                            './assets/imgs/avatar30-sm.jpg',
-                            './assets/imgs/avatar30-sm.jpg'
+                            'assets/imgs/friend-harmonic10.jpg',
+                            'assets/imgs/friend-harmonic7.jpg',
+                            'assets/imgs/friend-harmonic8.jpg',
+                            'assets/imgs/friend-harmonic2.jpg',
+                            'assets/imgs/avatar30-sm.jpg',
+                            'assets/imgs/avatar30-sm.jpg'
                         ];
-                        el.addFriends = './assets/svg//happy-faces-icon.svg';
-                        el.settings = './assets/svg/settings-icon.svg';
-                        el.more = './assets/svg/three-dots-icon.svg';
+                        el.addFriends = 'assets/svg//happy-faces-icon.svg';
+                        el.settings = 'assets/svg/settings-icon.svg';
+                        el.more = 'assets/svg/three-dots-icon.svg';
                         el.openmore = false;
                     })
                 }
@@ -576,16 +571,16 @@ export class Blog1Page {
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
                         el['friends'] = [
-                            './assets/imgs/friend-harmonic10.jpg',
-                            './assets/imgs/friend-harmonic7.jpg',
-                            './assets/imgs/friend-harmonic8.jpg',
-                            './assets/imgs/friend-harmonic2.jpg',
-                            './assets/imgs/avatar30-sm.jpg',
-                            './assets/imgs/avatar30-sm.jpg'
+                            'assets/imgs/friend-harmonic10.jpg',
+                            'assets/imgs/friend-harmonic7.jpg',
+                            'assets/imgs/friend-harmonic8.jpg',
+                            'assets/imgs/friend-harmonic2.jpg',
+                            'assets/imgs/avatar30-sm.jpg',
+                            'assets/imgs/avatar30-sm.jpg'
                         ];
-                        el.addFriends = './assets/svg//happy-faces-icon.svg';
-                        el.settings = './assets/svg/settings-icon.svg';
-                        el.more = './assets/svg/three-dots-icon.svg';
+                        el.addFriends = 'assets/svg//happy-faces-icon.svg';
+                        el.settings = 'assets/svg/settings-icon.svg';
+                        el.more = 'assets/svg/three-dots-icon.svg';
                         el.openmore = false;
                     })
                 }
@@ -618,9 +613,7 @@ export class Blog1Page {
             buttons: [
                 {
                     text: 'Cancel',
-                    handler: data => {
-
-                    }
+                    handler: data => {}
                 },
                 {
                     text: 'Save',

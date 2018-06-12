@@ -10,7 +10,7 @@
                 <ion-col class="menu-col-nav-icon" (click)="openFriendRequest()">
                     <a class="menu-link">
                         <span class="menu-link-value bg-blue" *ngIf="friendsRequest.length  > 0"><p>{{friendsRequest.length}}</p></span>
-                        <span class="menu-link-value bg-blue colorik" *ngIf="friendsRequest.length  === 0"> p </span>
+                        <span class="menu-link-value colorik" *ngIf="friendsRequest.length  === 0"> p </span>
                         <img class="svg menu-link-icon" src="assets/svg/happy-face-icon.svg">
                     </a>
                     <span [class.display-block]="openFreind === true" class="under-line"></span>
@@ -126,7 +126,7 @@
                 <a class="same" href="#">Settings</a>
             </div>
 
-            <ion-item-sliding  scroll="yes">
+            <div class="scroll">
                 <ion-item *ngFor="let notification of notifications">
                     <ion-avatar item-start>
                         <img src={{notification.data.recipient.avatar}}>
@@ -136,7 +136,7 @@
                     <span class="notification-hours">{{notification.date}}</span>
                 </ion-item>
 
-            </ion-item-sliding>
+            </div>
 
             <div class="check check-notification">
                 <a href="#" padding text-center>View All Notifications</a>
