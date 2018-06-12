@@ -117,7 +117,10 @@ export class Blog1Page {
         }
         if (this.nav === 'discussions') {
             this.getDiscussionWithoutLoading();
+        } else if(this.nav === 'friends') {
+            this.Friends();
         }
+
         setTimeout(() => {
             refresher.complete();
         }, 2000);
@@ -133,7 +136,7 @@ export class Blog1Page {
         this.Links();
         this.User();
         this.Users();
-        this.Friends();
+      //  this.Friends();
         this.SendFrienadRequest();
         this.FriendsRequests();
         this.Notifications();
@@ -635,7 +638,6 @@ export class Blog1Page {
     }
 
     deleteDiscussions(i) {
-        console.log(this.discussions[i].id)
         let actionSheet = this.actionSheetCtrl.create({
             buttons: [
                 {
@@ -675,9 +677,16 @@ export class Blog1Page {
     }
 
     Friends() {
+        this.nav = 'friends';
+        let loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
+
+        loading.present();
         this._friend.getFriends()
             .subscribe(res => {
                 this.friends = res['users']['data']
+                loading.dismiss();
                 console.log('friends');
                 console.log(res);
             })
