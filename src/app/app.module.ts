@@ -29,6 +29,8 @@ import { Facebook } from "@ionic-native/facebook";
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DiscussionProvider } from '../providers/discussion/discussion';
 import { FriendsProvider } from '../providers/friends/friends';
+import { UsersProvider } from '../providers/users/users';
+import { NotificationsProvider } from '../providers/notifications/notifications';
 
 @NgModule({
     declarations: [
@@ -63,6 +65,8 @@ import { FriendsProvider } from '../providers/friends/friends';
         Facebook,
         DiscussionProvider,
     FriendsProvider,
+    UsersProvider,
+    NotificationsProvider,
     ],
 })
 export class AppModule {

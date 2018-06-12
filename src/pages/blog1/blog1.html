@@ -9,7 +9,8 @@
                 </ion-col>
                 <ion-col class="menu-col-nav-icon" (click)="openFriendRequest()">
                     <a class="menu-link">
-                        <span class="menu-link-value bg-blue">6</span>
+                        <span class="menu-link-value bg-blue" *ngIf="friendsRequest.length  > 0"><p>{{friendsRequest.length}}</p></span>
+                        <span class="menu-link-value bg-blue colorik" *ngIf="friendsRequest.length  === 0"> p </span>
                         <img class="svg menu-link-icon" src="assets/svg/happy-face-icon.svg">
                     </a>
                     <span [class.display-block]="openFreind === true" class="under-line"></span>
@@ -23,7 +24,7 @@
                 </ion-col>
                 <ion-col class="menu-col-nav-icon" (click)="openNotification()">
                     <a class="menu-link">
-                        <span class="menu-link-value bg-orange">8</span>
+                        <span class="menu-link-value bg-orange">{{notifications.length}}</span>
                         <img class="svg menu-link-icon" src="assets/svg/thunder-icon.svg">
                     </a>
                     <span [class.display-block]="openNotificationBar === true" class="under-line"></span>
@@ -63,21 +64,20 @@
                 <a class="same" href="#">Find Friends</a>
                 <a class="same" href="#">Settings</a>
             </div>
-
-            <ion-item-sliding>
+            <ion-item-sliding *ngFor="let request of friendsRequest; let i of index">
                 <ion-item>
                     <ion-avatar item-start>
-                        <img src="assets/imgs/user.jpg">
+                        <img src={{request.avatar}}>
                     </ion-avatar>
-                    <h4><b>Tamara Romanoff</b></h4>
+                    <h4><b>{{request.name}} {{request.last_name}}</b></h4>
                     <p>Mutual Friend: Sarah Hetfield</p>
                 </ion-item>
                 <ion-item>
-                    <div class="add-request">
+                    <div class="add-request" (click)="AcceptFriendRequest(request.id)">
                         <img class="add-friend" src="assets/svg/happy-face-icon.svg">
                         <span class="plus-icon">+</span>
                     </div>
-                    <div class="add-request cancel-request">
+                    <div class="add-request cancel-request" (click)="DidntAcceptFriendRequest(i)">
                         <img class="add-friend" src="assets/svg/happy-face-icon.svg">
                         <span class="plus-icon">-</span>
                     </div>
@@ -126,16 +126,14 @@
                 <a class="same" href="#">Settings</a>
             </div>
 
-            <ion-item-sliding>
-                <ion-item>
+            <ion-item-sliding  scroll="yes">
+                <ion-item *ngFor="let notification of notifications">
                     <ion-avatar item-start>
-                        <img src="assets/imgs/user.jpg">
+                        <img src={{notification.data.recipient.avatar}}>
                     </ion-avatar>
-                    <h4><b>Mathilda Brinker</b></h4>
-                    <p>commented on your new </p>
-                    <span class="notification-status">profile status</span>
-                    <br>
-                    <span class="notification-hours">4 hours</span>
+                    <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
+                    <p>{{notification.data.message}}</p>
+                    <span class="notification-hours">{{notification.date}}</span>
                 </ion-item>
 
             </ion-item-sliding>
@@ -169,28 +167,28 @@
             <ion-col>
                 <div class="buttons-div" (click)="setNav('discussions')" >
                     <button class="fab fab-md discussions">
-                             <span class="button-inner">
-                                 <img class="nav-link-icon" src="assets/svg/chat---messages-icon.svg">
-                            </span>
+                         <span class="button-inner">
+                             <img class="nav-link-icon" src="assets/svg/chat---messages-icon.svg">
+                        </span>
                     </button>
                 </div>
             </ion-col>
             <ion-col>
-                <div class="buttons-div">
+                <div class="buttons-div" (click)="setNav('friends')">
                     <button class="fab fab-md users">
-                             <span class="button-inner">
-                                <img class="nav-link-icon" src="assets/svg/happy-face-icon.svg">
-                                <span class="nav-link-icon-plus">+</span>
-                            </span>
+                         <span class="button-inner">
+                            <img class="nav-link-icon" src="assets/svg/happy-face-icon.svg">
+                            <span class="nav-link-icon-plus">+</span>
+                        </span>
                     </button>
                 </div>
             </ion-col>
             <ion-col>
                 <div class="buttons-div">
                     <button class="fab fab-md friends">
-                             <span class="button-inner">
-                                 <img class="nav-link-icon" src="assets/svg/happy-faces-icon.svg">
-                            </span>
+                        <span class="button-inner">
+                            <img class="nav-link-icon" src="assets/svg/happy-faces-icon.svg">
+                        </span>
                     </button>
                 </div>
             </ion-col>
@@ -242,7 +240,6 @@
                         </div>
                     </ion-card-content>
                 </ion-card>
-
             </div>
         </div>
         <div *ngSwitchCase="'discussions'" >
@@ -252,7 +249,6 @@
                     <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
                 </div>
                  <h5 class="discussions-text" text-center margin-horizontal>Create New Discussions</h5>
-
             </div>
             <ion-card padding *ngFor="let discussion of discussions; let i = index" (press)="deleteDiscussions(i)" >
                 <div class="more" float-right (click)="openMore(i)">
@@ -291,17 +287,37 @@
                             </span>
                            </button>
                        </div>
-
                    </ion-item>
-                    
                 </ion-item>
             </ion-card>
-
+        </div>
+        <div *ngSwitchCase="'friends'">
+            <button ion-button full (click)="setNav('links')">back</button>
+            <ion-card class="card-friend" *ngFor="let friend of friends" >
+                <ion-item (click)="someDiscussions(i)" >
+                    <div class="header-img-2">
+                        <img src={{friend.avatar}} alt="header-img">
+                    </div>
+                    <h6 text-center >{{friend.name}} {{friend.last_name}}</h6>
+                    <ion-item >
+                        <div float-left class="discussion-settings-btn-1">
+                            <button class="fab fab-md categories discussion-settings">
+                             <span class="button-inner">
+                                 <img class="nav-link-icon " src="assets/svg/happy-faces-icon.svg">
+                            </span>
+                            </button>
+                        </div>
+                        <div  float-right class="discussion-settings-btn-2">
+                            <button class="fab fab-md friends discussion-settings">
+                             <span class="button-inner">
+                                 <img class="nav-link-icon" src='assets/svg/settings-icon.svg'>
+                            </span>
+                            </button>
+                        </div>
+                    </ion-item>
+                </ion-item>
+            </ion-card>
         </div>
         <div *ngSwitchDefault></div>
     </div>
-
-
-    <!--</div>-->
-
 </ion-content>

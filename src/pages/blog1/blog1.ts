@@ -9,6 +9,8 @@ import {ActionSheetController} from 'ionic-angular';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import { DiscussionProvider } from "../../providers/discussion/discussion";
 import { FriendsProvider } from "../../providers/friends/friends";
+import {UsersProvider} from "../../providers/users/users";
+import { NotificationsProvider } from "../../providers/notifications/notifications";
 
 export interface myDate {
     day: number,
@@ -29,7 +31,7 @@ export interface myDate {
 export class Blog1Page {
 
     public links: any;
-    public users: any;
+    public user: any;
     public isAndroid: boolean;
     public searchOpen: boolean = false;
     public create_date = [];
@@ -74,7 +76,9 @@ export class Blog1Page {
     public nav: string = 'links'
     public discussions = [];
     public friendsRequest = [];
-
+    //public request
+    public friends = [];
+    public notifications = [];
 
     @ViewChild('search') search;
     @ViewChild('select') select;
@@ -89,7 +93,9 @@ export class Blog1Page {
                 public alertCtrl: AlertController,
                 public loadingCtrl: LoadingController,
                 public iab: InAppBrowser,
-                public _friend: FriendsProvider) {
+                public _friend: FriendsProvider,
+                public _users: UsersProvider,
+                public _notification: NotificationsProvider) {
         this.isAndroid = platform.is('android');
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
@@ -127,7 +133,12 @@ export class Blog1Page {
         this.commentImg = './assets/icon/icon-chat1.png';
         this.viewImg = './assets/svg/speech-balloon-icon.svg';
         this.Links();
+        this.User();
         this.Users();
+        this.Friends();
+        this.SendFrienadRequest();
+        this.FriendsRequests();
+        this.Notifications();
         this.my_date['day'] = this.Dat.getDate();
         this.my_date['month'] = this.Dat.getMonth();
         this.my_date['year'] = this.Dat.getFullYear();
@@ -137,6 +148,7 @@ export class Blog1Page {
     }
 
     setNav(nav) {
+        console.log(nav)
         this.nav = nav;
         if (this.nav === 'discussions') {
             this.getDiscussion();
@@ -198,11 +210,13 @@ export class Blog1Page {
             })
     }
 
-    Users() {
+    User() {
         this._link.getUser()
             .subscribe(res => {
-                this.users = res['data'].user;
-             /*   this._friend.getFriendsRequests(res['data'].user['id'])
+                console.log('user')
+                this.user = res['data'].user;
+                console.log(res);
+            /*   this._friend.sendFriendRequest(res['data'].user['id'])
                     .subscribe(res => {
                         console.log(res);
                         this.friendsRequest = res['users'];
@@ -659,6 +673,62 @@ export class Blog1Page {
         actionSheet.present();
     }
 
+    Users() {
+        this._users.getUsers()
+            .subscribe(res => {
+                console.log('users')
+                console.log(res);
+            })
+    }
+
+    Friends() {
+        this._friend.getFriends()
+            .subscribe(res => {
+                this.friends = res['users']['data']
+                console.log('friends');
+                console.log(res);
+            })
+    }
+
+    FriendsRequests() {
+        this._friend.getFriendsRequests()
+            .subscribe(res => {
+                console.log('friends requests');
+                console.log(res);
+                this.friendsRequest = res['users']['data'];
+                console.log(this.friendsRequest)
+            })
+
+    }
+
+    SendFrienadRequest() {
+       /*this._friend.sendFriendRequest(51)
+            .subscribe(res => {console.log(res)})*/
+    }
+
+    AcceptFriendRequest(id) {
+        console.log('Accept Friend Request');
+        console.log(id);
+        this._friend.acceptFriendRequest(id)
+            .subscribe(res => {console.log(res);
+            this.Friends();
+            this.FriendsRequests()
+            })
+    }
+
+    DidntAcceptFriendRequest(i) {
+        console.log('Did not Accept Friend Request')
+    }
+
+    Notifications() {
+        this._notification.getNotifications()
+            .subscribe(res => {
+                console.log('notification');
+
+                this.notifications = res['notifications']['data'];
+                console.log(this.notifications);
+            })
+    }
 }
 
 
