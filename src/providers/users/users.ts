@@ -13,4 +13,12 @@ export class UsersProvider {
       return this.http.get(this._api.apiUrl+`users?page=1`)
   }
 
+  public getUsersByPage(page) {
+      return this.http.get(this._api.apiUrl+`users?page=${page}`)
+  }
+
+  public getUsersWithoutPage() {
+      return this.http.get(this._api.apiUrl+`users`)
+  }
+
 }

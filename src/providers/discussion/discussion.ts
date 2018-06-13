@@ -10,8 +10,8 @@ export class DiscussionProvider {
 
   }
 
-  public getUserDiscussion() {
-    return this.http.get(this._api.apiUrl+`discussions`)
+  public getUserDiscussion(page) {
+    return this.http.get(this._api.apiUrl+`discussions?page=${page}`)
   }
 
   public createDiscussion(discussion) {

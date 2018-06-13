@@ -10,9 +10,10 @@ export class LinkProvider {
 
   }
 
-  public getLink() {
-    return this.http.get(this._api.apiUrl+`links`)
+  public getLink(page) {
+    return this.http.get(this._api.apiUrl+`links?page=${page}`)
   }
+
 
   public getUser() {
       return this.http.get(this._api.apiUrl+`user`)

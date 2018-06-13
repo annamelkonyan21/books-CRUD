@@ -76,11 +76,14 @@ export class Blog1Page {
     public nav: string = 'links'
     public discussions = [];
     public friendsRequest = [];
-    //public request
     public friends = [];
     public notifications = [];
     public usersList = [];
     public sendFriendRequest:boolean = false;
+    private lastUserListPage:number;
+    private lasrFriendsPage:number;
+    private lastLinks:number;
+    private lastDiscussion:number;
 
     @ViewChild('search') search;
     @ViewChild('select') select;
@@ -102,6 +105,9 @@ export class Blog1Page {
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this._discussion.getUserDiscussion(1)
+            .subscribe(res=> {console.log('sdf');console.log(res)});
+
     }
 
     doRefresh(refresher) {
@@ -109,7 +115,8 @@ export class Blog1Page {
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.pos = true;
-
+        this.FriendsRequests();
+        this.Notifications();
         if (this.categoryName === '' || this.categoryName === 'All Categories') {
             this.pos = true;
             this.Links();
@@ -130,6 +137,140 @@ export class Blog1Page {
         }, 2000);
     }
 
+
+    doInfiniteUsersList(infiniteScroll) {
+        this._users.getUsersWithoutPage()
+            .subscribe(res=> {
+                infiniteScroll.complete();
+                this.lastUserListPage = res['users']['last_page'];
+                for (let i = 2; i <= this.lastUserListPage   ; i++) {
+                    this._users.getUsersByPage(i)
+                        .subscribe(res => {
+                            res['users'].data.forEach(value => {
+
+                                this.usersList.push(value);
+                            })
+                        })
+                    infiniteScroll.enable(false)
+                }
+            })
+    }
+
+
+
+    doInfiniteFriends(infiniteScroll) {
+        this._friend.getFriendsWithoutPage()
+            .subscribe(res=> {
+                infiniteScroll.complete();
+                this.lasrFriendsPage = res['users']['last_page'];
+                for (let i = 2; i <= this.lasrFriendsPage   ; i++) {
+                    this._friend.getFriendsByPage(i)
+                        .subscribe(res => {
+                            res['users'].data.forEach(value => {
+                                value['sendFriendRequest'] = false;
+                                this.friends.push(value);
+                            })
+                        })
+                    infiniteScroll.enable(false)
+                }
+            })
+    }
+
+    doInfiniteDiscussion(infiniteScroll) {
+        this._discussion.getUserDiscussion(1)
+            .subscribe(res=> {
+                infiniteScroll.complete();
+                console.log(res);
+                this.lastDiscussion = res['data']['discussions']['last_page'];
+                console.log(this.lastDiscussion);
+                 for (let i = 2; i <= this.lastDiscussion ; i++) {
+                    this._discussion.getUserDiscussion(i)
+                        .subscribe(res => {
+
+                            res['data']['discussions']['data'].forEach(el => {
+                                //value['sendFriendRequest'] = false;
+                                this.discussions.push(el);
+                                el['headerImg'] = 'assets/imgs/logo_small.png';
+                                el['friends'] = [
+                                    'assets/imgs/friend-harmonic10.jpg',
+                                    'assets/imgs/friend-harmonic7.jpg',
+                                    'assets/imgs/friend-harmonic8.jpg',
+                                    'assets/imgs/friend-harmonic2.jpg',
+                                    'assets/imgs/avatar30-sm.jpg',
+                                    'assets/imgs/avatar30-sm.jpg'
+                                ];
+                                el.addFriends = 'assets/svg//happy-faces-icon.svg';
+                                el.settings = 'assets/svg/settings-icon.svg';
+                                el.more = 'assets/svg/three-dots-icon.svg';
+                                el.openmore = false;
+
+                            })
+                        })
+                    infiniteScroll.enable(false)
+                }
+            })
+    }
+
+    doInfiniteLinks(infiniteScroll) {
+       this._link.getLink(1)
+           .subscribe(res=> {
+               //console.log(res)
+                infiniteScroll.complete();
+                this.lastLinks = res['data']['links']['last_page'];
+                console.log('dsdashgduagsduygdyswgeyg')
+                console.log(this.lastLinks)
+                for (let i = 2; i <= this.lastLinks; i++) {
+
+                    this._link.getLink(i)
+                        .subscribe(res => {
+                            res['data']['links']['data'].forEach(value => {
+                                this.links.push(value);
+                                this.create_date.push(value['created_at']);
+                                // this.create_date.push(value['created_at'])
+
+                                this.create_date.forEach((value) => {
+                                    this.d = new Date(value);
+                                    this.create_day['day'] = this.d.getDate();
+                                    this.create_day['month'] = this.d.getMonth();
+                                    this.create_day['year'] = this.d.getFullYear();
+                                    this.create_day['minute'] = this.d.getMinutes();
+                                    this.create_day['hours'] = this.d.getHours();
+                                    this.create.push(this.create_day);
+
+                                })
+                                this.create.forEach((value) => {
+                                    if (value['year'] < this.my_date['year']) {
+                                        this.ago.push(this.my_date['year'] - value['year'] + ' YEARS AGO');
+                                    } else if (value['month'] < this.my_date['month']) {
+                                        this.ago.push(this.my_date['month'] - value['month'] + ' MONTHS AGO');
+                                    } else if (value['day'] < this.my_date['day']) {
+                                        this.ago.push(this.my_date['day'] - value['day'] + ' DAYS AGO');
+                                    } else if (value['hours'] < this.my_date['hours']) {
+                                        this.ago.push(this.my_date['hours'] - value['hours'] + ' HOURS AGO');
+                                    } else if (value['minute'] < this.my_date['minute']) {
+                                        this.ago.push(this.my_date['minute'] - value['minute'] + ' MINUTES AGO');
+                                    }
+                                })
+                                value.host = value.url;
+                                value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
+                                value.host = value.host.slice(0, value.host.search('/'))
+                                value.likeImg = this.likeImg;
+                                value.commentImg = this.commentImg;
+                                value.viewImg = this.viewImg;
+                            })
+                            for (let i = 0; i < this.links.length; i++) {
+                                this.links[i]['create_date'] = this.ago[i];
+                            }
+                            console.log('links');
+                            console.log(this.links)
+                         })
+
+                    infiniteScroll.enable(false)
+                }
+           })
+    }
+
+
     ionViewDidLoad() {
         if (localStorage.getItem('token') === null) {
             this.navCtrl.push(HomePage);
@@ -138,6 +279,7 @@ export class Blog1Page {
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this.Links();
+
         this.User();
         //this.Users();
       //  this.Friends();
@@ -170,10 +312,11 @@ export class Blog1Page {
         this.likeImg = './assets/svg/like-post-icon.svg';
         this.commentImg = './assets/icon/icon-chat1.png';
         this.viewImg = './assets/svg/speech-balloon-icon.svg';
-        this._link.getLink()
+        this._link.getLink(1)
             .subscribe(res => {
-                console.log(res)
-                this.links = res['data'].links;
+
+
+                this.links = res['data']['links']['data'];
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
                 })
@@ -211,7 +354,8 @@ export class Blog1Page {
                     value.commentImg = this.commentImg;
                     value.viewImg = this.viewImg;
                 })
-
+                console.log('links');
+                console.log(this.links)
             })
     }
 
@@ -260,6 +404,7 @@ export class Blog1Page {
         this.openSearchBar = false;
         this.openNotificationBar = false;
         this.openCategory = false;
+        this.FriendsRequests();
     }
 
     openSearch() {
@@ -284,6 +429,7 @@ export class Blog1Page {
         this.openFreind = false;
         this.openChat = false;
         this.openCategory = false;
+        this.Notifications();
     }
 
     allWindowClick() {
@@ -544,11 +690,11 @@ export class Blog1Page {
             content: 'Please wait...'
         });
         loading.present();
-        this._discussion.getUserDiscussion()
+        this._discussion.getUserDiscussion(1)
             .subscribe(res => {
                 if (res['status'] === 'success') {
                     loading.dismiss();
-                    this.discussions = res['data']['discussions'];
+                    this.discussions = res['data']['discussions']['data'];
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
                         el['friends'] = [
@@ -569,7 +715,7 @@ export class Blog1Page {
     }
 
     getDiscussionWithoutLoading() {
-        this._discussion.getUserDiscussion()
+        this._discussion.getUserDiscussion(1)
             .subscribe(res => {
                 if (res['status'] === 'success') {
                     this.discussions = res['data']['discussions'];
@@ -700,7 +846,10 @@ export class Blog1Page {
         loading.present();
         this._friend.getFriends()
             .subscribe(res => {
-                this.friends = res['users']['data']
+                this.friends = res['users']['data'];
+                this.friends.forEach((value) => {
+                    value.openmore = false;
+                })
                 loading.dismiss();
                 console.log('friends');
                 console.log(res);
@@ -728,7 +877,7 @@ export class Blog1Page {
         console.log(id);
         this._friend.acceptFriendRequest(id)
             .subscribe(res => {console.log(res);
-            this.Friends();
+           // this.Friends();
             this.FriendsRequests()
             })
     }
@@ -741,9 +890,25 @@ export class Blog1Page {
         this._notification.getNotifications()
             .subscribe(res => {
                 console.log('notification');
-
+               // console.log(res);
                 this.notifications = res['notifications']['data'];
                 console.log(this.notifications);
+            })
+    }
+
+    readAllNotifications() {
+        this._notification.readAllNotifications()
+            .subscribe(res=>{
+               console.log(res);
+                this.Notifications();
+            })
+    }
+
+    readNotificationByID(id) {
+        this._notification.readNotificationByID(id)
+            .subscribe(res => {
+                console.log(res);
+                this.Notifications();
             })
     }
 
@@ -755,11 +920,52 @@ export class Blog1Page {
                     this.sendFriendRequest = true;
                     //this.Users();
                 }
-                console.log(res)
+        //        console.log(res)
             })
         console.log('send request');
 
     }
+
+    denyRequest(i) {
+        this._friend.denyFriendRequest(i)
+            .subscribe(res => {console.log(res);
+                if(res['success']===true) {
+                    this.FriendsRequests();
+                    this.Notifications();
+                }
+            })
+    }
+
+    openMoreFriends(i) {
+        this.friends[i]['openmore'] = true;
+    }
+
+    someFriend() {
+        this.friends.forEach((element) => {
+            element.openmore = false;
+        })
+        this.openSearchBar = false;
+        this.openFreind = false;
+        this.openChat = false;
+        this.openNotificationBar = false;
+    }
+
+    RemoveFriend(id) {
+        this._friend.removeFriend(id)
+            .subscribe(res => {
+      //          console.log(res);
+                this.Friends();
+            })
+    }
+
+    someUsers() {
+        console.log('some Users');
+        this.openSearchBar = false;
+        this.openFreind = false;
+        this.openChat = false;
+        this.openNotificationBar = false;
+    }
+
 }
 
 

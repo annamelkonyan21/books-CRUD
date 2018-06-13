@@ -107,9 +107,9 @@
                             <span></span>
                         </ion-item>
                         <ion-item *ngIf="remail.errors && (remail.dirty || remail.touched)">
-                            <div class="alert alert-danger" *ngIf="email.errors.required">Email address is required
+                            <div class="alert alert-danger" *ngIf="remail.errors.required">Email address is required
                             </div>
-                            <div class="alert alert-danger" *ngIf="email.errors.pattern">Please enter a valid email
+                            <div class="alert alert-danger" *ngIf="remail.errors.pattern">Please enter a valid email
                                 address
                             </div>
 

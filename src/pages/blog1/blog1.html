@@ -9,7 +9,7 @@
                 </ion-col>
                 <ion-col class="menu-col-nav-icon" (click)="openFriendRequest()">
                     <a class="menu-link">
-                        <span class="menu-link-value bg-blue" *ngIf="friendsRequest.length  > 0"><p>{{friendsRequest.length}}</p></span>
+                        <span class="menu-link-value bg-blue" *ngIf="friendsRequest.length  > 0">{{friendsRequest.length}}</span>
                         <span class="menu-link-value colorik" *ngIf="friendsRequest.length  === 0"> p </span>
                         <img class="svg menu-link-icon" src="assets/svg/happy-face-icon.svg">
                     </a>
@@ -50,8 +50,8 @@
     </ion-refresher>
 
     <ion-fab right bottom *ngIf="nav === 'links'">
-        <button ion-fab  (click)="createLink()">
-            <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
+        <button ion-fab (click)="createLink()">
+            <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link">
         </button>
     </ion-fab>
     <div *ngIf="openLinks"></div>
@@ -77,7 +77,7 @@
                         <img class="add-friend" src="assets/svg/happy-face-icon.svg">
                         <span class="plus-icon">+</span>
                     </div>
-                    <div class="add-request cancel-request" (click)="DidntAcceptFriendRequest(i)">
+                    <div class="add-request cancel-request" (click)="denyRequest(request.id)">
                         <img class="add-friend" src="assets/svg/happy-face-icon.svg">
                         <span class="plus-icon">-</span>
                     </div>
@@ -122,24 +122,37 @@
         <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
             <div class="ui-block-title ui-block-title-small">
                 <h6 class="title">NOTIFICATIONS </h6>
-                <a class="same" href="#">Mark all as read</a>
+                <a class="same" (click)="readAllNotifications()">Mark all as read</a>
                 <a class="same" href="#">Settings</a>
             </div>
 
             <div class="scroll">
-                <ion-item *ngFor="let notification of notifications">
-                    <ion-avatar item-start>
-                        <img src={{notification.data.recipient.avatar}}>
-                    </ion-avatar>
-                    <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
-                    <p>{{notification.data.message}}</p>
-                    <span class="notification-hours">{{notification.date}}</span>
-                </ion-item>
+                <div *ngFor="let notification of notifications" >
 
+                    <ion-item  *ngIf="notification.read_at === null" style="background: #ffe2db" (click)="readNotificationByID(notification.id)">
+                            <ion-avatar item-start>
+                                <img src={{notification.data.recipient.avatar}}>
+                            </ion-avatar>
+                            <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
+                            <p>{{notification.data.message}}</p>
+                            <span class="notification-hours">{{notification.date}}</span>
+
+                    </ion-item>
+                    <ion-item  *ngIf="notification.read_at !== null" >
+
+                        <ion-avatar item-start>
+                            <img src={{notification.data.recipient.avatar}}>
+                        </ion-avatar>
+                        <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
+                        <p>{{notification.data.message}}</p>
+                        <span class="notification-hours">{{notification.date}}</span>
+
+                    </ion-item>
+                </div>
             </div>
 
-            <div class="check check-notification">
-                <a href="#" padding text-center>View All Notifications</a>
+            <div class="check check-notification" >
+                <a padding text-center>View All Notifications</a>
             </div>
 
         </div>
@@ -165,7 +178,7 @@
                 </div>
             </ion-col>
             <ion-col>
-                <div class="buttons-div" (click)="setNav('discussions')" >
+                <div class="buttons-div" (click)="setNav('discussions')">
                     <button class="fab fab-md discussions">
                          <span class="button-inner">
                              <img class="nav-link-icon" src="assets/svg/chat---messages-icon.svg">
@@ -240,122 +253,185 @@
                         </div>
                     </ion-card-content>
                 </ion-card>
+                <ion-infinite-scroll (ionInfinite)="doInfiniteLinks($event)">
+                    <ion-infinite-scroll-content
+                            loadingSpinner="bubbles"
+                            loadingText="Loading more data...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
             </div>
+
+
         </div>
-        <div *ngSwitchCase="'discussions'" >
+        <div *ngSwitchCase="'discussions'">
             <button ion-button full (click)="setNav('links')">back</button>
-            <div class="create-discussions" (click)="createDiscussions()" >
-                <div class="discussions-img" >
-                    <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link" >
+            <div class="create-discussions" (click)="createDiscussions()">
+                <div class="discussions-img">
+                    <img src="assets/svg/plus-icon.svg" alt="add-link" class="add-link">
                 </div>
-                 <h5 class="discussions-text" text-center margin-horizontal>Create New Discussions</h5>
+                <h5 class="discussions-text" text-center margin-horizontal>Create New Discussions</h5>
             </div>
-            <ion-card padding *ngFor="let discussion of discussions; let i = index" (press)="deleteDiscussions(i)" >
-                <div class="more" float-right (click)="openMore(i)">
-                    <img src={{discussion.more}} alt="more" class="more">
-                </div>
-                <ion-card *ngIf="discussion.openmore" class="more-block">
-                    <ul>
-                        <li>Report Profile</li>
-                        <li>Block Profile</li>
-                        <li>Turn Off Notifications</li>
-                    </ul>
-                </ion-card>
-                <ion-item (click)="someDiscussions(i)" >
-                    <div class="header-img">
-                        <img src={{discussion.headerImg}} alt="header-img">
-                    </div>
-                    <h6 text-center margin-top>{{discussion.name}}</h6>
-                    <p  text-center>{{discussion.friends.length }} Friends in  the Group</p>
-                    <ul class="friends-harmonic">
-                        <li *ngFor="let friend of discussion.friends">
-                            <a><img src={{friend}} ></a>
-                        </li>
-                    </ul>
-                   <ion-item >
-                       <div float-left class="discussion-settings-btn-1">
-                           <button class="fab fab-md categories discussion-settings">
-                             <span class="button-inner">
-                                 <img class="nav-link-icon " src={{discussion.addFriends}}>
-                            </span>
-                           </button>
-                       </div>
-                       <div  float-right class="discussion-settings-btn-2">
-                           <button class="fab fab-md friends discussion-settings">
-                             <span class="button-inner">
-                                 <img class="nav-link-icon" src={{discussion.settings}}>
-                            </span>
-                           </button>
-                       </div>
-                   </ion-item>
-                </ion-item>
-            </ion-card>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-6 class="cols" *ngFor="let discussion of discussions; let i = index">
+                        <ion-card class="card-friend" (press)="deleteDiscussions(i)">
+                            <div margin-right margin-top class="more" float-right (click)="openMore(i)">
+                                <img src={{discussion.more}} alt="more" class="more">
+                            </div>
+                            <ion-card *ngIf="discussion.openmore" class="more-block">
+                                <ul>
+                                    <li>Report Profile</li>
+                                    <li>Block Profile</li>
+                                    <li>Turn Off Notifications</li>
+                                </ul>
+                            </ion-card>
+                            <ion-item (click)="someDiscussions(i)">
+                                <div class="header-img">
+                                    <img src={{discussion.headerImg}} alt="header-img">
+                                </div>
+                                <h6 text-center margin-top>{{discussion.name}}</h6>
+                                <p text-center>{{discussion.friends.length }} Friends in the Group</p>
+                                <ul class="friends-harmonic">
+                                    <li *ngFor="let friend of discussion.friends">
+                                        <a><img src={{friend}}></a>
+                                    </li>
+                                </ul>
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col col-6>
+                                            <button class="fab fab-md categories discussion-settings">
+                                             <span class="button-inner">
+                                                 <img class="nav-link-icon " src={{discussion.addFriends}}>
+                                            </span>
+                                            </button>
+                                        </ion-col>
+                                        <ion-col col-6>
+                                            <button class="fab fab-md friends discussion-settings">
+                                             <span class="button-inner">
+                                                 <img class="nav-link-icon" src={{discussion.settings}}>
+                                            </span>
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-item>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-infinite-scroll (ionInfinite)="doInfiniteDiscussion($event)">
+                <ion-infinite-scroll-content
+                        loadingSpinner="bubbles"
+                        loadingText="Loading more data...">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+
         </div>
         <div *ngSwitchCase="'friends'">
             <button ion-button full (click)="setNav('links')">back</button>
-            <ion-card class="card-friend" *ngFor="let friend of friends" >
-                <ion-item (click)="someDiscussions(i)" >
-                    <div class="header-img-2">
-                        <img src={{friend.avatar}} alt="header-img">
-                    </div>
-                    <h6 text-center >{{friend.name}} {{friend.last_name}}</h6>
-                    <ion-item >
-                        <div float-left class="discussion-settings-btn-1">
-                            <button class="fab fab-md categories discussion-settings">
-                             <span class="button-inner">
-                                 <img class="nav-link-icon " src="assets/svg/happy-faces-icon.svg">
-                            </span>
-                            </button>
-                        </div>
-                        <div  float-right class="discussion-settings-btn-2">
-                            <button class="fab fab-md friends discussion-settings">
-                             <span class="button-inner">
-                                 <img class="nav-link-icon" src='assets/svg/settings-icon.svg'>
-                            </span>
-                            </button>
-                        </div>
-                    </ion-item>
-                </ion-item>
-            </ion-card>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-6 class="cols" *ngFor="let friend of friends; let i = index">
+                        <ion-card class="card-friend">
+                            <div class="more" margin-right margin-top float-right (click)="openMoreFriends(i)">
+                                <img src='assets/svg/three-dots-icon.svg' alt="more" class="more">
+                            </div>
+                            <ion-card *ngIf="friend.openmore" class="more-block">
+                                <ul>
+                                    <li (click)="RemoveFriend(friend.id)">Remove Friend</li>
+                                    <!--<li>Block Profile</li>-->
+                                    <!--<li>Turn Off Notifications</li>-->
+                                </ul>
+                            </ion-card>
+                            <ion-item (click)="someFriend()">
+                                <div class="header-img-2">
+                                    <img src={{friend.avatar}} alt="header-img">
+                                </div>
+                                <h6 text-center>{{friend.name}} {{friend.last_name}}</h6>
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col col-6>
+                                            <button class="fab fab-md categories discussion-settings">
+                                         <span class="button-inner">
+                                             <img class="nav-link-icon " src="assets/svg/happy-faces-icon.svg">
+                                        </span>
+                                            </button>
+                                        </ion-col>
+                                        <ion-col col-6>
+                                            <button class="fab fab-md friends discussion-settings">
+                                             <span class="button-inner">
+                                                 <img class="nav-link-icon" src='assets/svg/settings-icon.svg'>
+                                            </span>
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-item>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-infinite-scroll (ionInfinite)="doInfiniteFriends($event)">
+                <ion-infinite-scroll-content
+                        loadingSpinner="bubbles"
+                        loadingText="Loading more data...">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
         </div>
         <div *ngSwitchCase="'users'">
             <button ion-button full (click)="setNav('links')">back</button>
-            <ion-card class="card-friend" *ngFor="let user of usersList;let i = index" >
-                <ion-item (click)="someDiscussions(i)" >
-                    <div class="header-img-2">
-                        <img src={{user.avatar}} alt="header-img">
-                    </div>
-                    <h6 text-center >{{user.name}} {{user.last_name}}</h6>
-                    <ion-item >
-                        <div  class="discussion-settings-btn-3">
-                            <button class="fab fab-md categories discussion-settings" *ngIf="!user.sendFriendRequest && user.friendship.name !== 'Friends' &&  user.friendship.name !== 'Requested'" (click)="sendRequest(i)">
-                                 <span class="button-inner" >
-                                    <img class="nav-link-icon"  src="assets/svg/happy-face-icon.svg">
-                                    <span class="nav-link-icon-plus">+</span>
-                                </span>
-                            </button>
-                            <button class="fab fab-md is-friend discussion-settings" *ngIf="user.friendship.name == 'Friends'">
-                                 <span class="button-inner">
-                                     <img  *ngIf="user.friendship.name === 'Friends'" class="nav-link-icon is-friend" src="assets/svg/check-icon.svg">
-                                </span>
-                            </button>
-                            <button class="fab fab-md  discussion-settings can-be-friend" *ngIf="user.sendFriendRequest">
-                                 <span class="button-inner">
-                                     <img  class="nav-link-icon " src="assets/svg/check-icon.svg">
-                                </span>
-                            </button>
-                            <button class="fab fab-md  discussion-settings can-be-friend" *ngIf="user.friendship.name == 'Requested'" [disabled]="false">
-                                 <span class="button-inner">
-                                     <img  class="nav-link-icon " src="assets/svg/check-icon.svg">
-                                </span>
-                            </button>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-6 class="cols" *ngFor="let user of usersList; let i = index">
+                        <ion-card class="card-friend">
+                            <ion-item (click)="someUsers()">
+                                <div class="header-img-2">
+                                    <img src={{user.avatar}} alt="header-img">
+                                </div>
+                                <h6 text-center>{{user.name}} {{user.last_name}}</h6>
+                                <div class="discussion-settings-btn-3">
+                                    <button class="fab fab-md categories discussion-settings"
+                                            *ngIf="!user.sendFriendRequest && user.friendship.name !== 'Friends' &&  user.friendship.name !== 'Requested'"
+                                            (click)="sendRequest(i)">
+                                         <span class="button-inner">
+                                            <img class="nav-link-icon" src="assets/svg/happy-face-icon.svg">
+                                            <span class="nav-link-icon-plus">+</span>
+                                        </span>
+                                    </button>
+                                    <button class="fab fab-md is-friend discussion-settings"
+                                            *ngIf="user.friendship.name == 'Friends'">
+                                         <span class="button-inner">
+                                             <img *ngIf="user.friendship.name === 'Friends'" class="nav-link-icon is-friend"
+                                                  src="assets/svg/check-icon.svg">
+                                        </span>
+                                    </button>
+                                    <button class="fab fab-md  discussion-settings can-be-friend"
+                                            *ngIf="user.sendFriendRequest">
+                                         <span class="button-inner">
+                                             <img class="nav-link-icon " src="assets/svg/check-icon.svg">
+                                        </span>
+                                    </button>
+                                    <button class="fab fab-md  discussion-settings can-be-friend"
+                                            *ngIf="user.friendship.name == 'Requested'" [disabled]="false">
+                                         <span class="button-inner">
+                                             <img class="nav-link-icon " src="assets/svg/check-icon.svg">
+                                        </span>
+                                    </button>
+                                </div>
+                            </ion-item>
+                        </ion-card>
+                    </ion-col>
 
 
-                        </div>
+                </ion-row>
+            </ion-grid>
+            <ion-infinite-scroll (ionInfinite)="doInfiniteUsersList($event)">
+                <ion-infinite-scroll-content
+                        loadingSpinner="bubbles"
+                        loadingText="Loading more Users...">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
 
-                    </ion-item>
-                </ion-item>
-            </ion-card>
         </div>
         <div *ngSwitchDefault></div>
     </div>

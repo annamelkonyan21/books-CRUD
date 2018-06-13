@@ -334,7 +334,6 @@ page-blog1 {
     background: #888da8 !important;
   }
 
-
   .colorik {
     color: #3f4257 !important;
   }
@@ -372,7 +371,6 @@ page-blog1 {
     position: fixed;
   }
 
-
   //--------------- discussions-----------
 
   .create-discussions {
@@ -382,7 +380,7 @@ page-blog1 {
     overflow: hidden;
     margin: 16px;
     .discussions-img {
-      background:  #38a9ff;
+      background: #38a9ff;
       border-radius: 100%;
       width: 50px;
       height: 50px;
@@ -417,13 +415,13 @@ page-blog1 {
   .friend-groups .friends-harmonic {
     display: inline-block;
     margin-bottom: 35px;
-    ul  {
+    ul {
       list-style-type: none;
     }
   }
   .friends-harmonic {
     overflow: hidden;
-    margin: 10px 25%;
+    margin: 10px 5%;
     display: block;
 
   }
@@ -449,7 +447,7 @@ page-blog1 {
     margin-left: -12px;
   }
   .discussion-settings {
-      box-shadow: none !important;
+    box-shadow: none !important;
   }
 
   .discussion-settings-btn-1 {
@@ -462,14 +460,14 @@ page-blog1 {
 
   .discussion-settings-btn-3 {
     display: block;
-    margin: 0px 40%;
+    margin: 0px 25%;
   }
   .more {
     height: 5px;
     width: 20px;
   }
 
-  .more-block{
+  .more-block {
     position: absolute;
     width: 60%;
     z-index: 5;
@@ -495,17 +493,6 @@ page-blog1 {
         width: auto;
         margin: 0 auto;
       }
-      //img {
-      //    transition: all 1s ease-out;
-      //    -webkit-filter: grayscale(100%);
-      //    filter: grayscale(100%);
-      //    display: block;
-      //    margin: 0 auto;
-      //}
-      //img.hover {
-      //  position: absolute;
-      //  transform: translate(-50%,-50%);
-      //}
     }
     .teammember-content {
       text-align: center;
@@ -522,12 +509,8 @@ page-blog1 {
   }
 
   .header-img-2 {
-   // width: 120px;
-   // height: 120px;
     border-radius: 100px;
     line-height: 120px;
-    //background-color: #d7d9e5;
-    //margin-bottom: 20px;
     overflow: hidden;
     margin: 0 auto;
     img {
@@ -535,7 +518,7 @@ page-blog1 {
       overflow: hidden;
       height: 100px;
       width: 100px;
-      margin: 35px auto;
+      margin: 5px auto;
     }
   }
 
@@ -553,4 +536,51 @@ page-blog1 {
     background-color: rgba(30, 215, 96, 0.38) !important;
   }
 
+  .card-mini {
+    width: 45% !important;
+    float: left !important;
+    margin-top: 10px;
+  }
+
+  .cols {
+    padding: 0px !important;
+  }
+
+  .discussion-navigation {
+    background: red;
+    padding-left: 0px !important;
+  }
+
+  .notification-does-not-read {
+    background: #ffe2db !important;
+  }
+
+  .pagination {
+    display: block;
+    margin-left: 25%;
+    margin-bottom: 10px;
+    list-style-type: none;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0 4px;
+    .page {
+      float: left;
+      padding: 10px;
+      border-radius: 5px;
+      display: block;
+
+      margin-left: -1px;
+      line-height: 1.25;
+      color: #515365;
+      background-color: #fff;
+      border: 1px solid #e6ecf5;
+
+      &:hover {
+        color: #fff;
+        text-decoration: none;
+        background-color: #ff5e3a;
+        border-color: #dee2e6;
+      }
+    }
+  }
 }

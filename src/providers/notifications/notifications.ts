@@ -13,4 +13,21 @@ export class NotificationsProvider {
   public getNotifications() {
     return this.http.get(this._api.apiUrl+'users/notifications?page=1')
   }
+
+  public  readAllNotifications() {
+    return this.http.get(this._api.apiUrl+`users/notifications/readAll`)
+  }
+
+  public readNotificationByID(notification_id) {
+    return this.http.get(this._api.apiUrl+`users/notification/read/${notification_id}`)
+  }
+
+    public getNotificationsByPage(page) {
+        return this.http.get(this._api.apiUrl+`users/notifications?page=${page}`)
+    }
+
+    public getNotificationsWithoutPage() {
+        return this.http.get(this._api.apiUrl+`users/notifications?page`)
+    }
+
 }
