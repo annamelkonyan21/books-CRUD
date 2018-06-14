@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {LoadingController, NavController} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { Facebook , FacebookLoginResponse } from "@ionic-native/facebook";
 import { HomeProvider} from "../../providers/home/home";
@@ -14,6 +14,12 @@ export class HomePage {
 
     public nav: string = 'login';
     private day: string;
+    userData = null;
+    public errorMessages: boolean = false;
+    public passwordError = false;
+    public acceptUsername = false;
+    public message = '';
+    public messageRegistration = '';
 
     // login variables
 
@@ -31,24 +37,18 @@ export class HomePage {
     public password_confirmation: FormControl;
     public birthday: FormControl;
     public gender: FormControl;
-    userData = null;
-
-    public errorMessages: boolean = false;
-    public passwordError = false;
-    public acceptUsername = false;
 
     constructor(public navCtrl: NavController,
                 private home: HomeProvider,
-                private facebook: Facebook) {
+                private facebook: Facebook,
+                private loadingCtrl: LoadingController) {
         this.createLoginFormControl();
         this.createLoginForm();
         this.createRegistrationFormControls();
         this.createRegistrationForm();
     }
 
-    ionViewDidLoad() {
-        console.log('home page');
-    }
+    ionViewDidLoad() { }
 
     setValue(nav) {
         this.nav = nav;
@@ -73,12 +73,25 @@ export class HomePage {
     }
 
     login() {
+        let loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
+
+        loading.present();
         this.home.login(this.loginForm.value['email'], this.loginForm.value['password'])
-            .subscribe(res =>  {
-                if(res) {
-                    this.navCtrl.setRoot('MenuPage')
-                }
-            })
+            .subscribe(
+                res =>  {
+                        if(res) {
+                            loading.dismiss();
+                            this.navCtrl.setRoot('MenuPage')
+                        }
+                    },
+                    error => {
+                        loading.dismiss();
+                        this.message = error['error']['message'];
+                    }
+            )
+
     }
 
     loginFacebook() {
@@ -158,8 +171,23 @@ export class HomePage {
                 .forEach(controlName => controls[controlName].markAsTouched());
             return;
         }
+        let loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
+
+        loading.present();
         this.home.signup(this.registrationForm.value['name'], this.registrationForm.value['last_name'], this.registrationForm.value['username'],  this.registrationForm.value['remail'], this.registrationForm.value['rpassword'], this.registrationForm.value['password_confirmation'], this.day, this.registrationForm.value['gender'])
-            .subscribe(res => this.navCtrl.setRoot('MenuPage'))
+            .subscribe(res => {
+                    loading.dismiss();
+                    this.navCtrl.setRoot('MenuPage');
+            },
+                    error => {
+                        loading.dismiss();
+
+                        this.messageRegistration = JSON.parse(error['error']['message']);
+                        this.messageRegistration = this.messageRegistration['email'][0];
+                }
+            )
     }
 
     onBlur() {
@@ -173,5 +201,6 @@ export class HomePage {
     onChange(e){
         console.log(e);
     }
+
 
 }

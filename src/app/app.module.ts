@@ -16,6 +16,7 @@ import { Page1PageModule} from "../pages/page1/page1.module";
 import { Tab1PageModule} from "../pages/tab1/tab1.module";
 import { Tab2PageModule} from "../pages/tab2/tab2.module";
 import { MenuPageModule} from "../pages/menu/menu.module";
+import { UserSettingsPageModule } from "../pages/user-settings/user-settings.module";
 
 //--------- providers ------------
 
@@ -47,6 +48,7 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
         Tab1PageModule,
         Tab2PageModule,
         MenuPageModule,
+        UserSettingsPageModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [

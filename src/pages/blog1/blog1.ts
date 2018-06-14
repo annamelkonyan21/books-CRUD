@@ -360,16 +360,11 @@ export class Blog1Page {
     }
 
     User() {
-        this._link.getUser()
+        this._users.getUser()
             .subscribe(res => {
                 console.log('user')
                 this.user = res['data'].user;
                 console.log(res);
-            /*   this._friend.sendFriendRequest(res['data'].user['id'])
-                    .subscribe(res => {
-                        console.log(res);
-                        this.friendsRequest = res['users'];
-                    })*/
             })
     }
 

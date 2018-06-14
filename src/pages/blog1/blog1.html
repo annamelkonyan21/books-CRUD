@@ -24,7 +24,8 @@
                 </ion-col>
                 <ion-col class="menu-col-nav-icon" (click)="openNotification()">
                     <a class="menu-link">
-                        <span class="menu-link-value bg-orange">{{notifications.length}}</span>
+                        <span class="menu-link-value bg-orange" *ngIf="notifications.length  > 0">{{notifications.length}}</span>
+                        <span class="menu-link-value colorik" *ngIf="notifications.length  === 0"> p </span>
                         <img class="svg menu-link-icon" src="assets/svg/thunder-icon.svg">
                     </a>
                     <span [class.display-block]="openNotificationBar === true" class="under-line"></span>
@@ -260,8 +261,6 @@
                     </ion-infinite-scroll-content>
                 </ion-infinite-scroll>
             </div>
-
-
         </div>
         <div *ngSwitchCase="'discussions'">
             <button ion-button full (click)="setNav('links')">back</button>
@@ -325,7 +324,6 @@
                         loadingText="Loading more data...">
                 </ion-infinite-scroll-content>
             </ion-infinite-scroll>
-
         </div>
         <div *ngSwitchCase="'friends'">
             <button ion-button full (click)="setNav('links')">back</button>

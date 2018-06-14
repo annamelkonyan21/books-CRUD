@@ -8,7 +8,7 @@
 
     <ion-content>
         <ion-list>
-            <ion-item>
+            <ion-item menuClose (click)="goToPersonPage()">
                 <ion-avatar item-start>
                     <img [src]=user.avatar>
                 </ion-avatar>
@@ -28,4 +28,4 @@
 
 </ion-menu>
 
-<ion-nav [root]="rootPage   " swipeEnabled="true" #mycontent></ion-nav>
+<ion-nav [root]="rootPage" swipeEnabled="true" #mycontent></ion-nav>
