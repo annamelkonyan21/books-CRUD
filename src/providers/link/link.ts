@@ -14,8 +14,6 @@ export class LinkProvider {
     return this.http.get(this._api.apiUrl+`links?page=${page}`)
   }
 
-
-
   public getLinksByCategories(id) {
         return this.http.get(this._api.apiUrl+`links/+${id}`)
   }
@@ -40,5 +38,14 @@ export class LinkProvider {
   public createLinks(url) {
         return this.http.post(this._api.apiUrl+`links`, {url: url})
   }
+
+  public getLinksByDiscussion(category_id, discussion_id) {
+        return this.http.get(this._api.apiUrl+`links/${category_id}/${discussion_id}`)
+  }
+
+  public createLinkByDiscussion(category_id, discussion_id, url) {
+      return this.http.post(this._api.apiUrl+`links/to-discussion`, {category_id: category_id, discussion_id: discussion_id, url: url})
+  }
+
 
 }

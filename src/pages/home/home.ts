@@ -5,6 +5,7 @@ import { Facebook , FacebookLoginResponse } from "@ionic-native/facebook";
 import { HomeProvider} from "../../providers/home/home";
 
 @Component({
+
     selector: 'page-home',
     templateUrl: 'home.html',
     providers: [HomeProvider]
@@ -81,15 +82,15 @@ export class HomePage {
         this.home.login(this.loginForm.value['email'], this.loginForm.value['password'])
             .subscribe(
                 res =>  {
-                        if(res) {
-                            loading.dismiss();
-                            this.navCtrl.setRoot('MenuPage')
-                        }
-                    },
-                    error => {
+                    if(res) {
                         loading.dismiss();
-                        this.message = error['error']['message'];
+                        this.navCtrl.setRoot('MenuPage')
                     }
+                },
+                error => {
+                    loading.dismiss();
+                    this.message = error['error']['message'];
+                }
             )
 
     }
@@ -180,12 +181,12 @@ export class HomePage {
             .subscribe(res => {
                     loading.dismiss();
                     this.navCtrl.setRoot('MenuPage');
-            },
-                    error => {
-                        loading.dismiss();
+                },
+                error => {
+                    loading.dismiss();
 
-                        this.messageRegistration = JSON.parse(error['error']['message']);
-                        this.messageRegistration = this.messageRegistration['email'][0];
+                    this.messageRegistration = JSON.parse(error['error']['message']);
+                    this.messageRegistration = this.messageRegistration['email'][0];
                 }
             )
     }

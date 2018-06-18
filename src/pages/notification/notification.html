@@ -1,0 +1,194 @@
+<ion-header>
+    <ion-navbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col class="menu-nav-icon">
+                    <a menuToggle>
+                        <img src="assets/imgs/logo_small.png" alt="Linker" class="menu-icon">
+                    </a>
+                </ion-col>
+                <ion-col class="menu-col-nav-icon" (click)="openFriendRequest()">
+                    <a class="menu-link">
+                        <span class="menu-link-value bg-blue" *ngIf="friendsRequest.length  > 0">{{friendsRequest.length}}</span>
+                        <span class="menu-link-value colorik" *ngIf="friendsRequest.length  === 0"> p </span>
+                        <img class="svg menu-link-icon" src="assets/svg/happy-face-icon.svg">
+                    </a>
+                    <span [class.display-block]="openFreind === true" class="under-line"></span>
+                </ion-col>
+                <ion-col class="menu-col-nav-icon" (click)="openChatMessege()">
+                    <a class="menu-link">
+                        <span class="menu-link-value bg-purple">2</span>
+                        <img class="svg menu-link-icon" src="assets/svg/chat---messages-icon.svg">
+                    </a>
+                    <span [class.display-block]="openChat === true" class="under-line"></span>
+                </ion-col>
+                <ion-col class="menu-col-nav-icon" (click)="openNotification()">
+                    <a class="menu-link">
+                        <span class="menu-link-value bg-orange" *ngIf="notifications.length  > 0">{{notifications.length}}</span>
+                        <span class="menu-link-value colorik" *ngIf="notifications.length  === 0"> p </span>
+                        <img class="svg menu-link-icon" src="assets/svg/thunder-icon.svg">
+                    </a>
+                    <span [class.display-block]="openNotificationBar === true" class="under-line"></span>
+
+                </ion-col>
+                <ion-col class="menu-col-nav-icon" (click)="openSearch()">
+                    <a class="menu-link">
+                        <img class="svg menu-link-icon search" src="assets/svg/magnifying-glass-icon.svg">
+                    </a>
+                    <span [class.display-block]="openSearchBar === true" class="under-line"></span>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-navbar>
+    <!--<ion-navbar menuToggle>-->
+    <!--<ion-title>notification</ion-title>-->
+    <!--</ion-navbar>-->
+
+</ion-header>
+
+
+<ion-content>
+
+    <div class="request" ion-fixed [class.display-block]="openFreind === true">
+        <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">FRIEND REQUESTS</h6>
+                <a class="same" href="#">Find Friends</a>
+                <a class="same" href="#">Settings</a>
+            </div>
+            <ion-item-sliding *ngFor="let request of friendsRequest; let i of index">
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img src={{request.avatar}}>
+                    </ion-avatar>
+                    <h4><b>{{request.name}} {{request.last_name}}</b></h4>
+                    <p>Mutual Friend: Sarah Hetfield</p>
+                </ion-item>
+                <ion-item>
+                    <div class="add-request" (click)="AcceptFriendRequest(request.id)">
+                        <img class="add-friend" src="assets/svg/happy-face-icon.svg">
+                        <span class="plus-icon">+</span>
+                    </div>
+                    <div class="add-request cancel-request" (click)="denyRequest(request.id)">
+                        <img class="add-friend" src="assets/svg/happy-face-icon.svg">
+                        <span class="plus-icon">-</span>
+                    </div>
+                </ion-item>
+            </ion-item-sliding>
+
+            <div class="check">
+                <a href="#" padding text-center>Check all your Events</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="chat" ion-fixed [class.display-block]="openChat === true">
+        <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">CHAT / MESSAGES </h6>
+                <a class="same" href="#">Mark all as read</a>
+                <a class="same" href="#">Settings</a>
+            </div>
+
+            <ion-item-sliding>
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img src="assets/imgs/user.jpg">
+                    </ion-avatar>
+                    <h4><b>Diana Jameson</b></h4>
+                    <p>Hi James! It’s Diana, I just wanted to let you know that we have to reschedule...</p>
+                    <span>4 hours</span>
+                </ion-item>
+
+            </ion-item-sliding>
+
+            <div class="check check-message">
+                <a href="#" padding text-center>View All Messages</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="notification" ion-fixed [class.display-block]="openNotificationBar === true">
+        <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">NOTIFICATIONS </h6>
+                <a class="same" (click)="readAllNotifications()">Mark all as read</a>
+                <a class="same" href="#">Settings</a>
+            </div>
+
+            <div class="scroll">
+                <div *ngFor="let notification of notifications">
+
+                    <ion-item *ngIf="notification.read_at === null" style="background: #ffe2db"
+                              (click)="readNotificationByID(notification.id)">
+                        <ion-avatar item-start>
+                            <img src={{notification.data.recipient.avatar}}>
+                        </ion-avatar>
+                        <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
+                        <p>{{notification.data.message}}</p>
+                        <span class="notification-hours">{{notification.date}}</span>
+
+                    </ion-item>
+
+                    <ion-item *ngIf="notification.read_at !== null">
+
+                        <ion-avatar item-start>
+                            <img src={{notification.data.recipient.avatar}}>
+                        </ion-avatar>
+                        <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
+                        <p>{{notification.data.message}}</p>
+                        <span class="notification-hours">{{notification.date}}</span>
+
+                    </ion-item>
+
+                </div>
+            </div>
+
+            <div class="check check-notification">
+                <a padding text-center (click)="closeNote()">View All Notifications</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="search_bar" ion-fixed [class.display-block]="openSearchBar === true">
+        <ion-searchbar
+                [(ngModel)]="search"
+                (ionInput)="onInput($event)">
+        </ion-searchbar>
+    </div>
+
+    <div (click)="allWindowClick()">
+        <div *ngFor="let notification of notifications">
+
+            <ion-item *ngIf="notification.read_at === null" style="background: #ffe2db"
+                 (click)="readNotificationByID(notification.id)">
+                <ion-avatar item-start>
+                    <img src={{notification.data.recipient.avatar}}>
+                </ion-avatar>
+                <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
+                <p>{{notification.data.message}}</p>
+                <span class="notification-hours">{{notification.date}}</span>
+
+            </ion-item>
+            <ion-item *ngIf="notification.read_at !== null">
+
+                <ion-avatar item-start>
+                    <img src={{notification.data.recipient.avatar}}>
+                </ion-avatar>
+                <h4><b>{{notification.data.recipient.name}} {{notification.data.recipient.last_name}}</b></h4>
+                <p>{{notification.data.message}}</p>
+                <span class="notification-hours">{{notification.date}}</span>
+
+            </ion-item>
+        </div>
+        <ion-infinite-scroll (ionInfinite)="doInfiniteNotification($event)">
+            <ion-infinite-scroll-content
+                    loadingSpinner="bubbles"
+                    loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
+</ion-content>

@@ -26,4 +26,13 @@ export class DiscussionProvider {
     return this.http.delete(this._api.apiUrl+`discussions/${discussion_id}`)
   }
 
+  public addUsersToDiscussion(discussion_id, users ) {
+    return this.http.post(this._api.apiUrl+`discussions/${discussion_id}/add-users`,{users: users})
+  }
+
+  public  getDiscussionUsers(discussion_id) {
+      return this.http.get(this._api.apiUrl+`discussions/${discussion_id}/users`)
+  }
+
+
 }

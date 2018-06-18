@@ -1,188 +1,188 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>
-            <ion-grid>
-                <ion-row>
-                    <ion-col class="logo-headear" offset-4>
-                        <img src="assets/imgs/logo_small.png" float-left>
-                        <h6 class="header">Linker</h6>
-                        <div class="subHeader"> LINK IN ME</div>
-                    </ion-col>
+  <ion-navbar>
+    <ion-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="logo-headear" offset-4>
+            <img src="assets/imgs/logo_small.png" float-left>
+            <h6 class="header">Linker</h6>
+            <div class="subHeader"> LINK IN ME</div>
+          </ion-col>
 
-                </ion-row>
-            </ion-grid>
-        </ion-title>
-    </ion-navbar>
+        </ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-    <div class="content-bg-wrap">
-        <div class="content-bg bg-landing"></div>
-    </div>
-    <h1 ion-text color="light" class="place" text-center >Your Best Place to Save Anything You Like</h1>
-    <p ion-text color="light" text-center>Save your bookmarks, posts, videos in one place</p>
-    <div class="nav">
-        <button class="nav-item" ion-button color="light" (click)="setValue('login')">
-            <img *ngIf="nav === 'login'" class="content-icon" src="assets/svg/login-icon-active.svg">
-            <img *ngIf="nav !== 'login'" class="content-icon" src="assets/svg/login-icon.svg">
+  <div class="content-bg-wrap">
+    <div class="content-bg bg-landing"></div>
+  </div>
+  <h1 ion-text color="light" class="place" text-center >Your Best Place to Save Anything You Like</h1>
+  <p ion-text color="light" text-center>Save your bookmarks, posts, videos in one place</p>
+  <div class="nav">
+    <button class="nav-item" ion-button color="light" (click)="setValue('login')">
+      <img *ngIf="nav === 'login'" class="content-icon" src="assets/svg/login-icon-active.svg">
+      <img *ngIf="nav !== 'login'" class="content-icon" src="assets/svg/login-icon.svg">
+    </button>
+    <button class="nav-item" ion-button color="light" (click)="setValue('registration')">
+      <img *ngIf="nav === 'registration'" class="content-icon" src="assets/svg/register-icon-active.svg">
+      <img *ngIf="nav !== 'registration'" class="content-icon" src="assets/svg/register-icon.svg">
+    </button>
+  </div>
+
+  <div [ngSwitch]="nav">
+
+    <div *ngSwitchCase="'login'">
+      <div class="registration-login-form">
+        <h6 class="title">Login to Your Account</h6>
+        <button ion-button full outline class="danger" *ngIf="message !== ''">{{message}}</button>
+
+        <form [formGroup]="loginForm" novalidate>
+          <ion-list>
+            <ion-item>
+              <ion-label floating>Email</ion-label>
+              <ion-input formControlName="email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Password</ion-label>
+              <ion-input type="password" formControlName="password"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label><a > Forgot my Password</a></ion-label>
+            </ion-item>
+          </ion-list>
+        </form>
+        <button class="login-button" margin ion-button full color="btn-color" text-white text-center
+                (click)="login()"> Login
         </button>
-        <button class="nav-item" ion-button color="light" (click)="setValue('registration')">
-            <img *ngIf="nav === 'registration'" class="content-icon" src="assets/svg/register-icon-active.svg">
-            <img *ngIf="nav !== 'registration'" class="content-icon" src="assets/svg/register-icon.svg">
+        <div  class="or"></div>
+        <button class="login-button" margin ion-button full color="btn-facebook" text-white text-center
+                (click)="loginFacebook()"> <ion-icon name="logo-facebook" margin-right></ion-icon>Login with Facebook
         </button>
+      </div>
     </div>
 
-    <div [ngSwitch]="nav">
+    <div *ngSwitchCase="'registration'">
+      <div class="registration-login-form">
+        <h6 class="title">Register to Linker</h6>
+        <button ion-button full outline class="danger" *ngIf="messageRegistration !== ''">{{messageRegistration}}</button>
+        <form [formGroup]="registrationForm" novalidate>
+          <ion-list>
+            <ion-item
+                    [ngClass]="{'has-danger': name.invalid && (name.dirty || name.touched), 'has-success': name.valid && (name.dirty || name.touched)}">
+              <ion-label floating>First Name</ion-label>
+              <ion-input formControlName="name"></ion-input>
+            </ion-item>
+            <ion-item
+                    *ngIf="name.errors && (name.dirty || name.touched)">
+              <div class="alert alert-danger" *ngIf="name.errors.required">Name is required</div>
+              <div class="alert alert-danger" *ngIf="name.errors.minlength">The name must be at least 3
+                characters
+              </div>
+              <div class="alert alert-danger" *ngIf="name.errors.pattern">First name should be only
+                letters
+              </div>
+            </ion-item>
+            <ion-item
+                    [ngClass]="{'has-danger': last_name.invalid && (last_name.dirty || last_name.touched), 'has-success': last_name.valid && (last_name.dirty || last_name.touched)}">
+              <ion-label floating>Last Name</ion-label>
+              <ion-input formControlName="last_name" (blur)="onBlur()"
+                         (keydown)="onKeyDown()"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="last_name.errors && (last_name.dirty || last_name.touched)">
+              <div class="alert alert-danger" *ngIf="last_name.errors.required">Last Name is required
+              </div>
+              <div class="alert alert-danger" *ngIf="last_name.errors.minlength">The last name must be at
+                least 3 characters
+              </div>
+              <div class="alert alert-danger" *ngIf="last_name.errors.pattern">Last name should be only
+                letters
+              </div>
 
-        <div *ngSwitchCase="'login'">
-            <div class="registration-login-form">
-                <h6 class="title">Login to Your Account</h6>
-                <button ion-button full outline class="danger" *ngIf="message !== ''">{{message}}</button>
+            </ion-item>
+            <ion-item
+                    [ngClass]="{'has-danger': remail.invalid && (remail.dirty || remail.touched), 'has-success': remail.valid && (remail.dirty || remail.touched)}">
+              <ion-label floating>Email</ion-label>
+              <ion-input formControlName="remail"></ion-input>
+              <span></span>
+            </ion-item>
+            <ion-item *ngIf="remail.errors && (remail.dirty || remail.touched)">
+              <div class="alert alert-danger" *ngIf="remail.errors.required">Email address is required
+              </div>
+              <div class="alert alert-danger" *ngIf="remail.errors.pattern">Please enter a valid email
+                address
+              </div>
 
-                <form [formGroup]="loginForm" novalidate>
-                    <ion-list>
-                        <ion-item>
-                            <ion-label floating>Email</ion-label>
-                            <ion-input formControlName="email"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label floating>Password</ion-label>
-                            <ion-input type="password" formControlName="password"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label><a href="#"> Forgot my Password</a></ion-label>
-                        </ion-item>
-                    </ion-list>
-                </form>
-                <button class="login-button" margin ion-button full color="btn-color" text-white text-center
-                        (click)="login()"> Login
-                </button>
-                <div  class="or"></div>
-                <button class="login-button" margin ion-button full color="btn-facebook" text-white text-center
-                        (click)="loginFacebook()"> <ion-icon name="logo-facebook" margin-right></ion-icon>Login with Facebook
-                </button>
-            </div>
-        </div>
+            </ion-item>
+            <ion-item
+                    [ngClass]="{'has-danger': username.invalid && (username.dirty || username.touched), 'has-success': username.valid && (username.dirty || username.touched)}">
+              <ion-label floating>Username</ion-label>
+              <ion-input formControlName="username"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="username.errors && (username.dirty || username.touched)">
+              <div class="alert alert-danger" *ngIf="username.errors.required">Username is required</div>
+            </ion-item>
+            <ion-item
+                    [ngClass]="{'has-danger': rpassword.invalid && (rpassword.dirty || rpassword.touched),'has-success': rpassword.valid && (rpassword.dirty || rpassword.touched)}">
+              <ion-label floating>Password</ion-label>
+              <ion-input type="password" formControlName="rpassword" (blur)="onBlur()"
+                         (keydown)="onKeyDown()"></ion-input>
+            </ion-item>
+            <ion-item class="form-control-feedback"
+                      *ngIf="rpassword.errors && (rpassword.dirty || rpassword.touched)">
+              <div class="alert alert-danger" *ngIf="rpassword.errors.required">Password is required
+              </div>
+              <div class="alert alert-danger" *ngIf="rpassword.errors.minlength">The password must be
+                at least 8 characters
+              </div>
 
-        <div *ngSwitchCase="'registration'">
-            <div class="registration-login-form">
-                <h6 class="title">Register to Linker</h6>
-                <button ion-button full outline class="danger" *ngIf="messageRegistration !== ''">{{messageRegistration}}</button>
-                <form [formGroup]="registrationForm" novalidate>
-                    <ion-list>
-                        <ion-item
-                                [ngClass]="{'has-danger': name.invalid && (name.dirty || name.touched), 'has-success': name.valid && (name.dirty || name.touched)}">
-                            <ion-label floating>First Name</ion-label>
-                            <ion-input formControlName="name"></ion-input>
-                        </ion-item>
-                        <ion-item
-                                *ngIf="name.errors && (name.dirty || name.touched)">
-                            <div class="alert alert-danger" *ngIf="name.errors.required">Name is required</div>
-                            <div class="alert alert-danger" *ngIf="name.errors.minlength">The name must be at least 3
-                                characters
-                            </div>
-                            <div class="alert alert-danger" *ngIf="name.errors.pattern">First name should be only
-                                letters
-                            </div>
-                        </ion-item>
-                        <ion-item
-                                [ngClass]="{'has-danger': last_name.invalid && (last_name.dirty || last_name.touched), 'has-success': last_name.valid && (last_name.dirty || last_name.touched)}">
-                            <ion-label floating>Last Name</ion-label>
-                            <ion-input formControlName="last_name" (blur)="onBlur()"
-                                       (keydown)="onKeyDown()"></ion-input>
-                        </ion-item>
-                        <ion-item *ngIf="last_name.errors && (last_name.dirty || last_name.touched)">
-                            <div class="alert alert-danger" *ngIf="last_name.errors.required">Last Name is required
-                            </div>
-                            <div class="alert alert-danger" *ngIf="last_name.errors.minlength">The last name must be at
-                                least 3 characters
-                            </div>
-                            <div class="alert alert-danger" *ngIf="last_name.errors.pattern">Last name should be only
-                                letters
-                            </div>
-
-                        </ion-item>
-                        <ion-item
-                                [ngClass]="{'has-danger': remail.invalid && (remail.dirty || remail.touched), 'has-success': remail.valid && (remail.dirty || remail.touched)}">
-                            <ion-label floating>Email</ion-label>
-                            <ion-input formControlName="remail"></ion-input>
-                            <span></span>
-                        </ion-item>
-                        <ion-item *ngIf="remail.errors && (remail.dirty || remail.touched)">
-                            <div class="alert alert-danger" *ngIf="remail.errors.required">Email address is required
-                            </div>
-                            <div class="alert alert-danger" *ngIf="remail.errors.pattern">Please enter a valid email
-                                address
-                            </div>
-
-                        </ion-item>
-                        <ion-item
-                                [ngClass]="{'has-danger': username.invalid && (username.dirty || username.touched), 'has-success': username.valid && (username.dirty || username.touched)}">
-                            <ion-label floating>Username</ion-label>
-                            <ion-input formControlName="username"></ion-input>
-                        </ion-item>
-                        <ion-item *ngIf="username.errors && (username.dirty || username.touched)">
-                            <div class="alert alert-danger" *ngIf="username.errors.required">Username is required</div>
-                        </ion-item>
-                        <ion-item
-                                [ngClass]="{'has-danger': rpassword.invalid && (rpassword.dirty || rpassword.touched),'has-success': rpassword.valid && (rpassword.dirty || rpassword.touched)}">
-                            <ion-label floating>Password</ion-label>
-                            <ion-input type="password" formControlName="rpassword" (blur)="onBlur()"
-                                       (keydown)="onKeyDown()"></ion-input>
-                        </ion-item>
-                        <ion-item class="form-control-feedback"
-                                  *ngIf="rpassword.errors && (rpassword.dirty || rpassword.touched)">
-                            <div class="alert alert-danger" *ngIf="rpassword.errors.required">Password is required
-                            </div>
-                            <div class="alert alert-danger" *ngIf="rpassword.errors.minlength">The password must be
-                                at least 8 characters
-                            </div>
-
-                        </ion-item>
-                        <ion-item
-                                [ngClass]="{ 'has-danger':  password_confirmation.invalid && ( password_confirmation.dirty ||  password_confirmation.touched), 'has-success':  password_confirmation.valid && ( password_confirmation.dirty ||  password_confirmation.touched)}">
-                            <ion-label floating>Password Confirmation</ion-label>
-                            <ion-input type="password" formControlName="password_confirmation" (blur)="onBlur()"
-                                       (keydown)="onKeyDown()"></ion-input>
-                        </ion-item>
-                        <ion-item *ngIf="errorMessages">
-                            <div class="alert alert-danger" *ngIf="passwordError">Your password and repeat password
-                                don't match
-                            </div>
-                            <div class="form-control-feedback"
-                                 *ngIf="password_confirmation.errors && (password_confirmation.dirty || password_confirmation.touched)">
-                                <div class="alert alert-danger" *ngIf="password_confirmation.errors.required">Repeat
-                                    Password is required
-                                </div>
-                            </div>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label floating>Your Birthday</ion-label>
-                            <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="DDDD MMMM YYYY"
-                                          formControlName="birthday"></ion-datetime>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Gender</ion-label>
-                            <ion-select formControlName="gender">
-                                <ion-option value="female">Female</ion-option>
-                                <ion-option value="male">Male</ion-option>
-                            </ion-select>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label> I accept the <a href="#">Terms and Conditions</a> of the website</ion-label>
-                            <ion-checkbox color="background" [checked]="acceptUsername"
-                                          (click)="acceptUsername = !acceptUsername"></ion-checkbox>
-                        </ion-item>
-                    </ion-list>
-                </form>
-                <button [disabled]="!acceptUsername" class="login-button" margin ion-button full color="btn-color"
-                        text-white text-center (click)="signup()"> Complete Registration!
-                </button>
-            </div>
-        </div>
-        <div *ngSwitchDefault></div>
+            </ion-item>
+            <ion-item
+                    [ngClass]="{ 'has-danger':  password_confirmation.invalid && ( password_confirmation.dirty ||  password_confirmation.touched), 'has-success':  password_confirmation.valid && ( password_confirmation.dirty ||  password_confirmation.touched)}">
+              <ion-label floating>Password Confirmation</ion-label>
+              <ion-input type="password" formControlName="password_confirmation" (blur)="onBlur()"
+                         (keydown)="onKeyDown()"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="errorMessages">
+              <div class="alert alert-danger" *ngIf="passwordError">Your password and repeat password
+                don't match
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="password_confirmation.errors && (password_confirmation.dirty || password_confirmation.touched)">
+                <div class="alert alert-danger" *ngIf="password_confirmation.errors.required">Repeat
+                  Password is required
+                </div>
+              </div>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Your Birthday</ion-label>
+              <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="DDDD MMMM YYYY"
+                            formControlName="birthday"></ion-datetime>
+            </ion-item>
+            <ion-item>
+              <ion-label>Gender</ion-label>
+              <ion-select formControlName="gender">
+                <ion-option value="female">Female</ion-option>
+                <ion-option value="male">Male</ion-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label> I accept the <a >Terms and Conditions</a> of the website</ion-label>
+              <ion-checkbox color="background" [checked]="acceptUsername"
+                            (click)="acceptUsername = !acceptUsername"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </form>
+        <button [disabled]="!acceptUsername" class="login-button" margin ion-button full color="btn-color"
+                text-white text-center (click)="signup()"> Complete Registration!
+        </button>
+      </div>
     </div>
+    <div *ngSwitchDefault></div>
+  </div>
 </ion-content>
 
 

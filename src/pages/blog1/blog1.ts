@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {
     AlertController, IonicPage, LoadingController, MenuController, NavController, NavParams,
     Platform
@@ -28,7 +28,7 @@ export interface myDate {
 
 })
 
-export class Blog1Page {
+export class Blog1Page implements OnInit {
 
     public links: any;
     public user: any;
@@ -37,6 +37,7 @@ export class Blog1Page {
     public create_date = [];
     public create = [];
     public Dat: Date = new Date();
+    public blaka = ['fhdsjfh','dsd']
     public my_date: myDate = {
         day: null,
         month: null,
@@ -105,9 +106,10 @@ export class Blog1Page {
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
-        this._discussion.getUserDiscussion(1)
-            .subscribe(res=> {console.log('sdf');console.log(res)});
+    }
 
+    ngOnInit(){
+        this.Links();
     }
 
     doRefresh(refresher) {
@@ -156,8 +158,6 @@ export class Blog1Page {
             })
     }
 
-
-
     doInfiniteFriends(infiniteScroll) {
         this._friend.getFriendsWithoutPage()
             .subscribe(res=> {
@@ -199,7 +199,7 @@ export class Blog1Page {
                                     'assets/imgs/avatar30-sm.jpg',
                                     'assets/imgs/avatar30-sm.jpg'
                                 ];
-                                el.addFriends = 'assets/svg//happy-faces-icon.svg';
+                                el.addFriends = 'assets/svg/happy-face-icon.svg';
                                 el.settings = 'assets/svg/settings-icon.svg';
                                 el.more = 'assets/svg/three-dots-icon.svg';
                                 el.openmore = false;
@@ -386,6 +386,7 @@ export class Blog1Page {
                 .subscribe(res => {
                     // console.log(res)
                     if (res) {
+                        console.log(res)
                         loading.dismiss();
                     }
                     this.data.categories = res['data'].categories;
@@ -507,13 +508,14 @@ export class Blog1Page {
     }
 
     getLinkByCategoryName(value) {
+        console.log(value);
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this._link.getLinksByCategories(value)
             .subscribe(res => {
-                console.log(res)
-                this.links = res['data'].links;
+                console.log(res);
+                this.links = res['data'].links['data'];
                 this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
                 })
@@ -573,6 +575,7 @@ export class Blog1Page {
     }
 
     someCategory(i) {
+        console.log('nno')
         this.categoryName = this.data.categories[i].name;
         this.categoryId = this.data.categories[i].id;
         this.categoryI = i;
@@ -700,7 +703,7 @@ export class Blog1Page {
                             'assets/imgs/avatar30-sm.jpg',
                             'assets/imgs/avatar30-sm.jpg'
                         ];
-                        el.addFriends = 'assets/svg//happy-faces-icon.svg';
+                        el.addFriends = 'assets/svg/happy-faces-icon.svg';
                         el.settings = 'assets/svg/settings-icon.svg';
                         el.more = 'assets/svg/three-dots-icon.svg';
                         el.openmore = false;
@@ -713,7 +716,7 @@ export class Blog1Page {
         this._discussion.getUserDiscussion(1)
             .subscribe(res => {
                 if (res['status'] === 'success') {
-                    this.discussions = res['data']['discussions'];
+                    this.discussions = res['data']['discussions']['data'];
                     this.discussions.forEach((el) => {
                         el['headerImg'] = 'assets/imgs/logo_small.png';
                         el['friends'] = [
@@ -724,19 +727,20 @@ export class Blog1Page {
                             'assets/imgs/avatar30-sm.jpg',
                             'assets/imgs/avatar30-sm.jpg'
                         ];
-                        el.addFriends = 'assets/svg//happy-faces-icon.svg';
+                        el.addFriends = 'assets/svg/happy-faces-icon.svg';
                         el.settings = 'assets/svg/settings-icon.svg';
                         el.more = 'assets/svg/three-dots-icon.svg';
                         el.openmore = false;
                     })
                 }
             })
+
     }
 
     someDiscussions(i) {
         this.discussions.forEach((element) => {
             element.openmore = false;
-            console.log(element.openmore)
+            //console.log(element.openmore)
         })
         this.openSearchBar = false;
         this.openFreind = false;
@@ -788,7 +792,7 @@ export class Blog1Page {
                     role: 'destructive',
                     icon: !this.platform.is('ios') ? 'trash' : null,
                     handler: () => {
-                        console.log(this.discussions[i].id);
+                 //       console.log(this.discussions[i].id);
                         this._discussion.deleteDiscussion(this.discussions[i].id)
                             .subscribe(res => {
                                 console.log(res);
@@ -803,7 +807,7 @@ export class Blog1Page {
                     role: 'cancel', // will always sort to be on the bottom
                     icon: !this.platform.is('ios') ? 'close' : null,
                     handler: () => {
-                        console.log('Cancel clicked');
+                    //    console.log('Cancel clicked');
                     }
                 }
             ]
@@ -826,9 +830,7 @@ export class Blog1Page {
                     value['sendFriendRequest'] = false;
                 })
                 loading.dismiss();
-                console.log(this.usersList)
-                console.log('users')
-                console.log(res);
+
             })
     }
 
@@ -846,18 +848,18 @@ export class Blog1Page {
                     value.openmore = false;
                 })
                 loading.dismiss();
-                console.log('friends');
-                console.log(res);
+               // console.log('friends');
+                //console.log(res);
             })
     }
 
     FriendsRequests() {
         this._friend.getFriendsRequests()
             .subscribe(res => {
-                console.log('friends requests');
-                console.log(res);
+               // console.log('friends requests');
+               //  console.log(res);
                 this.friendsRequest = res['users']['data'];
-                console.log(this.friendsRequest)
+                // console.log(this.friendsRequest)
             })
 
     }
@@ -868,8 +870,8 @@ export class Blog1Page {
     }
 
     AcceptFriendRequest(id) {
-        console.log('Accept Friend Request');
-        console.log(id);
+        // console.log('Accept Friend Request');
+        // console.log(id);
         this._friend.acceptFriendRequest(id)
             .subscribe(res => {console.log(res);
            // this.Friends();
@@ -878,23 +880,23 @@ export class Blog1Page {
     }
 
     DidntAcceptFriendRequest(i) {
-        console.log('Did not Accept Friend Request')
+     //   console.log('Did not Accept Friend Request')
     }
 
     Notifications() {
-        this._notification.getNotifications()
+        this._notification.getNotifications(1)
             .subscribe(res => {
-                console.log('notification');
+        //        console.log('notification');
                // console.log(res);
                 this.notifications = res['notifications']['data'];
-                console.log(this.notifications);
+        //        console.log(this.notifications);
             })
     }
 
     readAllNotifications() {
         this._notification.readAllNotifications()
             .subscribe(res=>{
-               console.log(res);
+            //   console.log(res);
                 this.Notifications();
             })
     }
@@ -959,6 +961,73 @@ export class Blog1Page {
         this.openFreind = false;
         this.openChat = false;
         this.openNotificationBar = false;
+    }
+
+    allNotifications() {
+        this.navCtrl.setRoot("NotificationPage")
+    }
+
+    bla= false;
+
+    addUserDiscussion(id){
+        console.log(this.discussions);
+        console.log('add user')
+        let loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
+
+        loading.present();
+        this._users.getUsers()
+            .subscribe(res => {
+
+                this.usersList = res['users'].data;
+                this.usersList.forEach((value) => {
+                    value['sendFriendRequest'] = false;
+                })
+
+                console.log(this.usersList)
+                console.log('users')
+                console.log(res);
+                loading.dismiss();
+                let alert = this.alertCtrl.create();
+
+
+                alert.setTitle('Add New Users ');
+
+             //   console.log('user list' + this.usersList);
+                this.usersList.forEach((val) => {
+                   // console.log(val);
+                    alert.addInput({
+                        type: 'checkbox',
+                        label: val.name,
+                        value: val.id
+                    })
+                })
+
+                alert.addButton('Cancel');
+                alert.addButton({
+                    text: 'Okay',
+                    handler: (data: any) => {
+                       this._discussion.addUsersToDiscussion(id, data)
+                           .subscribe(res => {
+                               console.log('add user');
+                               console.log(res)
+                           })
+
+
+                    }
+                });
+
+                alert.present();
+
+            })
+    }
+
+    goToDiscussionPage(id, categoryId) {
+        if (categoryId === undefined) {
+            categoryId = null;
+        }
+        this.navCtrl.setRoot('DiscussionIPage', {discussionId: id, categoryId: categoryId})
     }
 
 }

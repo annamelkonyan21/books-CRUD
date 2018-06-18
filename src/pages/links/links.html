@@ -1,0 +1,31 @@
+<ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet(i)">
+    <ion-card-content>
+        <a class="card-link" (click)="openWithBrowser(link.url)">
+            <img src={{link.image}}>
+            <div margin>
+                <div class="pic-icon" float-left margin-right>
+                    <img src={{link.icon}}>
+                </div>
+                <a>{{link.host}}</a>
+            </div>
+            <ion-card-title margin>
+                {{link.title}}
+            </ion-card-title>
+            <p margin>
+                {{link.tags}}
+            </p>
+            <div class="author-date" margin>
+                <p>BY <b>Some One</b> - {{link.create_date}}</p>
+            </div>
+        </a>
+        <div class="links-block" margin>
+            <img class="pic-icon" margin-bottom float-left [src]=link.likeImg>
+            <span class="views" float-left margin-right> {{link.views}}</span>
+            <img class="pic-icon" margin-bottom float-left [src]=link.commentImg>
+            <span class="views" float-left margin-right> 0</span>
+            <img class="pic-icon" margin-bottom float-left [src]=link.viewImg>
+            <span class="views" float-left margin-right> 0</span>
+        </div>
+    </ion-card-content>
+</ion-card>
+

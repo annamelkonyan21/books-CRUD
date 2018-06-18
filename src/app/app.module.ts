@@ -10,13 +10,18 @@ import {MyApp} from './app.component';
 
 //--------- modules ------------
 
-import {HomeModule} from "../pages/home/home.module";
-import {Blog1PageModule} from "../pages/blog1/blog1.module";
-import { Page1PageModule} from "../pages/page1/page1.module";
-import { Tab1PageModule} from "../pages/tab1/tab1.module";
-import { Tab2PageModule} from "../pages/tab2/tab2.module";
-import { MenuPageModule} from "../pages/menu/menu.module";
+
+import { Blog1PageModule } from "../pages/blog1/blog1.module";
+import { Page1PageModule } from "../pages/page1/page1.module";
+import { Tab1PageModule } from "../pages/tab1/tab1.module";
+import { Tab2PageModule } from "../pages/tab2/tab2.module";
+import { MenuPageModule } from "../pages/menu/menu.module";
 import { UserSettingsPageModule } from "../pages/user-settings/user-settings.module";
+import { NotificationPageModule } from "../pages/notification/notification.module";
+import { HomePageModule } from "../pages/home/home.module";
+import { DiscussionIPageModule } from "../pages/discussion-i/discussion-i.module";
+//import { LinksPageModule  } from "../pages/links/links.module";
+
 
 //--------- providers ------------
 
@@ -35,24 +40,29 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
 
 @NgModule({
     declarations: [
-        MyApp
+        MyApp,
+
     ],
     imports: [
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
         IonicModule.forRoot(MyApp),
-        HomeModule,
+        HomePageModule,
         Blog1PageModule,
         Page1PageModule,
         Tab1PageModule,
         Tab2PageModule,
         MenuPageModule,
-        UserSettingsPageModule
+        UserSettingsPageModule,
+        NotificationPageModule,
+        DiscussionIPageModule,
+      //  LinksPageModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
-        MyApp
+        MyApp,
+
     ],
     providers: [
         StatusBar,

@@ -1,17 +1,16 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {UsersProvider} from "../../providers/users/users";
 import {FriendsProvider} from "../../providers/friends/friends";
 import {NotificationsProvider} from "../../providers/notifications/notifications";
-import {UsersProvider} from "../../providers/users/users";
 
 
 @IonicPage()
 @Component({
-    selector: 'page-user-settings',
-    templateUrl: 'user-settings.html',
+  selector: 'page-notification',
+  templateUrl: 'notification.html',
 })
-
-export class UserSettingsPage {
+export class NotificationPage {
 
     public openFreind:boolean = false;
     public openChat:boolean = false;
@@ -28,8 +27,15 @@ export class UserSettingsPage {
                 private _users: UsersProvider) {
     }
 
+    doRefresh(refresher) {
+        this.FriendsRequests();
+        this.Notifications();
+        setTimeout(() => {
+            refresher.complete();
+        }, 2000);
+    }
+
     ionViewDidLoad() {
-        console.log('ionViewDidLoad UserSettingsPage');
         this.User();
         this.Notifications();
         this.FriendsRequests();
@@ -109,6 +115,31 @@ export class UserSettingsPage {
 
     back() {
         this.navCtrl.setRoot('MenuPage')
+    }
+
+    lastNotificationPage:any;
+
+    doInfiniteNotification(infiniteScroll) {
+       this._notification.getNotifications(1)
+            .subscribe(res => {
+                infiniteScroll.complete();
+                console.log(res);
+                this.lastNotificationPage = res['notifications']['data'];
+                for (let i = 2; i <= this.lastNotificationPage; i++) {
+                    this._users.getUsersByPage(i)
+                        .subscribe(res => {
+                            res['notifications']['data'].data.forEach(value => {
+
+                                this.notifications.push(value);
+                            })
+                        })
+                    infiniteScroll.enable(false)
+                }
+            })
+    }
+
+    closeNote() {
+        this.openNotificationBar = false;
     }
 
 }

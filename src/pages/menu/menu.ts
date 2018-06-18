@@ -4,7 +4,6 @@ import {HomePage} from "../home/home";
 
 import {Events} from 'ionic-angular';
 import {UsersProvider} from "../../providers/users/users";
-import {UserSettingsPage} from "../user-settings/user-settings";
 
 export interface PageInterface {
     title: string,
@@ -43,7 +42,7 @@ export class MenuPage {
     pages: PageInterface[] = [
         {
             title: 'Links',
-            pageName: 'MenuPage',
+            pageName: 'Blog1Page',
             icon: 'star',
             index: 0
         },
@@ -108,13 +107,13 @@ export class MenuPage {
 
     logout() {
         localStorage.removeItem('token');
-        this.navCtrl.setRoot(HomePage)
+        this.navCtrl.setRoot(HomePage);
     }
 
     goToPersonPage() {
 
         //this.rootPage = 'UserSettingsPage';
-        this.navCtrl.push(UserSettingsPage)
+        this.navCtrl.push("UserSettingsPage")
         //this.navCtrl.setRoot('UserSettingsPage');
         console.log(this.rootPage);
     }
