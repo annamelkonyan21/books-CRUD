@@ -85,7 +85,10 @@ export class Blog1Page implements OnInit {
     private lasrFriendsPage:number;
     private lastLinks:number;
     private lastDiscussion:number;
-
+    public discussionUsers = [];
+    private discussionUsersId : number[] = [];
+    private usersId = [];
+    private indexes  = [];
     @ViewChild('search') search;
     @ViewChild('select') select;
 
@@ -654,6 +657,10 @@ export class Blog1Page implements OnInit {
                     text: 'Save',
                     handler: data => {
                         console.log(this.categoryName);
+                        let loading = this.loadingCtrl.create({
+                                content: 'Please wait...'
+                        });
+                        loading.present();
                         if (this.categoryName === '' || this.categoryName === 'All Categories') {
                             this.likeImg = 'assets/svg/like-post-icon.svg';
                             this.commentImg = 'assets/icon/icon-chat1.png';
@@ -661,8 +668,10 @@ export class Blog1Page implements OnInit {
                             this._link.createLinks(data['Link url'])
                                 .subscribe(res => {
                                     console.log(res);
+
                                     this.openLinks = false;
                                     this.Links();
+                                    loading.dismiss()
                                 })
                             this.openLinks = false;
                         } else {
@@ -674,6 +683,7 @@ export class Blog1Page implements OnInit {
                                     console.log(res);
                                     this.getLinkByCategoryName(this.categoryId);
                                     this.openLinks = false;
+                                    loading.dismiss();
                                 })
                         }
                     }
@@ -682,6 +692,8 @@ export class Blog1Page implements OnInit {
         });
         prompt.present();
     }
+
+
 
     getDiscussion() {
         let loading = this.loadingCtrl.create({
@@ -693,8 +705,23 @@ export class Blog1Page implements OnInit {
                 if (res['status'] === 'success') {
                     loading.dismiss();
                     this.discussions = res['data']['discussions']['data'];
-                    this.discussions.forEach((el) => {
-                        el['headerImg'] = 'assets/imgs/logo_small.png';
+                    console.log('diss');
+                    console.log(this.discussions);
+
+                    this.discussions.forEach((value) => {
+
+                        value['headerImg'] = 'assets/imgs/logo_small.png';
+
+                        value.addFriends = 'assets/svg/happy-faces-icon.svg';
+                        value.settings = 'assets/svg/settings-icon.svg';
+                        value.more = 'assets/svg/three-dots-icon.svg';
+                        value.openmore = false;
+
+                    })
+
+                 /*   this.discussions.forEach((el) => {
+
+
                         el['friends'] = [
                             'assets/imgs/friend-harmonic10.jpg',
                             'assets/imgs/friend-harmonic7.jpg',
@@ -703,11 +730,8 @@ export class Blog1Page implements OnInit {
                             'assets/imgs/avatar30-sm.jpg',
                             'assets/imgs/avatar30-sm.jpg'
                         ];
-                        el.addFriends = 'assets/svg/happy-faces-icon.svg';
-                        el.settings = 'assets/svg/settings-icon.svg';
-                        el.more = 'assets/svg/three-dots-icon.svg';
-                        el.openmore = false;
-                    })
+
+                    })*/
                 }
             })
     }
@@ -969,6 +993,10 @@ export class Blog1Page implements OnInit {
 
     bla= false;
 
+
+
+
+
     addUserDiscussion(id){
         console.log(this.discussions);
         console.log('add user')
@@ -977,30 +1005,51 @@ export class Blog1Page implements OnInit {
         });
 
         loading.present();
+        this._discussion.getDiscussionUsers(id)
+            .subscribe(res => {
+                console.log('bla');
+                res['data']['users'].forEach(user => {
+                    this.discussionUsersId.push(user['id'])
+                })
+            })
+
         this._users.getUsers()
             .subscribe(res => {
 
-                this.usersList = res['users'].data;
+               /* this.usersList = res['users'].data;
                 this.usersList.forEach((value) => {
                     value['sendFriendRequest'] = false;
                 })
+                this.usersList.forEach((user)=>{
+                    this.usersId.push(user.id)
+                });
+                for(let i = 0; i< this.discussionUsersId.length; i++ ) {
+                    for(let j)
+                    if(this.discussionUsersId )
+                }
+                 this.usersId.forEach((val) => {
 
-                console.log(this.usersList)
-                console.log('users')
-                console.log(res);
+                    let b = this.discussionUsersId.includes(val);
+                    this.indexes.push(b);
+                })
+                for(let i = 0; i < this.indexes.length; i++ ) {
+                    this.usersList[i]['checked'] = this.indexes[i];
+                }
+
                 loading.dismiss();
                 let alert = this.alertCtrl.create();
 
 
                 alert.setTitle('Add New Users ');
 
-             //   console.log('user list' + this.usersList);
+
+                console.log(this.usersList);
                 this.usersList.forEach((val) => {
-                   // console.log(val);
                     alert.addInput({
                         type: 'checkbox',
                         label: val.name,
-                        value: val.id
+                        value: val.id,
+                        checked: val.checked
                     })
                 })
 
@@ -1019,15 +1068,15 @@ export class Blog1Page implements OnInit {
                 });
 
                 alert.present();
-
+*/
             })
     }
 
-    goToDiscussionPage(id, categoryId) {
+    goToDiscussionPage(id, categoryId, discussionName) {
         if (categoryId === undefined) {
             categoryId = null;
         }
-        this.navCtrl.setRoot('DiscussionIPage', {discussionId: id, categoryId: categoryId})
+        this.navCtrl.setRoot('DiscussionIPage', {discussionId: id, categoryId: categoryId, discussionName: discussionName})
     }
 
 }

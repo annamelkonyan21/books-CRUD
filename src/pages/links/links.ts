@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {ActionSheetController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {LinkProvider} from "../../providers/link/link";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
@@ -12,14 +12,14 @@ import {myDate} from "../blog1/blog1";
 export class LinksPage {
    @Input() links : object[];
    @Input() categoryId: number;
+   @Input() pageName: string;
+   @Input() discussionId: number;
+
+   @Output() sendToParent = new EventEmitter();
 
     public likeImg:string;
     public commentImg:string;
     public viewImg:string;
-    private create_date = [];
-    private d: any;
-    private create = [];
-    private ago = [];
 
     public my_date: myDate = {
         day: null,
@@ -41,6 +41,7 @@ export class LinksPage {
                 public actionSheetCtrl: ActionSheetController,
                 private _link: LinkProvider,
                 private iab: InAppBrowser) {
+        this.sendToParent.emit(this.links);
     }
 
     ionViewDidLoad() {
@@ -48,7 +49,9 @@ export class LinksPage {
         console.log(this.categoryId)
     }
 
-
+    sdfsdfds() {
+        console.log('sdsdjsi')
+    }
 
     presentActionSheet(i) {
 
@@ -61,22 +64,31 @@ export class LinksPage {
                     handler: () => {
                         console.log(this.links);
 
-
-                        this._link.deleteLinkFromList(this.links[i]['id'],this.categoryId)
-                            .subscribe(res => {
-                                console.log(res);
-                                console.log(this.links)
-                                if (res['status'] === 'successMessage') {
-                                    this.links.pop();
+                        console.log(this.categoryId);
+                        if(this.pageName === 'BLOG1PAGE') {
+                            this._link.deleteLinkFromList(this.links[i]['id'],this.categoryId)
+                                .subscribe(res => {
+                                    console.log(res);
+                                    if (res['status'] === 'successMessage') {
+                                        console.log(i);
+                                        console.log(this.links.splice(i,1));
+                                        console.log(this.links);
+                                    }
+                                })
+                        } else if (this.pageName === 'DISCUSSION') {
+                            this._link.deleteLinkFromDiscussionList(this.links[i]['id'],this.discussionId, this.categoryId)
+                                .subscribe(res => {
+                                    console.log(res);
+                                    this.links.splice(i,1);
                                     console.log(this.links)
-                                }
-                            })
+                                })
+                        }
+
                     }
                 },
                 {
                     text: 'Cancel',
-                    role: 'cancel', // will always sort to be on the bottom
-                  //  icon: !this.platform.is('ios') ? 'close' : null,
+                    role: 'cancel',
                     handler: () => {
                         console.log('Cancel clicked');
                     }
@@ -96,7 +108,7 @@ export class LinksPage {
     }
 
 
-    Links() {
+  /*  Links() {
         this.likeImg = './assets/svg/like-post-icon.svg';
         this.commentImg = './assets/icon/icon-chat1.png';
         this.viewImg = './assets/svg/speech-balloon-icon.svg';
@@ -146,5 +158,5 @@ export class LinksPage {
                 console.log('links');
                 console.log(this.links)
             })
-    }
+    }*/
 }

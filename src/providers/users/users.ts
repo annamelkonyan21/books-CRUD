@@ -26,4 +26,5 @@ export class UsersProvider {
         return this.http.get(this._api.apiUrl + `users`)
     }
 
+    //getDisc
 }

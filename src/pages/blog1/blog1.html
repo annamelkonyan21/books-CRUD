@@ -229,7 +229,7 @@
             </ion-card>
 
             <div (click)="allWindowClick()" id="allWindow" margin-bottom>
-                <page-links [links]="links" [categoryId]="category_id"></page-links>
+                <page-links [links]="links" [categoryId]="category_id" [pageName]="'BLOG1PAGE'"></page-links>
 
                 <ion-infinite-scroll (ionInfinite)="doInfiniteLinks($event)">
                     <ion-infinite-scroll-content
@@ -255,7 +255,8 @@
             <ion-grid>
                 <ion-row>
                     <ion-col col-6 class="cols" *ngFor="let discussion of discussions; let i = index">
-                        <ion-card class="card-friend" (press)="deleteDiscussions(i)" (click)="goToDiscussionPage(discussion.id, categoryId)">
+                        <ion-card class="card-friend" (press)="deleteDiscussions(i)"
+                                  >
                             <div margin-right margin-top class="more" float-right (click)="openMore(i)">
                                 <img src={{discussion.more}} alt="more" class="more">
                             </div>
@@ -267,40 +268,31 @@
                                 </ul>
                             </ion-card>
                             <ion-item (click)="someDiscussions(i)">
-                                <div class="header-img">
-                                    <img src={{discussion.headerImg}} alt="header-img">
+                                <div (click)="goToDiscussionPage(discussion.id, categoryId,   discussion.name)">
+                                    <div class="header-img" >
+                                        <img src={{discussion.headerImg}} alt="header-img">
+                                    </div>
+                                    <h6 text-center margin-top>{{discussion.name}}</h6>
+                                    <p text-center>{{discussion.users.length }} Friends in the Group</p>
+                                    <ul class="friends-harmonic">
+                                        <li *ngFor="let user of discussion.users">
+                                            <a><img src={{user.avatar}}></a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <h6 text-center margin-top>{{discussion.name}}</h6>
-                                <p text-center>{{discussion.friends.length }} Friends in the Group</p>
-                                <ul class="friends-harmonic">
-                                    <li *ngFor="let friend of discussion.friends">
-                                        <a><img src={{friend}}></a>
-                                    </li>
-                                </ul>
                                 <ion-grid>
                                     <ion-row>
                                         <ion-col col-6>
-                                            <!--<ion-label>-->
-                                            <!--<ion-select multiple="true">ffff-->
-                                                <button class="fab fab-md categories discussion-settings">
-                                                    <span class="button-inner">
-                                                 <!--<img class="nav-link-icon " src={{discussion.addFriends}}>-->
-                                                        <div class="add-request" (click)="addUserDiscussion(discussion.id)">
-                                                            <img class="add-friend-discussion"
-                                                                 src="assets/svg/happy-face-icon.svg">
-                                                            <span class="plus-icon-discussion ">+</span>
-                                                        </div>
-                                                    </span>
-                                                </button>
-                                            <!--</ion-label>-->
-
-                                            <!--<p *ngIf="bla">-->
-
-                                                    <!--<ion-option value="f">Female</ion-option>-->
-                                                    <!--<ion-option value="m">Male</ion-option>-->
-                                                <!--</ion-select>-->
-                                            <!--</p>-->
-
+                                            <button class="fab fab-md categories discussion-settings" (click)="addUserDiscussion(discussion.id)">
+                                                <span class="button-inner">
+                                                    <div class="add-request"
+                                                         >
+                                                        <img class="add-friend-discussion"
+                                                             src="assets/svg/happy-face-icon.svg">
+                                                        <span class="plus-icon-discussion ">+</span>
+                                                    </div>
+                                                </span>
+                                            </button>
                                         </ion-col>
 
                                         <ion-col col-6>
