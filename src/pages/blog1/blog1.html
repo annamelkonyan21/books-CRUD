@@ -217,7 +217,7 @@
                 <ion-item class="allCategories " (click)="allCategory()">All Categories</ion-item>
                 <div class="add-scroll">
                     <ion-item *ngFor="let category of data.categories; let i = index" (click)="someCategory(i)"
-                              class="category-item">
+                              class="category-item" (press)="deleteCategory(category.id)">
                         {{category.name}}
                     </ion-item>
 
@@ -267,17 +267,19 @@
                                     <li>Turn Off Notifications</li>
                                 </ul>
                             </ion-card>
-                            <ion-item (click)="someDiscussions(i)">
-                                <div (click)="goToDiscussionPage(discussion.id, categoryId,   discussion.name)">
+                            <ion-item (click)="someDiscussions(i)" >
+                                <div (click)="goToDiscussionPage(discussion.id, categoryId, discussion.name, categoryName)">
                                     <div class="header-img" >
                                         <img src={{discussion.headerImg}} alt="header-img">
                                     </div>
+
                                     <h6 text-center margin-top>{{discussion.name}}</h6>
-                                    <p text-center>{{discussion.users.length }} Friends in the Group</p>
+                                    <p text-center>{{discussion.userDisLenght1 }} Friends in the Group</p>
                                     <ul class="friends-harmonic">
                                         <li *ngFor="let user of discussion.users">
                                             <a><img src={{user.avatar}}></a>
                                         </li>
+                                        <li *ngIf="discussion.userDisLenght1 > 5" class="all-users">+{{discussion.userDisLenght2}}</li>
                                     </ul>
                                 </div>
                                 <ion-grid>

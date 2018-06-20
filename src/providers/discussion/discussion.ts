@@ -34,5 +34,14 @@ export class DiscussionProvider {
       return this.http.get(this._api.apiUrl+`discussions/${discussion_id}/users`)
   }
 
+  public getDiscussionCategories(discussion_id) {
+      return this.http.get(this._api.apiUrl+`discussions/${discussion_id}/categories`)
+  }
+
+  public createDiscussionCategories(discussion_id, category) {
+    return this.http.post(this._api.apiUrl+`discussions/${discussion_id}/categories`,{category: category})
+  }
+
+
 
 }

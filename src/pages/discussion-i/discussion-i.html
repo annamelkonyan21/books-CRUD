@@ -40,10 +40,6 @@
             </ion-row>
         </ion-grid>
     </ion-navbar>
-    <!--<ion-navbar menuToggle>-->
-    <!--<ion-title>notification</ion-title>-->
-    <!--</ion-navbar>-->
-
 </ion-header>
 
 
@@ -65,8 +61,8 @@
         <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
             <div class="ui-block-title ui-block-title-small">
                 <h6 class="title">FRIEND REQUESTS</h6>
-                <a class="same" href="#">Find Friends</a>
-                <a class="same" href="#">Settings</a>
+                <a class="same">Find Friends</a>
+                <a class="same">Settings</a>
             </div>
             <ion-item-sliding *ngFor="let request of friendsRequest; let i of index">
                 <ion-item>
@@ -89,7 +85,7 @@
             </ion-item-sliding>
 
             <div class="check">
-                <a href="#" padding text-center>Check all your Events</a>
+                <a padding text-center>Check all your Events</a>
             </div>
 
         </div>
@@ -99,8 +95,8 @@
         <div class="mCustomScrollbar ps ps--theme_default ps--active-y">
             <div class="ui-block-title ui-block-title-small">
                 <h6 class="title">CHAT / MESSAGES </h6>
-                <a class="same" href="#">Mark all as read</a>
-                <a class="same" href="#">Settings</a>
+                <a class="same">Mark all as read</a>
+                <a class="same">Settings</a>
             </div>
 
             <ion-item-sliding>
@@ -116,7 +112,7 @@
             </ion-item-sliding>
 
             <div class="check check-message">
-                <a href="#" padding text-center>View All Messages</a>
+                <a padding text-center>View All Messages</a>
             </div>
 
         </div>
@@ -127,7 +123,7 @@
             <div class="ui-block-title ui-block-title-small">
                 <h6 class="title">NOTIFICATIONS </h6>
                 <a class="same" (click)="readAllNotifications()">Mark all as read</a>
-                <a class="same" href="#">Settings</a>
+                <a class="same">Settings</a>
             </div>
 
             <div class="scroll">
@@ -172,11 +168,36 @@
         </ion-searchbar>
     </div>
 
-    <h2 margin text-center>{{categoryName}}</h2>
+    <div  (click)="openCategories()">
+        <h2 margin-left margin-top text-center float-left class="nema">{{discussionName}}</h2>
+        <button class="bg-blue botton3" float-right margin-right>
+            <span class="button-inner">
+                <img class="nav-link-icon" src="assets/svg/calendar-icon.svg">
+            </span>
+        </button>
+
+    </div>
+    <p text-left class="categoryName">( {{categoryName}} )</p>
+    <ion-card class="caregories" [class.display-block]="openCategory === true" style="margin-top: 0px">
+        <ion-item class="allCategories " (click)="allCategory()">All Categories</ion-item>
+        <div class="add-scroll">
+            <ion-item *ngFor="let category of categories; let i = index" (click)="someCategory(i)"
+                      class="category-item" (press)="deleteCategory(i)" >
+                {{category.name}}
+            </ion-item>
+
+        </div>
+        <ion-item class="createCategories" text-center (click)="createCategory()">
+            Create Category
+        </ion-item>
+        <ion-item class="cancel" text-center (click)="cancelCategory()"> Cancel</ion-item>
+    </ion-card>
+
 
     <div (click)="allWindowClick()">
 
-        <page-links [links]="links" [categoryId]="category_id" [pageName]="'DISCUSSION'" [discussionId]="discussionId"></page-links>
+        <page-links [links]="links" [categoryId]="category_id" [pageName]="'DISCUSSION'"
+                    [discussionId]="discussionId"></page-links>
         <ion-infinite-scroll (ionInfinite)="doInfiniteLinks($event)">
             <ion-infinite-scroll-content
                     loadingSpinner="bubbles"

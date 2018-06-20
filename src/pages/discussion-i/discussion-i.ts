@@ -1,6 +1,10 @@
 import {Component} from '@angular/core';
 import {
-    ActionSheetController, AlertController, IonicPage, LoadingController, NavController,
+    ActionSheetController,
+    AlertController,
+    IonicPage,
+    LoadingController,
+    NavController,
     NavParams
 } from 'ionic-angular';
 import {FriendsProvider} from "../../providers/friends/friends";
@@ -8,6 +12,7 @@ import {UsersProvider} from "../../providers/users/users";
 import {NotificationsProvider} from "../../providers/notifications/notifications";
 import {LinkProvider} from "../../providers/link/link";
 import {myDate} from "../blog1/blog1";
+import {DiscussionProvider} from "../../providers/discussion/discussion";
 
 @IonicPage()
 @Component({
@@ -62,6 +67,10 @@ export class DiscussionIPage {
     public commentImg: string = 'assets/icon/icon-chat1.png';
     public viewImg: string = 'assets/svg/speech-balloon-icon.svg';
 
+    public openCategory:boolean = false;
+    public categories = [];
+    public categoryI:number;
+
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private _friend: FriendsProvider,
@@ -70,20 +79,24 @@ export class DiscussionIPage {
                 public _link: LinkProvider,
                 public alertCtrl: AlertController,
                 private loadingCtrl: LoadingController,
-                private actionSheetCtrl: ActionSheetController) {
+                private actionSheetCtrl: ActionSheetController,
+                private _discussion: DiscussionProvider) {
 
         this.discussionId = this.navParams.data['discussionId'];
         this.categoryId = this.navParams.data['categoryId'];
         this.discussionName = this.navParams.data['discussionName']
-        if(this.navParams.data['discussionName'] !== '') {
-            this.categoryName = this.navParams.data['discussionName'];
+        if (this.navParams.data['discussionName'] !== '') {
+            this.discussionName = this.navParams.data['discussionName'];
+        } else {
+            this.discussionName = 'All Categories';
+        }
+        if (this.navParams.data['categoryName'] !== '') {
+            this.categoryName = this.navParams.data['categoryName'];
         } else {
             this.categoryName = 'All Categories';
         }
 
-
-        console.log(this.navParams)
-        this.getDiscussionLink();
+        this.getDiscussionLink(this.categoryId, this.discussionId);
     }
 
 
@@ -93,7 +106,7 @@ export class DiscussionIPage {
         setTimeout(() => {
             refresher.complete();
         }, 2000);
-        this.getDiscussionLink();
+        this.getDiscussionLink(this.categoryId, this.discussionId);
     }
 
     ionViewDidLoad() {
@@ -115,7 +128,7 @@ export class DiscussionIPage {
         this.openChat = false;
         this.openSearchBar = false;
         this.openNotificationBar = false;
-
+        this.openCategory = false;
     }
 
     openSearch() {
@@ -123,6 +136,7 @@ export class DiscussionIPage {
         this.openChat = false;
         this.openFreind = false;
         this.openNotificationBar = false;
+        this.openCategory = false;
     }
 
     openChatMessege() {
@@ -130,6 +144,7 @@ export class DiscussionIPage {
         this.openSearchBar = false;
         this.openFreind = false;
         this.openNotificationBar = false;
+        this.openCategory = false;
     }
 
     openNotification() {
@@ -137,7 +152,7 @@ export class DiscussionIPage {
         this.openSearchBar = false;
         this.openFreind = false;
         this.openChat = false;
-
+        this.openCategory = false;
         this.Notifications();
     }
 
@@ -146,7 +161,7 @@ export class DiscussionIPage {
         this.openFreind = false;
         this.openChat = false;
         this.openNotificationBar = false;
-
+        this.openCategory = false;
     }
 
     FriendsRequests() {
@@ -225,9 +240,13 @@ export class DiscussionIPage {
             })
     }
 
-    getDiscussionLink() {
-        this._link.getLinksByDiscussion(this.categoryId, this.discussionId)
-            .subscribe(res => {console.log(res['data']['links']['data']);
+    getDiscussionLink(categoryId, discussionId) {
+        console.log('fsdfsdfsa');
+        console.log(categoryId);
+        console.log(discussionId);
+        this._link.getLinksByDiscussion(categoryId, discussionId)
+            .subscribe(res => {
+                console.log(res['data']['links']['data']);
                 this.links = res['data']['links']['data'];
                 this.links.forEach((value) => {
 
@@ -244,6 +263,7 @@ export class DiscussionIPage {
 
     createLink() {
         // this.openLinks = true;
+        console.log(this.categoryId);
         const prompt = this.alertCtrl.create({
             title: 'Add New Link',
             inputs: [
@@ -270,7 +290,6 @@ export class DiscussionIPage {
                         this.likeImg = 'assets/svg/like-post-icon.svg';
                         this.commentImg = 'assets/icon/icon-chat1.png';
                         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
-                        console.log('dsdfsdf')
                         this._link.createLinkByDiscussion(this.categoryId, this.discussionId, data['Link url'])
                             .subscribe(res => {
                                 console.log('create ');
@@ -321,7 +340,7 @@ export class DiscussionIPage {
 
 
                             })
-                        this.getDiscussionLink();
+                        this.getDiscussionLink(this.categoryId, this.discussionId);
 
                     }
                 }
@@ -330,9 +349,7 @@ export class DiscussionIPage {
         prompt.present();
     }
 
-    catchAndRelease(e,i) {
-
-        console.log(i);
+    catchAndRelease(e, i) {
         let actionSheet = this.actionSheetCtrl.create({
             buttons: [
                 {
@@ -367,4 +384,176 @@ export class DiscussionIPage {
 
     }
 
+    openCategories() {
+        this.openCategory = !this.openCategory;
+        this.getCategories();
+    }
+
+    getCategories() {
+        if (this.openCategory) {
+            let loading = this.loadingCtrl.create({
+                content: 'Please wait...'
+            });
+
+            loading.present();
+            this._discussion.getDiscussionCategories(this.discussionId)
+                .subscribe(res => {
+                    // console.log(res)
+                    if (res) {
+                        console.log(res)
+                        loading.dismiss();
+                    }
+                    this.categories = res['data'].categories;
+                })
+        }
+    }
+
+
+    allCategory() {
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.categoryName = "All Categories";
+
+        setTimeout(() => {
+                this.getDiscussionLink(null, this.discussionId  )
+                this.openCategory = false;
+
+            }, 500
+        )
+    }
+
+
+    someCategory(i) {
+        this.categoryName = this.categories[i].name;
+        this.categoryId = this.categories[i].id;
+        this.categoryI = i;
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.getDiscussionLink(this.categoryId, this.discussionId);
+        setTimeout(() => {
+            this.openCategory = false;
+        }, 500);
+    }
+
+    createCategory() {
+        const prompt = this.alertCtrl.create({
+            title: 'Add New Category',
+            inputs: [
+                {
+                    name: 'Category name',
+                    placeholder: 'Category name'
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: data => {
+                      //  this.categoryValue = 'All Categories';
+                    }
+                },
+                {
+                    text: 'Save',
+                    handler: data => {
+                        this._discussion.createDiscussionCategories(this.discussionId,data['Category name'])
+                            .subscribe(res => {
+                              //  this.categoryValue = 'All Categories';
+                                this.getCategories();
+                            })
+                      //  this.categoryValue = 'All Categories';
+                    }
+                }
+            ]
+        });
+        prompt.present();
+    }
+
+    cancelCategory() {
+        this.openCategory = false;
+    }
+
+    getLinkByCategoryName(value) {
+        console.log(value);
+        this.likeImg = 'assets/svg/like-post-icon.svg';
+        this.commentImg = 'assets/icon/icon-chat1.png';
+        this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this._link.getLinksByCategories(value)
+            .subscribe(res => {
+                console.log(res);
+                this.links = res['data'].links['data'];
+               /* this.links.forEach((value) => {
+                    this.create_date.push(value['created_at'])
+                })
+                this.create_date.forEach((value) => {
+                    this.d = new Date(value);
+                    this.create_day['day'] = this.d.getDate();
+                    this.create_day['month'] = this.d.getMonth();
+                    this.create_day['year'] = this.d.getFullYear();
+                    this.create_day['minute'] = this.d.getMinutes();
+                    this.create_day['hours'] = this.d.getHours();
+                    this.create.push(this.create_day);
+
+                })
+                this.create.forEach((value) => {
+                    if (value['year'] < this.my_date['year']) {
+                        this.ago.push(this.my_date['year'] - value['year'] + ' YEARS AGO');
+                    } else if (value['month'] < this.my_date['month']) {
+                        this.ago.push(this.my_date['month'] - value['month'] + ' MONTHS AGO');
+                    } else if (value['day'] < this.my_date['day']) {
+                        this.ago.push(this.my_date['day'] - value['day'] + ' DAYS AGO');
+                    } else if (value['hours'] < this.my_date['hours']) {
+                        this.ago.push(this.my_date['hours'] - value['hours'] + ' HOURS AGO');
+                    } else if (value['minute'] < this.my_date['minute']) {
+                        this.ago.push(this.my_date['minute'] - value['minute'] + ' MINUTES AGO');
+                    }
+                })
+                for (let i = 0; i < this.links.length; i++) {
+                    this.links[i]['create_date'] = this.ago[i];
+                }*/
+                this.links.forEach((value) => {
+                    value.host = value.url;
+                    value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
+                    value.host = value.host.slice(0, value.host.search('/'));
+                    value.likeImg = this.likeImg;
+                    value.commentImg = this.commentImg;
+                    value.viewImg = this.viewImg;
+                })
+            })
+    }
+
+    deleteCategory(i) {
+        let actionSheet = this.actionSheetCtrl.create({
+            buttons: [
+                {
+                    text: 'Delete',
+                    role: 'destructive',
+                    //icon: !this.platform.is('ios') ? 'trash' : null,
+                    handler: () => {
+                        // console.log(this.links);
+                        // console.log(this.discussionId);
+                        // console.log(this.categoryId);
+/*
+                        this._link.deleteLinkFromDiscussionList(this.links[0]['id'], this.discussionId, this.categoryId)
+                            .subscribe((res) => {
+                                console.log(res)
+                                if (res['status'] === 'successMessage') {
+
+                                }
+                            })
+*/
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
+
+    }
 }

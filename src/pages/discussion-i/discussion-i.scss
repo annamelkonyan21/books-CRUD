@@ -292,5 +292,62 @@ page-discussion-i {
     border-radius: 5px 5px 0 0 !important;
   }
 
+  //---------  category open and chose ------
+
+  .buttons-div {
+    width: 78% !important;
+  }
+
+  .nav-link-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .display-block {
+    display: block !important;
+  }
+
+  .botton3 {
+    margin-top: 10px;
+    padding: 8px;
+  }
+  .caregories {
+    display: none;
+    position: absolute;
+    z-index: 5;
+
+  }
+
+  .cancel {
+    background: #9a9fbf;
+    color: #fff;
+  }
+
+  .allCategories {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    &:hover {
+      background-color: #38a9ff;
+      color: #fff;
+    }
+  }
+
+  .createCategories {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .add-scroll {
+    overflow-y: auto;
+    height: 250px;
+  }
+
+  .categoryName {
+    clear: both;
+    margin-left: 16px;
+  }
+
+  .nema {
+    margin-bottom: 0px !important;
+  }
+
 
 }

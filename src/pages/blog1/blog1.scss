@@ -618,4 +618,21 @@ page-blog1 {
   #allWindow {
     z-index: 10;
   }
+
+  .all-users {
+    color: #fff;
+    background-color: #ff5e3a;
+    font-size: 10px;
+    font-weight: 800;
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+    overflow: hidden;
+    border: 2px solid #fff;
+    display: block;
+    margin-left: -12px;
+    padding-top: 5px;
+    text-align: center;
+    opacity: .8;
+  }
 }

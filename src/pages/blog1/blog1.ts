@@ -7,10 +7,10 @@ import {HomePage} from "../home/home";
 import {LinkProvider} from "../../providers/link/link";
 import {ActionSheetController} from 'ionic-angular';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
-import { DiscussionProvider } from "../../providers/discussion/discussion";
-import { FriendsProvider } from "../../providers/friends/friends";
+import {DiscussionProvider} from "../../providers/discussion/discussion";
+import {FriendsProvider} from "../../providers/friends/friends";
 import {UsersProvider} from "../../providers/users/users";
-import { NotificationsProvider } from "../../providers/notifications/notifications";
+import {NotificationsProvider} from "../../providers/notifications/notifications";
 
 export interface myDate {
     day: number,
@@ -37,7 +37,7 @@ export class Blog1Page implements OnInit {
     public create_date = [];
     public create = [];
     public Dat: Date = new Date();
-    public blaka = ['fhdsjfh','dsd']
+    public blaka = ['fhdsjfh', 'dsd']
     public my_date: myDate = {
         day: null,
         month: null,
@@ -80,15 +80,15 @@ export class Blog1Page implements OnInit {
     public friends = [];
     public notifications = [];
     public usersList = [];
-    public sendFriendRequest:boolean = false;
-    private lastUserListPage:number;
-    private lasrFriendsPage:number;
-    private lastLinks:number;
-    private lastDiscussion:number;
+    public sendFriendRequest: boolean = false;
+    private lastUserListPage: number;
+    private lasrFriendsPage: number;
+    private lastLinks: number;
+    private lastDiscussion: number;
     public discussionUsers = [];
-    private discussionUsersId : number[] = [];
-    private usersId = [];
-    private indexes  = [];
+    private discussionUsersId: number[] = [];
+    public userDisLenght:number;
+
     @ViewChild('search') search;
     @ViewChild('select') select;
 
@@ -111,7 +111,7 @@ export class Blog1Page implements OnInit {
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.Links();
     }
 
@@ -131,9 +131,9 @@ export class Blog1Page implements OnInit {
         }
         if (this.nav === 'discussions') {
             this.getDiscussionWithoutLoading();
-        } else if(this.nav === 'friends') {
+        } else if (this.nav === 'friends') {
             this.Friends();
-        } else if(this.nav === 'users'){
+        } else if (this.nav === 'users') {
             this.Users();
         }
 
@@ -145,10 +145,10 @@ export class Blog1Page implements OnInit {
 
     doInfiniteUsersList(infiniteScroll) {
         this._users.getUsersWithoutPage()
-            .subscribe(res=> {
+            .subscribe(res => {
                 infiniteScroll.complete();
                 this.lastUserListPage = res['users']['last_page'];
-                for (let i = 2; i <= this.lastUserListPage   ; i++) {
+                for (let i = 2; i <= this.lastUserListPage; i++) {
                     this._users.getUsersByPage(i)
                         .subscribe(res => {
                             res['users'].data.forEach(value => {
@@ -163,10 +163,10 @@ export class Blog1Page implements OnInit {
 
     doInfiniteFriends(infiniteScroll) {
         this._friend.getFriendsWithoutPage()
-            .subscribe(res=> {
+            .subscribe(res => {
                 infiniteScroll.complete();
                 this.lasrFriendsPage = res['users']['last_page'];
-                for (let i = 2; i <= this.lasrFriendsPage   ; i++) {
+                for (let i = 2; i <= this.lasrFriendsPage; i++) {
                     this._friend.getFriendsByPage(i)
                         .subscribe(res => {
                             res['users'].data.forEach(value => {
@@ -181,12 +181,12 @@ export class Blog1Page implements OnInit {
 
     doInfiniteDiscussion(infiniteScroll) {
         this._discussion.getUserDiscussion(1)
-            .subscribe(res=> {
+            .subscribe(res => {
                 infiniteScroll.complete();
                 console.log(res);
                 this.lastDiscussion = res['data']['discussions']['last_page'];
                 console.log(this.lastDiscussion);
-                 for (let i = 2; i <= this.lastDiscussion ; i++) {
+                for (let i = 2; i <= this.lastDiscussion; i++) {
                     this._discussion.getUserDiscussion(i)
                         .subscribe(res => {
 
@@ -215,13 +215,11 @@ export class Blog1Page implements OnInit {
     }
 
     doInfiniteLinks(infiniteScroll) {
-       this._link.getLink(1)
-           .subscribe(res=> {
-               //console.log(res)
+        this._link.getLink(1)
+            .subscribe(res => {
+
                 infiniteScroll.complete();
                 this.lastLinks = res['data']['links']['last_page'];
-                console.log('dsdashgduagsduygdyswgeyg')
-                console.log(this.lastLinks)
                 for (let i = 2; i <= this.lastLinks; i++) {
 
                     this._link.getLink(i)
@@ -229,7 +227,6 @@ export class Blog1Page implements OnInit {
                             res['data']['links']['data'].forEach(value => {
                                 this.links.push(value);
                                 this.create_date.push(value['created_at']);
-                                // this.create_date.push(value['created_at'])
 
                                 this.create_date.forEach((value) => {
                                     this.d = new Date(value);
@@ -266,11 +263,11 @@ export class Blog1Page implements OnInit {
                             }
                             console.log('links');
                             console.log(this.links)
-                         })
+                        })
 
                     infiniteScroll.enable(false)
                 }
-           })
+            })
     }
 
 
@@ -285,7 +282,7 @@ export class Blog1Page implements OnInit {
 
         this.User();
         //this.Users();
-      //  this.Friends();
+        //  this.Friends();
         this.SendFrienadRequest();
         this.FriendsRequests();
         this.Notifications();
@@ -658,7 +655,7 @@ export class Blog1Page implements OnInit {
                     handler: data => {
                         console.log(this.categoryName);
                         let loading = this.loadingCtrl.create({
-                                content: 'Please wait...'
+                            content: 'Please wait...'
                         });
                         loading.present();
                         if (this.categoryName === '' || this.categoryName === 'All Categories') {
@@ -694,7 +691,6 @@ export class Blog1Page implements OnInit {
     }
 
 
-
     getDiscussion() {
         let loading = this.loadingCtrl.create({
             content: 'Please wait...'
@@ -708,6 +704,7 @@ export class Blog1Page implements OnInit {
                     console.log('diss');
                     console.log(this.discussions);
 
+
                     this.discussions.forEach((value) => {
 
                         value['headerImg'] = 'assets/imgs/logo_small.png';
@@ -716,22 +713,26 @@ export class Blog1Page implements OnInit {
                         value.settings = 'assets/svg/settings-icon.svg';
                         value.more = 'assets/svg/three-dots-icon.svg';
                         value.openmore = false;
-
+                        value.userDisLenght1 = value['users'].length;
+                        if(value.userDisLenght1>5){
+                            value.users.splice(5,value.userDisLenght1-1)
+                        }
+                        value.userDisLenght2 = value.userDisLenght1 - 5;
                     })
 
-                 /*   this.discussions.forEach((el) => {
+                    /*   this.discussions.forEach((el) => {
 
 
-                        el['friends'] = [
-                            'assets/imgs/friend-harmonic10.jpg',
-                            'assets/imgs/friend-harmonic7.jpg',
-                            'assets/imgs/friend-harmonic8.jpg',
-                            'assets/imgs/friend-harmonic2.jpg',
-                            'assets/imgs/avatar30-sm.jpg',
-                            'assets/imgs/avatar30-sm.jpg'
-                        ];
+                           el['friends'] = [
+                               'assets/imgs/friend-harmonic10.jpg',
+                               'assets/imgs/friend-harmonic7.jpg',
+                               'assets/imgs/friend-harmonic8.jpg',
+                               'assets/imgs/friend-harmonic2.jpg',
+                               'assets/imgs/avatar30-sm.jpg',
+                               'assets/imgs/avatar30-sm.jpg'
+                           ];
 
-                    })*/
+                       })*/
                 }
             })
     }
@@ -787,7 +788,8 @@ export class Blog1Page implements OnInit {
             buttons: [
                 {
                     text: 'Cancel',
-                    handler: data => {}
+                    handler: data => {
+                    }
                 },
                 {
                     text: 'Save',
@@ -816,7 +818,7 @@ export class Blog1Page implements OnInit {
                     role: 'destructive',
                     icon: !this.platform.is('ios') ? 'trash' : null,
                     handler: () => {
-                 //       console.log(this.discussions[i].id);
+                        //       console.log(this.discussions[i].id);
                         this._discussion.deleteDiscussion(this.discussions[i].id)
                             .subscribe(res => {
                                 console.log(res);
@@ -831,7 +833,7 @@ export class Blog1Page implements OnInit {
                     role: 'cancel', // will always sort to be on the bottom
                     icon: !this.platform.is('ios') ? 'close' : null,
                     handler: () => {
-                    //    console.log('Cancel clicked');
+                        //    console.log('Cancel clicked');
                     }
                 }
             ]
@@ -872,7 +874,7 @@ export class Blog1Page implements OnInit {
                     value.openmore = false;
                 })
                 loading.dismiss();
-               // console.log('friends');
+                // console.log('friends');
                 //console.log(res);
             })
     }
@@ -880,8 +882,8 @@ export class Blog1Page implements OnInit {
     FriendsRequests() {
         this._friend.getFriendsRequests()
             .subscribe(res => {
-               // console.log('friends requests');
-               //  console.log(res);
+                // console.log('friends requests');
+                //  console.log(res);
                 this.friendsRequest = res['users']['data'];
                 // console.log(this.friendsRequest)
             })
@@ -889,38 +891,39 @@ export class Blog1Page implements OnInit {
     }
 
     SendFrienadRequest() {
-       /*this._friend.sendFriendRequest(51)
-            .subscribe(res => {console.log(res)})*/
+        /*this._friend.sendFriendRequest(51)
+             .subscribe(res => {console.log(res)})*/
     }
 
     AcceptFriendRequest(id) {
         // console.log('Accept Friend Request');
         // console.log(id);
         this._friend.acceptFriendRequest(id)
-            .subscribe(res => {console.log(res);
-           // this.Friends();
-            this.FriendsRequests()
+            .subscribe(res => {
+                console.log(res);
+                // this.Friends();
+                this.FriendsRequests()
             })
     }
 
     DidntAcceptFriendRequest(i) {
-     //   console.log('Did not Accept Friend Request')
+        //   console.log('Did not Accept Friend Request')
     }
 
     Notifications() {
         this._notification.getNotifications(1)
             .subscribe(res => {
-        //        console.log('notification');
-               // console.log(res);
+                //        console.log('notification');
+                // console.log(res);
                 this.notifications = res['notifications']['data'];
-        //        console.log(this.notifications);
+                //        console.log(this.notifications);
             })
     }
 
     readAllNotifications() {
         this._notification.readAllNotifications()
-            .subscribe(res=>{
-            //   console.log(res);
+            .subscribe(res => {
+                //   console.log(res);
                 this.Notifications();
             })
     }
@@ -937,11 +940,11 @@ export class Blog1Page implements OnInit {
         this.usersList[i]['sendFriendRequest'] = true;
         this._friend.sendFriendRequest(this.usersList[i].id)
             .subscribe(res => {
-                if(res['success']==true) {
+                if (res['success'] == true) {
                     this.sendFriendRequest = true;
                     //this.Users();
                 }
-        //        console.log(res)
+                //        console.log(res)
             })
         console.log('send request');
 
@@ -949,8 +952,9 @@ export class Blog1Page implements OnInit {
 
     denyRequest(i) {
         this._friend.denyFriendRequest(i)
-            .subscribe(res => {console.log(res);
-                if(res['success']===true) {
+            .subscribe(res => {
+                console.log(res);
+                if (res['success'] === true) {
                     this.FriendsRequests();
                     this.Notifications();
                 }
@@ -974,7 +978,7 @@ export class Blog1Page implements OnInit {
     RemoveFriend(id) {
         this._friend.removeFriend(id)
             .subscribe(res => {
-      //          console.log(res);
+                //          console.log(res);
                 this.Friends();
             })
     }
@@ -991,15 +995,13 @@ export class Blog1Page implements OnInit {
         this.navCtrl.setRoot("NotificationPage")
     }
 
-    bla= false;
+    bla = false;
 
 
-
-
-
-    addUserDiscussion(id){
-        console.log(this.discussions);
-        console.log('add user')
+    addUserDiscussion(id) {
+//        console.log(this.discussions);
+//        console.log('add user')
+        this.discussionUsersId = [];
         let loading = this.loadingCtrl.create({
             content: 'Please wait...'
         });
@@ -1007,43 +1009,28 @@ export class Blog1Page implements OnInit {
         loading.present();
         this._discussion.getDiscussionUsers(id)
             .subscribe(res => {
-                console.log('bla');
-                res['data']['users'].forEach(user => {
-                    this.discussionUsersId.push(user['id'])
+                //console.log('bla');
+                res['data']['users'].forEach((val) => {
+                    this.discussionUsersId.push(val['id'])
                 })
+                //this.discussionUsersId = res['data']['users'];
             })
 
         this._users.getUsers()
             .subscribe(res => {
 
-               /* this.usersList = res['users'].data;
-                this.usersList.forEach((value) => {
-                    value['sendFriendRequest'] = false;
+                this.usersList = res['users'].data;
+                this.usersList.forEach((user) => {
+                    if(this.discussionUsersId.indexOf(user['id']) === (-1) ){
+                        user['checked'] = false;
+                    } else {
+                        user['checked'] = true;
+                    }
                 })
-                this.usersList.forEach((user)=>{
-                    this.usersId.push(user.id)
-                });
-                for(let i = 0; i< this.discussionUsersId.length; i++ ) {
-                    for(let j)
-                    if(this.discussionUsersId )
-                }
-                 this.usersId.forEach((val) => {
-
-                    let b = this.discussionUsersId.includes(val);
-                    this.indexes.push(b);
-                })
-                for(let i = 0; i < this.indexes.length; i++ ) {
-                    this.usersList[i]['checked'] = this.indexes[i];
-                }
-
                 loading.dismiss();
+
                 let alert = this.alertCtrl.create();
-
-
                 alert.setTitle('Add New Users ');
-
-
-                console.log(this.usersList);
                 this.usersList.forEach((val) => {
                     alert.addInput({
                         type: 'checkbox',
@@ -1057,26 +1044,59 @@ export class Blog1Page implements OnInit {
                 alert.addButton({
                     text: 'Okay',
                     handler: (data: any) => {
-                       this._discussion.addUsersToDiscussion(id, data)
-                           .subscribe(res => {
-                               console.log('add user');
-                               console.log(res)
-                           })
-
-
+                        console.log(data)
                     }
                 });
 
                 alert.present();
-*/
+
             })
     }
 
-    goToDiscussionPage(id, categoryId, discussionName) {
+
+    goToDiscussionPage(id, categoryId, discussionName, categoryName) {
         if (categoryId === undefined) {
             categoryId = null;
         }
-        this.navCtrl.setRoot('DiscussionIPage', {discussionId: id, categoryId: categoryId, discussionName: discussionName})
+        this.navCtrl.setRoot('DiscussionIPage', {
+            discussionId: id,
+            categoryId: categoryId,
+            discussionName: discussionName,
+            categoryName: categoryName
+        })
+    }
+
+    deleteCategory(id) {
+
+        let actionSheet = this.actionSheetCtrl.create({
+            buttons: [
+                {
+                    text: 'Delete',
+                    role: 'destructive',
+                    //icon: !this.platform.is('ios') ? 'trash' : null,
+                    handler: () => {
+
+
+                        this._link.deleteCategory(id)
+                            .subscribe((res) => {
+                                console.log(res)
+                                if (res['status'] === 'successMessage') {
+                                    this.getCategories();
+                                }
+                            })
+
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
     }
 
 }
