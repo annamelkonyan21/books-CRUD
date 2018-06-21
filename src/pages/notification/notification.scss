@@ -7,9 +7,12 @@ page-notification {
   .grid {
     padding: 0px !important;
     .menu-nav-icon {
-      background-color: #ff5e3a;
+      //background-color: #ff5e3a;
+      background-color: #fcfae3;
       a {
         .menu-icon {
+          width: 40px;
+          height: 40px;
           display: block;
           margin: 10px auto !important;
         }

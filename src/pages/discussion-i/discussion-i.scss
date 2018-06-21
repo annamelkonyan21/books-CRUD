@@ -7,9 +7,14 @@ page-discussion-i {
   .grid {
     padding: 0px !important;
     .menu-nav-icon {
-      background-color: #ff5e3a;
+
+      //background-color: #ff5e3a;
+      background-color: #fcfae3;
+
       a {
         .menu-icon {
+          height: 40px;
+          width: 40px;
           display: block;
           margin: 10px auto !important;
         }
