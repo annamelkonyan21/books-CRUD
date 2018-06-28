@@ -10,6 +10,6 @@ import { LinksPage } from './links';
         IonicPageModule.forChild(LinksPage),
     ],
     exports: [LinksPage],
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class LinksPageModule {}

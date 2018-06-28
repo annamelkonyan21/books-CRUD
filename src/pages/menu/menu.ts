@@ -41,23 +41,30 @@ export class MenuPage {
 
     pages: PageInterface[] = [
         {
+            title: 'Settings',
+            pageName: 'UserSettingsPage',
+            icon: 'star',
+            index: 0
+        },
+        {
             title: 'Links',
             pageName: 'Blog1Page',
             icon: 'star',
-            index: 0
+            index: 1
         },
         {
             title: 'Tab 1',
             pageName: 'Tab1Page',
             icon: 'star',
-            index: 1
+            index: 2
         },
         {
             title: 'Tab 2',
             pageName: 'Tab2Page',
             icon: 'star',
-            index: 2
-        }
+            index: 3
+        },
+
     ];
 
     constructor(public navCtrl: NavController,
@@ -113,9 +120,9 @@ export class MenuPage {
     goToPersonPage() {
 
         //this.rootPage = 'UserSettingsPage';
-        this.navCtrl.push("UserSettingsPage")
+        this.navCtrl.setRoot(this.pages[this.pages.length-1].pageName)
         //this.navCtrl.setRoot('UserSettingsPage');
-        console.log(this.rootPage);
+        //console.log(this.rootPage);
     }
 
 }

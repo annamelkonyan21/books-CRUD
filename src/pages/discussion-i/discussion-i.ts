@@ -256,14 +256,16 @@ export class DiscussionIPage {
                     value['likeImg'] = this.likeImg;
                     value['commentImg'] = this.commentImg;
                     value['viewImg'] = this.viewImg;
-                    console.log(value);
+                    if(value['tags'] !== null) {
+                        value['tags'] = JSON.stringify(value['tags']).replace(/\\\"/g,'');
+                        value['tags'] = value['tags'].replace(/\"/g,'');
+                        value['tags'] = value['tags'].replace('[','')
+                    }
                 })
             })
     }
 
     createLink() {
-        // this.openLinks = true;
-        console.log(this.categoryId);
         const prompt = this.alertCtrl.create({
             title: 'Add New Link',
             inputs: [
@@ -482,6 +484,11 @@ export class DiscussionIPage {
             .subscribe(res => {
                 console.log(res);
                 this.links = res['data'].links['data'];
+                console.log('links');
+                console.log('blaka')
+
+
+
                /* this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
                 })

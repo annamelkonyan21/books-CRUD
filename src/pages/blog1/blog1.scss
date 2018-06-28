@@ -19,7 +19,8 @@ page-blog1 {
     padding: 0px !important;
     .menu-nav-icon {
       //background-color: #ff5e3a;
-      background-color: #fcfae3;
+      //background-color: #fff;
+      background: #ff5e3a;
       a {
         .menu-icon {
           width: 40px;
@@ -30,7 +31,9 @@ page-blog1 {
       }
     }
     .menu-col-nav-icon {
+      //background: #4B4262;
       background: #3f4257;
+              /*#3f4257;*/
       a {
         .menu-link-icon {
           display: block;
@@ -409,8 +412,8 @@ page-blog1 {
   }
 
   .header-img {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 100px;
     line-height: 120px;
     background-color: #d7d9e5;
@@ -422,7 +425,7 @@ page-blog1 {
       overflow: hidden;
       height: 50px;
       width: 50px;
-      margin: 35px auto;
+      margin: 25px auto;
     }
   }
 

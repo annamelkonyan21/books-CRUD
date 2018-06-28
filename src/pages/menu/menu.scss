@@ -1,29 +1,17 @@
 page-menu {
-  //ion-title {
-  //  background-color: $background;
-  //  .logo {
-  //    position: relative;
-  //    top: -8px;
-  //  }
-  //  .title{
-  //    position: absolute;
-  //    top: 15px;
-  //    left: 50%;
-  //    color: #fff !important;
-  //    .header{
-  //      text-transform: uppercase;
-  //      margin: 0;
-  //      color: inherit;
-  //      transition: all .3s ease;
-  //    }
-  //  }
-  //}
+
+  .user-name {
+    width: 80%;
+    margin-left: 20%;
+    padding-top: 10px;
+  }
 
   .logout{
     width: 18px;
     height: 18px;
     margin-left: 3px;
   }
+
 }
 
 

@@ -230,8 +230,8 @@
             </ion-card>
 
             <div (click)="allWindowClick()" id="allWindow" margin-bottom>
-                <page-links [links]="links" [categoryId]="category_id" [pageName]="'BLOG1PAGE'"></page-links>
-
+                <page-links [links]="links" [categoryId]="category_id" [pageName]="'BLOG1PAGE'" [openCategory]="openCategory"></page-links>
+                <!--<div *ngIf="openCategory">dsdsdsd</div>-->
                 <ion-infinite-scroll (ionInfinite)="doInfiniteLinks($event)">
                     <ion-infinite-scroll-content
                             loadingSpinner="bubbles"

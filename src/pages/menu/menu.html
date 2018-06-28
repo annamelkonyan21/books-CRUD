@@ -8,17 +8,21 @@
 
     <ion-content>
         <ion-list>
-            <ion-item menuClose (click)="goToPersonPage()">
-                <ion-avatar item-start>
-                    <img [src]=user.avatar>
-                </ion-avatar>
-                <h4>{{user.name}} {{user.last_name}}</h4>
-                <p>{{user.username}}</p>
-            </ion-item>
             <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" [color]="isActive(p)">
-                <ion-icon [name]="p.icon"></ion-icon>
-                {{p.title}}
+                <div *ngIf="p.index === 0">
+                    <ion-avatar item-start float-left>
+                        <img [src]=user.avatar>
+                    </ion-avatar>
+                    <h4 class="user-name">{{user.name}} {{user.last_name}}</h4>
+                    <p>{{user.username}}</p>
+                </div>
+                <div *ngIf="p.index !== 0">
+                    <ion-icon [name]="p.icon"></ion-icon>
+                    {{p.title}}
+                </div>
+
             </button>
+
             <button ion-item (click)="logout()">
                 <img class="logout" src="assets/svg/logout-icon.svg">
 
