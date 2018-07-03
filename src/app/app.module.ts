@@ -29,14 +29,15 @@ import {ApiProvider} from '../providers/api';
 import {InterceptorProvider} from '../providers/interceptor';
 import {HomeProvider} from "../providers/home/home";
 import {LinkProvider} from '../providers/link/link';
-
+import { NotificationsProvider } from '../providers/notifications/notifications';
 //--------- plugin --------------
 import { Facebook } from "@ionic-native/facebook";
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DiscussionProvider } from '../providers/discussion/discussion';
 import { FriendsProvider } from '../providers/friends/friends';
 import { UsersProvider } from '../providers/users/users';
-import { NotificationsProvider } from '../providers/notifications/notifications';
+
+
 
 @NgModule({
     declarations: [
@@ -79,6 +80,7 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     FriendsProvider,
     UsersProvider,
     NotificationsProvider,
+
     ],
 })
 export class AppModule {

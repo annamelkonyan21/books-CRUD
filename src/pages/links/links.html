@@ -1,4 +1,4 @@
-<ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet(i)">
+<ion-card *ngFor="let link of links, let i = index" (press)="presentActionSheet(i,$event)">
     <ion-card-content>
         <a class="card-link" (click)="openWithBrowser(link.url)">
             <img src={{link.image}}>
@@ -28,4 +28,3 @@
         </div>
     </ion-card-content>
 </ion-card>
-

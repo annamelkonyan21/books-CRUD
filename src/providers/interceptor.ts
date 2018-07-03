@@ -13,13 +13,14 @@ export class InterceptorProvider implements HttpInterceptor {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             });
+
         }
         return next.handle(req)
            .catch(err => {
-                if (err instanceof  HttpErrorResponse) {
-                    if (err.status === 401) {
+                if (err['error']['error'] === 'token_invalid') {
+                    //if (err.status === 401) {
                         localStorage.removeItem('token');
-                    }
+                    //}
                 }
                 return  next.handle(req);
             });

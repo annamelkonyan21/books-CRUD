@@ -314,6 +314,11 @@ page-blog1 {
     }
   }
 
+
+  .active-category {
+    background: blueviolet;
+  }
+
   .createCategories {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
@@ -431,16 +436,18 @@ page-blog1 {
 
   .friend-groups .friends-harmonic {
     display: inline-block;
-    margin-bottom: 35px;
+    //margin-bottom: 35px;
+
     ul {
       list-style-type: none;
+
     }
   }
 
   .friends-harmonic {
     overflow: hidden;
-    margin: 10px 5%;
-    display: block;
+    display: table;
+    margin: auto;
 
   }
 
@@ -467,6 +474,9 @@ page-blog1 {
   }
   .discussion-settings {
     box-shadow: none !important;
+    margin: auto;
+    width: 45px !important;
+    height: 45px !important;
   }
 
   .discussion-settings-btn-1 {

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {
-    AlertController, IonicPage, LoadingController, MenuController, NavController, NavParams,
+    AlertController,  IonicPage, LoadingController, MenuController, NavController, NavParams,
     Platform
 } from 'ionic-angular';
 import {HomePage} from "../home/home";
@@ -11,6 +11,7 @@ import {DiscussionProvider} from "../../providers/discussion/discussion";
 import {FriendsProvider} from "../../providers/friends/friends";
 import {UsersProvider} from "../../providers/users/users";
 import {NotificationsProvider} from "../../providers/notifications/notifications";
+
 
 export interface myDate {
     day: number,
@@ -87,7 +88,7 @@ export class Blog1Page implements OnInit {
     private lastDiscussion: number;
     public discussionUsers = [];
     private discussionUsersId: number[] = [];
-    public userDisLenght:number;
+    public userDisLenght: number;
 
     @ViewChild('search') search;
     @ViewChild('select') select;
@@ -104,16 +105,28 @@ export class Blog1Page implements OnInit {
                 public iab: InAppBrowser,
                 public _friend: FriendsProvider,
                 public _users: UsersProvider,
-                public _notification: NotificationsProvider) {
+                public _notification: NotificationsProvider,) {
         this.isAndroid = platform.is('android');
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
+        this.categoryName = 'All Categories';
     }
 
     ngOnInit() {
         this.Links();
     }
+
+    public doSomething(date: any):void {
+        console.log('Picked date: ', date);
+    }
+
+    openCate() {
+        //let thingy = this.acquireNewThingySomehow();
+        //this._thingyService.setThingy(thingy);
+
+    }
+
 
     doRefresh(refresher) {
         this.likeImg = 'assets/svg/like-post-icon.svg';
@@ -315,10 +328,10 @@ export class Blog1Page implements OnInit {
                 console.log(res)
                 this.links = res['data']['links']['data'];
                 this.links.forEach((value) => {
-                    if(value['tags'] !== null) {
-                        value['tags'] = JSON.stringify(value['tags']).replace(/\\\"/g,'');
-                        value['tags'] = value['tags'].replace(/\"/g,'');
-                        value['tags'] = value['tags'].replace('[','')
+                    if (value['tags'] !== null) {
+                        value['tags'] = JSON.stringify(value['tags']).replace(/\\\"/g, '');
+                        value['tags'] = value['tags'].replace(/\"/g, '');
+                        value['tags'] = value['tags'].replace('[', '')
                     }
                     this.create_date.push(value['created_at'])
                 })
@@ -556,6 +569,7 @@ export class Blog1Page implements OnInit {
                 })
             })
     }
+    linkID:number
 
     openCategories() {
         this.openCategory = !this.openCategory;
@@ -563,6 +577,8 @@ export class Blog1Page implements OnInit {
     }
 
     allCategory() {
+        this.categoryName = 'All Categories';
+        console.log(this.categoryName)
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
@@ -576,7 +592,6 @@ export class Blog1Page implements OnInit {
     }
 
     someCategory(i) {
-        console.log('nno')
         this.categoryName = this.data.categories[i].name;
         this.categoryId = this.data.categories[i].id;
         this.categoryI = i;
@@ -634,6 +649,9 @@ export class Blog1Page implements OnInit {
         });
     }
 
+    change() {
+        console.log('use change category')
+    }
     createLink() {
         this.openLinks = true;
         const prompt = this.alertCtrl.create({
@@ -715,10 +733,10 @@ export class Blog1Page implements OnInit {
                         value.more = 'assets/svg/three-dots-icon.svg';
                         value.openmore = false;
                         value.userDisLenght1 = value['users'].length;
-                        if(value.userDisLenght1>5){
-                            value.users.splice(5,value.userDisLenght1-1)
+                        if (value.userDisLenght1 > 4) {
+                            value.users.splice(4, value.userDisLenght1 - 1)
                         }
-                        value.userDisLenght2 = value.userDisLenght1 - 5;
+                        value.userDisLenght2 = value.userDisLenght1 - 4;
                     })
 
                     /*   this.discussions.forEach((el) => {
@@ -1001,7 +1019,7 @@ export class Blog1Page implements OnInit {
 
                 this.usersList = res['users'].data;
                 this.usersList.forEach((user) => {
-                    if(this.discussionUsersId.indexOf(user['id']) === (-1) ){
+                    if (this.discussionUsersId.indexOf(user['id']) === (-1)) {
                         user['checked'] = false;
                     } else {
                         user['checked'] = true;
@@ -1078,6 +1096,7 @@ export class Blog1Page implements OnInit {
         });
         actionSheet.present();
     }
+
 
 }
 

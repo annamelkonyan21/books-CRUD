@@ -4,8 +4,7 @@
             <ion-row>
                 <ion-col class="menu-nav-icon">
                     <a menuToggle>
-                        <!--<img src="assets/imgs/logo_small.png" alt="Linker" class="menu-icon">-->
-                        <img src="assets/svg/logo.svg" alt="Linker" class="menu-icon">
+                        <img src="assets/svg/logo_15.svg" alt="Linker" class="menu-icon">
                     </a>
                 </ion-col>
                 <ion-col class="menu-col-nav-icon" (click)="openFriendRequest()">
@@ -30,7 +29,6 @@
                         <img class="svg menu-link-icon" src="assets/svg/thunder-icon.svg">
                     </a>
                     <span [class.display-block]="openNotificationBar === true" class="under-line"></span>
-
                 </ion-col>
                 <ion-col class="menu-col-nav-icon" (click)="openSearch()">
                     <a class="menu-link">
@@ -43,9 +41,7 @@
     </ion-navbar>
 </ion-header>
 
-
 <ion-content>
-
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
                 refreshingText="Refreshing...">
@@ -180,10 +176,10 @@
     </div>
     <p text-left class="categoryName">( {{categoryName}} )</p>
     <ion-card class="caregories" [class.display-block]="openCategory === true" style="margin-top: 0px">
-        <ion-item class="allCategories " (click)="allCategory()">All Categories</ion-item>
+        <ion-item class="allCategories"  (click)="allCategory()" [class.active-category]="categoryName === 'All Categories'">All Categories</ion-item>
         <div class="add-scroll">
             <ion-item *ngFor="let category of categories; let i = index" (click)="someCategory(i)"
-                      class="category-item" (press)="deleteCategory(i)" >
+                      class="category-item" (press)="deleteCategory(i)" [class.active-category]="categoryName === category.name">
                 {{category.name}}
             </ion-item>
 
@@ -198,7 +194,7 @@
     <div (click)="allWindowClick()">
 
         <page-links [links]="links" [categoryId]="category_id" [pageName]="'DISCUSSION'"
-                    [discussionId]="discussionId"></page-links>
+                    [discussionId]="discussionId" [openCategory]="openCategory" (onDatePicked)="openCategories()" [changeCategory]="changeCategory" (onChangeCategories)="change()"   (onLinkId)="getLinkId()"  ></page-links>
         <ion-infinite-scroll (ionInfinite)="doInfiniteLinks($event)">
             <ion-infinite-scroll-content
                     loadingSpinner="bubbles"

@@ -59,4 +59,8 @@ export class LinkProvider {
         return this.http.delete(this._api.apiUrl+`categories/${category_id}`)
     }
 
+
+    public changeDiscussionLinkCategories(category_id, current_category, link_id, discussion_id) {
+        return this.http.post(this._api.apiUrl+`links/change/category`,{category_id: category_id, current_category: current_category, link_id: link_id, discussion_id: discussion_id})
+    }
 }

@@ -9,7 +9,7 @@ page-discussion-i {
     .menu-nav-icon {
 
       //background-color: #ff5e3a;
-      background-color: #fcfae3;
+      background-color: #ff5e3a;
 
       a {
         .menu-icon {
@@ -350,9 +350,15 @@ page-discussion-i {
     margin-left: 16px;
   }
 
+  .active-category {
+    @extend .bg-orange;
+    color: white;
+  }
+
   .nema {
     margin-bottom: 0px !important;
   }
+
 
 
 }

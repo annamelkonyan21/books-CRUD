@@ -30,6 +30,26 @@ export class DiscussionIPage {
     public user = [];
     public links = [];
     private lastLinks: number;
+    public d: any;
+    public create;
+    public ago = [];
+    private useLink;
+
+    public discussionId;
+    public categoryId;
+    public categoryName;
+    public discussionName;
+
+    public likeImg: string = 'assets/svg/like-post-icon.svg';
+    public commentImg: string = 'assets/icon/icon-chat1.png';
+    public viewImg: string = 'assets/svg/speech-balloon-icon.svg';
+
+    public changeCategory:boolean = false;
+    public openCategory:boolean = false;
+    public categories = [];
+    public categoryI:number;
+    public linkID:number = 0;
+
     public create_date: myDate = {
         day: null,
         month: null,
@@ -37,11 +57,6 @@ export class DiscussionIPage {
         minute: null,
         hours: null
     };
-
-    public d: any;
-    public create;
-    public ago = [];
-
     public create_day: myDate = {
         day: null,
         month: null,
@@ -57,19 +72,8 @@ export class DiscussionIPage {
         hours: null
     };
 
-    private useLink;
+    //public changeCategory:boolean = false;
 
-    public discussionId;
-    public categoryId;
-    public categoryName;
-    public discussionName;
-    public likeImg: string = 'assets/svg/like-post-icon.svg';
-    public commentImg: string = 'assets/icon/icon-chat1.png';
-    public viewImg: string = 'assets/svg/speech-balloon-icon.svg';
-
-    public openCategory:boolean = false;
-    public categories = [];
-    public categoryI:number;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -90,16 +94,21 @@ export class DiscussionIPage {
         } else {
             this.discussionName = 'All Categories';
         }
-        if (this.navParams.data['categoryName'] !== '') {
+        this.categoryName = 'All Categories';
+    /*    if (this.navParams.data['categoryName'] !== '') {
             this.categoryName = this.navParams.data['categoryName'];
         } else {
             this.categoryName = 'All Categories';
         }
-
+**/
         this.getDiscussionLink(this.categoryId, this.discussionId);
     }
 
+    getLinkId() {
 
+        console.log('get link')
+        console.log(this.linkID);
+    }
     doRefresh(refresher) {
         this.FriendsRequests();
         this.Notifications();
@@ -111,6 +120,7 @@ export class DiscussionIPage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad UserSettingsPage');
+        this.categoryName = 'All Categories';
         this.User();
         this.Notifications();
         this.FriendsRequests();
@@ -193,46 +203,6 @@ export class DiscussionIPage {
                     this._link.getLink(i)
                         .subscribe(res => {
                             console.log(res)
-                            /*   res['data']['links']['data'].forEach(value => {
-                                   this.links.push(value);
-                                   this.create_date.push(value['created_at']);
-                                   // this.create_date.push(value['created_at'])
-
-                                   this.create_date.forEach((value) => {
-                                       this.d = new Date(value);
-                                       this.create_day['day'] = this.d.getDate();
-                                       this.create_day['month'] = this.d.getMonth();
-                                       this.create_day['year'] = this.d.getFullYear();
-                                       this.create_day['minute'] = this.d.getMinutes();
-                                       this.create_day['hours'] = this.d.getHours();
-                                       this.create.push(this.create_day);
-
-                                   })
-                                   this.create.forEach((value) => {
-                                       if (value['year'] < this.my_date['year']) {
-                                           this.ago.push(this.my_date['year'] - value['year'] + ' YEARS AGO');
-                                       } else if (value['month'] < this.my_date['month']) {
-                                           this.ago.push(this.my_date['month'] - value['month'] + ' MONTHS AGO');
-                                       } else if (value['day'] < this.my_date['day']) {
-                                           this.ago.push(this.my_date['day'] - value['day'] + ' DAYS AGO');
-                                       } else if (value['hours'] < this.my_date['hours']) {
-                                           this.ago.push(this.my_date['hours'] - value['hours'] + ' HOURS AGO');
-                                       } else if (value['minute'] < this.my_date['minute']) {
-                                           this.ago.push(this.my_date['minute'] - value['minute'] + ' MINUTES AGO');
-                                       }
-                                   })
-                                   value.host = value.url;
-                                   value.host = value.host.slice((value.host.search('/') + 2), value.host.length);
-                                   value.host = value.host.slice(0, value.host.search('/'))
-                                   value.likeImg = this.likeImg;
-                                   value.commentImg = this.commentImg;
-                                   value.viewImg = this.viewImg;
-                               })
-                               for (let i = 0; i < this.links.length; i++) {
-                                   this.links[i]['create_date'] = this.ago[i];
-                               }
-                               console.log('links');
-                               console.log(this.links)*/
                         })
 
                     infiniteScroll.enable(false)
@@ -241,9 +211,6 @@ export class DiscussionIPage {
     }
 
     getDiscussionLink(categoryId, discussionId) {
-        console.log('fsdfsdfsa');
-        console.log(categoryId);
-        console.log(discussionId);
         this._link.getLinksByDiscussion(categoryId, discussionId)
             .subscribe(res => {
                 console.log(res['data']['links']['data']);
@@ -359,10 +326,6 @@ export class DiscussionIPage {
                     role: 'destructive',
                     //icon: !this.platform.is('ios') ? 'trash' : null,
                     handler: () => {
-                        console.log(this.links);
-                        console.log(this.discussionId);
-                        console.log(this.categoryId);
-
                         this._link.deleteLinkFromDiscussionList(this.links[0]['id'], this.discussionId, this.categoryId)
                             .subscribe((res) => {
                                 console.log(res)
@@ -387,6 +350,8 @@ export class DiscussionIPage {
     }
 
     openCategories() {
+
+        this.changeCategory = false;
         this.openCategory = !this.openCategory;
         this.getCategories();
     }
@@ -426,7 +391,22 @@ export class DiscussionIPage {
     }
 
 
+
+
     someCategory(i) {
+        if(this.changeCategory ) {
+            console.log('link id is here ' + this.linkID)
+            console.log('change category is work');
+            console.log('prew category name' + this.categoryName);
+            console.log('new category name'+ this.categories[i].name);
+            console.log('prew category id'+this.categoryId)
+            console.log('new category id'+ this.categories[i].id);
+            console.log(this.links);
+
+        } else {
+            console.log(' change categories does not work');
+
+        }
         this.categoryName = this.categories[i].name;
         this.categoryId = this.categories[i].id;
         this.categoryI = i;
@@ -438,7 +418,13 @@ export class DiscussionIPage {
             this.openCategory = false;
         }, 500);
     }
+    change(){
 
+        this.changeCategory = true;
+        console.log(this.categoryName);
+        console.log(this.linkID)
+
+    }
     createCategory() {
         const prompt = this.alertCtrl.create({
             title: 'Add New Category',
@@ -476,19 +462,12 @@ export class DiscussionIPage {
     }
 
     getLinkByCategoryName(value) {
-        console.log(value);
         this.likeImg = 'assets/svg/like-post-icon.svg';
         this.commentImg = 'assets/icon/icon-chat1.png';
         this.viewImg = 'assets/svg/speech-balloon-icon.svg';
         this._link.getLinksByCategories(value)
             .subscribe(res => {
-                console.log(res);
                 this.links = res['data'].links['data'];
-                console.log('links');
-                console.log('blaka')
-
-
-
                /* this.links.forEach((value) => {
                     this.create_date.push(value['created_at'])
                 })
