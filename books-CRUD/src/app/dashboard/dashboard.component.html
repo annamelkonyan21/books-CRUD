@@ -1,0 +1,56 @@
+<kendo-grid
+  [data]="books"
+  [height]="700"
+  (dataStateChange)="onStateChange($event)"
+  (edit)="editHandler($event)" (cancel)="cancelHandler($event)"
+  (save)="saveHandler($event)" (remove)="removeHandler($event)"
+  (add)="addHandler($event)"
+  [navigable]="true">
+  <ng-template kendoGridToolbarTemplate>
+    <button kendoGridAddCommand>Add new</button>
+  </ng-template>
+  <kendo-grid-column field="id" title="ID" [editable]="false"></kendo-grid-column>
+  <kendo-grid-column field="title" title="Book Name"></kendo-grid-column>
+  <kendo-grid-column field="author" title="Author"></kendo-grid-column>
+  <kendo-grid-column field="category.categoryName" title="Category">
+    <ng-template kendoGridEditTemplate
+                 let-dataItem="dataItem"
+                 let-column="column"
+                 let-formGroup="bookForm">
+      <kendo-dropdownlist
+        [defaultItem]="category.value"
+        [data]="categories"
+        textField="categoryName"
+        valueField="categoryId"
+        [valuePrimitive]="true"
+        (valueChange)="setValues($event, 'category')"
+      >
+      </kendo-dropdownlist>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="date" title="Date of publication">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{ dataItem.date | date:'dd.MM.yyyy' }}
+    </ng-template>
+    <ng-template kendoGridEditTemplate
+                 let-dataItem="date"
+                 let-column="column"
+                 let-formGroup="bookForm">
+      <kendo-datepicker [format]="'dd/MM/yyyy'"
+                        [value]="date.value"
+                        (valueChange)="setValues( $event,'date')"
+      ></kendo-datepicker>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-command-column title="Actions" width="220">
+    <ng-template kendoGridCellTemplate let-isNew="isNew">
+      <button kendoGridEditCommand [icon]="'edit'" ></button>
+      <button kendoGridRemoveCommand [icon]="'delete'"></button>
+      <button kendoGridSaveCommand
+              [disabled]="bookForm?.invalid">
+        <span class="k-icon" [ngClass]="{'k-plus' : isNew, 'k-i-edit': !isNew}"></span>
+      </button>
+      <button kendoGridCancelCommand [icon]="'cancel'"></button>
+    </ng-template>
+  </kendo-grid-command-column>
+</kendo-grid>

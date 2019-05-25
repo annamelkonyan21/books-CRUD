@@ -1,0 +1,151 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Chef Anton's Cajun Seasoning",
+      "author": 2,
+      "category": {
+        "categoryName": "Biographies",
+        "categoryId": 2
+      },
+      "description": "48 - 6 oz jars",
+      "date": "1970-01-01T00:00:00.022Z"
+    },
+    {
+      "id": 2,
+      "title": "Chef Anton's Gumbo Mix",
+      "author": 2,
+      "category": {
+        "categoryName": "Hobbies & Crafts",
+        "categoryId": 8
+      },
+      "description": "36 boxes",
+      "date": 21.35
+    },
+    {
+      "id": 3,
+      "title": "Grandma's Boysenberry Spread",
+      "author": 3,
+      "category": {
+        "categoryName": "Health & Fitness",
+        "categoryId": 11
+      },
+      "description": "12 - 8 oz jars",
+      "date": 25
+    },
+    {
+      "id": 4,
+      "title": "Uncle Bob's Organic Dried Pears",
+      "author": 3,
+      "category": {
+        "categoryName": "Health & Fitness",
+        "categoryId": 11
+      },
+      "description": "12 - 1 lb pkgs.",
+      "date": 30
+    },
+    {
+      "id": 5,
+      "title": "Northwoods Cranberry Sauce",
+      "author": 3,
+      "category": {
+        "categoryName": "Arts & Music",
+        "categoryId": 1
+      },
+      "description": "12 - 12 oz jars",
+      "date": 40
+    },
+    {
+      "id": 6,
+      "title": "Bla",
+      "author": "Bla",
+      "category": {
+        "categoryName": "Cooking",
+        "categoryId": 7
+      },
+      "date": "2019-05-25T20:20:33.531Z"
+    },
+    {
+      "id": 7,
+      "title": "Blin",
+      "author": "hi",
+      "category": {
+        "categoryName": "Computers & Tech",
+        "categoryId": 6
+      },
+      "date": "2019-05-25T21:51:03.694Z"
+    },
+    {
+      "id": 8,
+      "title": "oo1",
+      "author": "gu",
+      "category": {
+        "categoryName": "Business",
+        "categoryId": 3
+      },
+      "date": "2019-05-25T22:04:12.655Z"
+    }
+  ],
+  "categories": [
+    {
+      "categoryName": "Arts & Music",
+      "categoryId": 1
+    },
+    {
+      "categoryName": "Biographies",
+      "categoryId": 2
+    },
+    {
+      "categoryName": "Business",
+      "categoryId": 3
+    },
+    {
+      "categoryName": "Kids",
+      "categoryId": 4
+    },
+    {
+      "categoryName": "Comics",
+      "categoryId": 5
+    },
+    {
+      "categoryName": "Computers & Tech",
+      "categoryId": 6
+    },
+    {
+      "categoryName": "Cooking",
+      "categoryId": 7
+    },
+    {
+      "categoryName": "Hobbies & Crafts",
+      "categoryId": 8
+    },
+    {
+      "categoryName": "Edu & Reference",
+      "categoryId": 9
+    },
+    {
+      "categoryName": "Gay & Lesbian",
+      "categoryId": 10
+    },
+    {
+      "categoryName": "Health & Fitness",
+      "categoryId": 11
+    },
+    {
+      "categoryName": "Entertainment",
+      "categoryId": 12
+    },
+    {
+      "categoryName": "History",
+      "categoryId": 13
+    },
+    {
+      "categoryName": "Literature & Fiction",
+      "categoryId": 14
+    },
+    {
+      "categoryName": "Medical",
+      "categoryId": 15
+    }
+  ]
+}
